@@ -1,0 +1,1884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sin t&iacute;tulo</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#030611" id="meta-theme-color">
+  <meta name="description" content="Spotters Spain - Aviación & Spotting">
+  <title>Spotters Spain - Aviación & Spotting</title>
+
+  <!-- Web App Manifest Inline Data URI -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Spotters Spain","short_name":"Spotters","start_url":".","display":"standalone","background_color":"#030611","theme_color":"#00d2ff"}'>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap');
+
+    :root {
+      --bg-dark: #030611;
+      --card-bg-start: rgba(12, 18, 45, 0.85);
+      --card-bg-end: rgba(6, 9, 24, 0.92);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --gold-yellow: #ffcc00;
+      --accent-red: #ff0055;
+      --chart-line: rgba(0, 210, 255, 0.12);
+    }
+
+    /* =========================================================
+        TEMAS FESTIVOS AUTOMÁTICOS (ESPAÑA & CATALUÑA)
+    ========================================================= */
+    body.theme-christmas {
+      --bg-dark: #050d1a;
+      --neon-cyan: #ff3366;
+      --neon-green: #2ecc71;
+      --gold-yellow: #f1c40f;
+      --chart-line: rgba(255, 51, 102, 0.15);
+    }
+    body.theme-christmas .hero-banner {
+      border-color: #f1c40f;
+      background: linear-gradient(135deg, rgba(40, 10, 20, 0.92) 0%, rgba(10, 25, 15, 0.95) 100%);
+    }
+
+    body.theme-kings {
+      --bg-dark: #0f051d;
+      --neon-cyan: #9b59b6;
+      --neon-green: #f1c40f;
+      --gold-yellow: #f39c12;
+      --chart-line: rgba(155, 89, 182, 0.18);
+    }
+
+    body.theme-valentine {
+      --bg-dark: #120309;
+      --neon-cyan: #ff4d6d;
+      --neon-green: #ff85a1;
+      --gold-yellow: #ffb3c1;
+    }
+
+    body.theme-santjordi {
+      --bg-dark: #140307;
+      --neon-cyan: #ff2a5f;
+      --neon-green: #ffcc00;
+      --gold-yellow: #ff1493;
+      --chart-line: rgba(255, 42, 95, 0.18);
+    }
+    body.theme-santjordi .hero-banner {
+      border-color: #ffcc00;
+      background: linear-gradient(135deg, rgba(45, 10, 25, 0.9) 0%, rgba(35, 25, 5, 0.95) 100%);
+    }
+
+    body.theme-easter {
+      --bg-dark: #0a0518;
+      --neon-cyan: #d4af37;
+      --neon-green: #a855f7;
+      --gold-yellow: #f59e0b;
+    }
+
+    body.theme-labor {
+      --bg-dark: #030d18;
+      --neon-cyan: #3b82f6;
+      --neon-green: #10b981;
+      --gold-yellow: #f59e0b;
+    }
+
+    body.theme-sanjuan {
+      --bg-dark: #1a0800;
+      --neon-cyan: #ff5500;
+      --neon-green: #ffcc00;
+      --gold-yellow: #ff0055;
+    }
+
+    body.theme-diadacat {
+      --bg-dark: #120b02;
+      --neon-cyan: #ffcc00;
+      --neon-green: #ff2a2a;
+      --gold-yellow: #ffcc00;
+      --chart-line: rgba(255, 204, 0, 0.18);
+    }
+    body.theme-diadacat .hero-banner {
+      border-color: #ff2a2a;
+      background: linear-gradient(135deg, rgba(40, 30, 5, 0.9) 0%, rgba(45, 10, 10, 0.95) 100%);
+    }
+
+    body.theme-merce {
+      --bg-dark: #050b1c;
+      --neon-cyan: #00e5ff;
+      --neon-green: #ffd700;
+      --gold-yellow: #ff4081;
+    }
+
+    body.theme-spain {
+      --bg-dark: #120303;
+      --neon-cyan: #c60b1e;
+      --neon-green: #ffc400;
+      --gold-yellow: #ffc400;
+      --chart-line: rgba(198, 11, 30, 0.18);
+    }
+    body.theme-spain .hero-banner {
+      border-color: #c60b1e;
+      background: linear-gradient(135deg, rgba(45, 10, 10, 0.9) 0%, rgba(30, 20, 5, 0.95) 100%);
+    }
+
+    body.theme-halloween {
+      --bg-dark: #0d0414;
+      --neon-cyan: #ff6600;
+      --neon-green: #9d4edd;
+      --gold-yellow: #ff9e00;
+      --chart-line: rgba(255, 102, 0, 0.18);
+    }
+
+    body.theme-constitution {
+      --bg-dark: #020b18;
+      --neon-cyan: #00d2ff;
+      --neon-green: #ffc400;
+      --gold-yellow: #c60b1e;
+    }
+
+    #holiday-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      font-family: 'Montserrat', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.5s ease;
+    }
+
+    .nautical-chart-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 204, 0.05) 0%, transparent 50%),
+        linear-gradient(var(--chart-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--chart-line) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+    }
+
+    .compass-bg {
+      position: fixed;
+      top: 15%;
+      right: -100px;
+      width: 380px;
+      height: 380px;
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+      animation: slowRotate 120s linear infinite;
+    }
+
+    .compass-bg-left {
+      position: fixed;
+      bottom: 5%;
+      left: -120px;
+      width: 420px;
+      height: 420px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+      animation: slowRotateReverse 150s linear infinite;
+    }
+
+    @keyframes slowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes slowRotateReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px 10px 24px 10px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 204, 0, 0.55);
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 204, 0.15) 0%, transparent 40%),
+        linear-gradient(135deg, rgba(8, 16, 38, 0.95) 0%, rgba(4, 8, 20, 0.98) 100%);
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.25), 0 0 15px rgba(255, 204, 0, 0.18);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      backdrop-filter: blur(10px);
+      transition: all 0.5s ease;
+    }
+
+    /* Fondo de Carta Náutica para el banner */
+    .hero-nautical-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.16;
+      background-image: 
+        radial-gradient(circle at 70% 30%, rgba(0, 210, 255, 0.4) 0%, transparent 50%),
+        linear-gradient(rgba(0, 210, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 210, 255, 0.3) 1px, transparent 1px);
+      background-size: 100% 100%, 20px 20px, 20px 20px;
+    }
+
+    /* Aviones Flotantes dentro del Banner */
+    .banner-plane-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .flying-plane {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      opacity: 0.35;
+      filter: drop-shadow(0 0 4px var(--neon-cyan));
+    }
+
+    .flying-plane i {
+      font-size: 0.75rem;
+      color: var(--neon-cyan);
+    }
+
+    .flying-plane .reg-code {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.5rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.5px;
+      background: rgba(0, 210, 255, 0.12);
+      border: 0.5px solid rgba(0, 210, 255, 0.3);
+      padding: 0px 4px;
+      border-radius: 4px;
+    }
+
+    .plane-anim-1 {
+      top: 12px;
+      animation: flyAcrossRight 16s linear infinite;
+    }
+
+    .plane-anim-2 {
+      top: 48px;
+      animation: flyAcrossLeft 22s linear infinite;
+      opacity: 0.25;
+    }
+
+    .plane-anim-3 {
+      bottom: 8px;
+      animation: flyAcrossRight 19s linear infinite 5s;
+      opacity: 0.3;
+    }
+
+    @keyframes flyAcrossRight {
+      0% { transform: translateX(-120px) translateY(4px) rotate(3deg); }
+      50% { transform: translateX(250px) translateY(-2px) rotate(1deg); }
+      100% { transform: translateX(650px) translateY(6px) rotate(4deg); }
+    }
+
+    @keyframes flyAcrossLeft {
+      0% { transform: translateX(650px) translateY(-2px) rotate(-183deg); }
+      50% { transform: translateX(250px) translateY(3px) rotate(-181deg); }
+      100% { transform: translateX(-120px) translateY(-4px) rotate(-185deg); }
+    }
+
+    .stripe-top-left {
+      position: absolute;
+      top: -22px;
+      left: -22px;
+      width: 58px;
+      height: 58px;
+      border-bottom: 4px solid var(--gold-yellow);
+      border-right: 4px solid var(--gold-yellow);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .stripe-bottom-right {
+      position: absolute;
+      bottom: -22px;
+      right: -22px;
+      width: 58px;
+      height: 58px;
+      border-top: 4px solid var(--gold-yellow);
+      border-left: 4px solid var(--gold-yellow);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .top-actions-wrapper {
+      position: absolute;
+      top: 6px;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 30;
+    }
+
+    .holiday-doodle-badge {
+      display: none;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--gold-yellow);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--gold-yellow);
+      margin-top: 4px;
+      width: fit-content;
+      box-shadow: 0 0 8px var(--gold-yellow);
+      animation: pulseBadge 2s infinite;
+    }
+
+    .emblem-wrapper {
+      position: relative;
+      width: 78px;
+      height: 78px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .radar-outer-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--gold-yellow);
+      background: radial-gradient(circle, rgba(0, 40, 20, 0.8) 0%, rgba(0, 15, 5, 0.9) 70%, #000 100%);
+      box-shadow: 0 0 12px rgba(0, 255, 100, 0.5), inset 0 0 8px rgba(0, 255, 100, 0.5);
+    }
+
+    .radar-sweep-line {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 0;
+      right: 0;
+      background: conic-gradient(from 0deg at 0% 100%, rgba(0, 255, 150, 0.7) 0deg, transparent 90deg);
+      transform-origin: 0% 100%;
+      animation: radarScan 3.5s linear infinite;
+      border-radius: 0 100% 0 0;
+    }
+
+    .plane-icon-center {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #ffffff;
+      transform: translate(-6px, -6px) rotate(-35deg);
+      filter: drop-shadow(0 0 6px var(--neon-cyan));
+      z-index: 3;
+    }
+
+    /* CAMARA DENTRO DEL RADAR CON DESTELLO CADA 5 SEGUNDOS */
+    .camera-icon-inside-radar {
+      position: absolute;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      transform: translate(10px, 8px);
+      filter: drop-shadow(0 0 6px var(--neon-green));
+      z-index: 3;
+      animation: cameraFlash 5s infinite;
+    }
+
+    @keyframes cameraFlash {
+      0%, 88%, 100% {
+        color: var(--neon-green);
+        filter: drop-shadow(0 0 6px var(--neon-green));
+        transform: translate(10px, 8px) scale(1);
+      }
+      92% {
+        color: #ffffff;
+        filter: drop-shadow(0 0 18px #ffffff) drop-shadow(0 0 30px var(--neon-green));
+        transform: translate(10px, 8px) scale(1.35);
+      }
+      95% {
+        color: #ffffff;
+        filter: drop-shadow(0 0 25px #ffffff) drop-shadow(0 0 40px #00ffff);
+        transform: translate(10px, 8px) scale(1.4);
+      }
+      97% {
+        color: var(--neon-green);
+        filter: drop-shadow(0 0 8px var(--neon-green));
+        transform: translate(10px, 8px) scale(1.1);
+      }
+    }
+
+    .text-banner-badge {
+      position: absolute;
+      bottom: -8px;
+      background: linear-gradient(180deg, #111, #000);
+      border: 1.5px solid var(--gold-yellow);
+      border-radius: 5px;
+      padding: 1px 6px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.9);
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .text-banner-badge .title-main {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .text-banner-badge .title-sub {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.42rem;
+      font-weight: 900;
+      color: var(--gold-yellow);
+      line-height: 1;
+    }
+
+    /* ESTILO TITULO NEON AZUL MEJORADO Y MÁS GRANDE */
+    .neon-title-blue-large {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      text-shadow: 
+        0 0 4px #00d2ff,
+        0 0 10px #00d2ff,
+        0 0 20px rgba(0, 210, 255, 0.9),
+        0 0 30px rgba(0, 210, 255, 0.6);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 640px) {
+      .neon-title-blue-large {
+        font-size: 1.65rem;
+      }
+    }
+
+    .grid-container {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end));
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 14px;
+      padding: 12px 4px 10px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.15), inset 0 0 12px rgba(0, 210, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      min-height: 88px;
+      backdrop-filter: blur(6px);
+    }
+
+    .card:active, .card:hover {
+      transform: translateY(-2px) scale(0.98);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green), inset 0 0 14px var(--neon-green);
+    }
+
+    .icon-wrapper {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+      transition: all 0.25s ease;
+    }
+
+    .card:hover .icon-wrapper, .card:active .icon-wrapper {
+      background: rgba(0, 255, 204, 0.15);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 15px var(--neon-green);
+    }
+
+    .icon-box {
+      font-size: 1.35rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 8px var(--neon-cyan);
+      transition: all 0.25s ease;
+    }
+
+    .card:hover .icon-box, .card:active .icon-box {
+      color: var(--neon-green);
+      text-shadow: 0 0 14px var(--neon-green);
+    }
+
+    .card-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.15;
+      letter-spacing: -0.2px;
+      text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+      padding: 0 2px;
+    }
+
+    .meteo-section {
+      background: linear-gradient(145deg, rgba(12, 18, 45, 0.9), rgba(6, 10, 26, 0.95));
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.2);
+      margin-bottom: 16px;
+      backdrop-filter: blur(8px);
+    }
+
+    .meteo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .meteo-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-shadow: 0 0 8px var(--neon-cyan);
+    }
+
+    .airport-select {
+      background: rgba(5, 8, 20, 0.9);
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      outline: none;
+      box-shadow: 0 0 6px rgba(0, 255, 204, 0.3);
+    }
+
+    .meteo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .meteo-card-small {
+      background: rgba(0, 210, 255, 0.05);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 10px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .meteo-card-small i {
+      color: var(--neon-cyan);
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .meteo-card-small .val {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .meteo-card-small .lbl {
+      font-size: 0.58rem;
+      color: #88a0c0;
+      text-transform: uppercase;
+    }
+
+    .spotter-tips-container {
+      background: rgba(0, 255, 204, 0.05);
+      border: 1px dashed var(--neon-green);
+      border-radius: 12px;
+      padding: 10px 12px;
+      position: relative;
+    }
+
+    .spotter-tips-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      text-shadow: 0 0 6px var(--neon-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .spotter-tip-item {
+      font-size: 0.75rem;
+      color: #d1e4ff;
+      line-height: 1.35;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .spotter-tip-item i {
+      color: var(--gold-yellow);
+      font-size: 0.7rem;
+      margin-top: 3px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 17, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, #0c122d, #060a1a);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 440px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 30px var(--neon-cyan);
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-backdrop.active .modal-card {
+      transform: scale(1);
+    }
+
+    .game-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--neon-green);
+      text-shadow: 0 0 12px var(--neon-green);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .quiz-option-btn {
+      width: 100%;
+      background: rgba(0, 210, 255, 0.08);
+      border: 1.5px solid var(--neon-cyan);
+      color: #ffffff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: left;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-option-btn:hover {
+      background: rgba(0, 255, 204, 0.2);
+      border-color: var(--neon-green);
+      transform: translateX(3px);
+    }
+
+    .quiz-option-btn.correct {
+      background: rgba(0, 255, 204, 0.3) !important;
+      border-color: var(--neon-green) !important;
+      color: #ffffff;
+    }
+
+    .quiz-option-btn.wrong {
+      background: rgba(255, 0, 85, 0.3) !important;
+      border-color: var(--accent-red) !important;
+      color: #ffffff;
+    }
+
+    .footer-neon {
+      margin-top: 10px;
+      padding-top: 16px;
+      position: relative;
+      text-align: center;
+    }
+
+    .footer-neon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 30%, var(--neon-green) 70%, transparent 100%);
+      box-shadow: 0 0 12px var(--neon-cyan), 0 0 8px var(--neon-green);
+    }
+
+    .footer-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    }
+
+    /* ESTILO BOTÓN FLOTANTE ACERCA DE (MUCHO MÁS PEQUEÑO - 30PX) */
+    .floating-info-btn {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(12, 18, 45, 0.95), rgba(3, 6, 17, 0.98));
+      border: 1.5px solid #ffcc00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.4), inset 0 0 5px rgba(255, 204, 0, 0.2);
+      z-index: 100;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .floating-info-btn:hover, .floating-info-btn:active {
+      transform: scale(1.15);
+      box-shadow: 0 0 14px rgba(255, 204, 0, 0.8);
+      background: rgba(20, 25, 55, 0.98);
+    }
+
+    .floating-info-btn .info-letter {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 0.85rem;
+      color: #ffcc00;
+      text-shadow: 0 0 6px rgba(255, 204, 0, 0.8);
+      line-height: 1;
+    }
+
+    @keyframes radarScan { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    @keyframes pulseBadge { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(255, 0, 85, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
+
+    .anim-radar { animation: spin 6s linear infinite; }
+    .anim-float { animation: float 3s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+  <!-- CANVAS EFECTOS FESTIVOS -->
+  <canvas id="holiday-canvas"></canvas>
+
+  <!-- COMPASS FONDO CARTA NÁUTICA -->
+  <div class="nautical-chart-bg"></div>
+  <svg class="compass-bg" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#00d2ff" stroke-width="0.5" stroke-dasharray="1,1"/>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#00ffcc" stroke-width="0.3"/>
+    <path d="M50,2 L54,42 L98,50 L54,58 L50,98 L46,58 L2,50 L46,42 Z" fill="none" stroke="#00d2ff" stroke-width="0.5"/>
+    <path d="M50,15 L52,44 L85,50 L52,56 L50,85 L48,56 L15,50 L48,44 Z" fill="none" stroke="#00ffcc" stroke-width="0.3"/>
+  </svg>
+
+  <svg class="compass-bg-left" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#00ffcc" stroke-width="0.5"/>
+    <path d="M50,5 L55,45 L95,50 L55,55 L50,95 L45,55 L5,50 L45,45 Z" fill="none" stroke="#00d2ff" stroke-width="0.4"/>
+  </svg>
+
+  <div class="app-wrapper">
+
+    <!-- BANNER DE ENCABEZADO SPOTTERS SPAIN (CARTA NÁUTICA + AVIONES VOLANDO) -->
+    <header class="hero-banner">
+      <div class="hero-nautical-overlay"></div>
+      
+      <!-- Capa de Aviones Volando en el Banner -->
+      <div class="banner-plane-layer">
+        <div class="flying-plane plane-anim-1">
+          <i class="fa-solid fa-plane"></i>
+          <span class="reg-code">EC-MJU</span>
+        </div>
+        <div class="flying-plane plane-anim-2">
+          <i class="fa-solid fa-plane"></i>
+          <span class="reg-code">EC-LKY</span>
+        </div>
+        <div class="flying-plane plane-anim-3">
+          <i class="fa-solid fa-plane"></i>
+          <span class="reg-code">EC-NAJ</span>
+        </div>
+      </div>
+
+      <div class="stripe-top-left"></div>
+      <div class="stripe-bottom-right"></div>
+      
+      <!-- CONTENEDOR PRINCIPAL DEL BANNER -->
+      <div class="relative z-10 flex items-center gap-3">
+        <div class="emblem-wrapper">
+          <div class="radar-outer-ring">
+            <div class="radar-sweep-line"></div>
+          </div>
+          <i class="fa-solid fa-plane plane-icon-center" id="hero-plane-icon"></i>
+          <i class="fa-solid fa-camera camera-icon-inside-radar"></i>
+          <div class="text-banner-badge">
+            <div class="title-main">SPOTTERS</div>
+            <div class="title-sub"><i class="fa-solid fa-star text-[7px] mr-0.5"></i>SPAIN</div>
+          </div>
+        </div>
+
+        <div class="flex-1 pl-1 min-w-0">
+          <h1 class="neon-title-blue-large">
+            Spotters Spain:
+          </h1>
+          <p class="text-[0.7rem] sm:text-xs text-slate-200 font-medium leading-tight whitespace-nowrap mt-0.5 drop-shadow">
+            la aviación de España en tu bolsillo.
+          </p>
+          <!-- CARTELES DE FESTIVIDAD AUTOMÁTICOS -->
+          <div id="holiday-badge" class="holiday-doodle-badge">
+            <i class="fa-solid fa-sparkles mr-1"></i> <span id="holiday-title"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid-container">
+
+      <a href="radar_trafico.html" class="card" title="Radar T Real">
+        <div class="icon-wrapper">
+          <div class="icon-box anim-radar"><i class="fa-solid fa-crosshairs"></i></div>
+        </div>
+        <div class="card-title">Radar T Real</div>
+      </a>
+
+      <a href="p_spotting.html" class="card" title="Mapa spotting">
+        <div class="icon-wrapper">
+          <div class="icon-box anim-float"><i class="fa-solid fa-map-location-dot"></i></div>
+        </div>
+        <div class="card-title">Mapa spotting</div>
+      </a>
+
+      <a href="meteorologia.html" class="card" title="Meteorología">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+        </div>
+        <div class="card-title">Meteorología</div>
+      </a>
+
+      <a href="noticias.html" class="card" title="Noticias">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-newspaper"></i></div>
+        </div>
+        <div class="card-title">Noticias</div>
+      </a>
+
+      <a href="aerolineas.html" class="card" title="Aerolíneas">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-plane-departure"></i></div>
+        </div>
+        <div class="card-title">Aerolíneas</div>
+      </a>
+
+      <a href="simulacion_fotos.html" class="card" title="Sim. Fotografía">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-camera-retro"></i></div>
+        </div>
+        <div class="card-title">Sim. Fotografía</div>
+      </a>
+
+      <a href="info_aeropu.html" class="card" title="Info. Aeropuerto">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-plane-arrival"></i></div>
+        </div>
+        <div class="card-title">Info. Aeropuerto</div>
+      </a>
+
+      <a href="enlaces.html" class="card" title="Enlaces externos">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+        </div>
+        <div class="card-title">Enlaces externos</div>
+      </a>
+
+      <a href="alert.html" class="card" title="Alertas Globales">
+        <div class="icon-wrapper">
+          <div class="icon-box"><i class="fa-solid fa-bell"></i></div>
+        </div>
+        <div class="card-title">Alertas Globales</div>
+      </a>
+
+    </main>
+
+    <section class="meteo-section">
+      <div class="meteo-header">
+        <div class="meteo-title">
+          <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotter Live
+        </div>
+        <select id="airport-select" class="airport-select">
+          <option value="LEBL">Barcelona (LEBL)</option>
+          <option value="LEMD">Madrid (LEMD)</option>
+          <option value="LEPA">Palma (LEPA)</option>
+          <option value="LEMG">Málaga (LEMG)</option>
+          <option value="LEZL">Sevilla (LEZL)</option>
+        </select>
+      </div>
+
+      <div class="meteo-grid" id="meteo-grid">
+        <div class="meteo-card-small">
+          <i class="fa-solid fa-temperature-half"></i>
+          <div class="val" id="m-temp">--°C</div>
+          <div class="lbl">Temp.</div>
+        </div>
+        <div class="meteo-card-small">
+          <i class="fa-solid fa-wind"></i>
+          <div class="val" id="m-wind">-- kt</div>
+          <div class="lbl">Viento</div>
+        </div>
+        <div class="meteo-card-small">
+          <i class="fa-solid fa-eye"></i>
+          <div class="val" id="m-vis">-- km</div>
+          <div class="lbl">Visib.</div>
+        </div>
+        <div class="meteo-card-small">
+          <i class="fa-solid fa-cloud"></i>
+          <div class="val" id="m-cloud">--%</div>
+          <div class="lbl">Nubes</div>
+        </div>
+      </div>
+
+      <div class="spotter-tips-container">
+        <div class="spotter-tips-title">
+          <i class="fa-solid fa-camera"></i> Tip Spotter en tiempo real:
+        </div>
+        <div id="spotter-tips-list">
+          <div class="spotter-tip-item"><i class="fa-solid fa-spinner fa-spin"></i> Obteniendo condiciones de pista...</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-neon">
+      <p class="footer-text">derechos reservados 2026</p>
+    </footer>
+
+  </div>
+
+  <!-- BOTÓN FLOTANTE ACERCA DE ("I" AMARILLA - TAMAÑO PEQUEÑO 30PX) -->
+  <a href="acerca.html" class="floating-info-btn" title="Acerca de Spotters Spain">
+    <span class="info-letter">ⓘ</span>
+  </a>
+
+  <!-- MODAL 1: PREGUNTA DE INACTIVIDAD -->
+  <div id="modal-prompt" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="text-4xl text-cyan-400 mb-3"><i class="fa-solid fa-gamepad anim-float"></i></div>
+      <h3 class="text-lg font-extrabold text-white mb-2">¿Te apetece un reto Spotter?</h3>
+      <p class="text-xs text-slate-300 mb-6">Hemos notado inactividad. ¿Quieres poner a prueba tus conocimientos con el juego **Aero Neon**?</p>
+      
+      <div class="flex gap-3">
+        <button id="btn-decline-quiz" class="flex-1 py-2.5 rounded-xl border border-rose-500 text-rose-400 font-bold text-xs hover:bg-rose-500/20">
+          No, gracias
+        </button>
+        <button id="btn-accept-quiz" class="flex-1 py-2.5 rounded-xl bg-cyan-400 text-slate-950 font-extrabold text-xs shadow-lg shadow-cyan-400/50 hover:bg-emerald-400">
+          ¡Jugar Aero Neon!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: JUEGO AERO NEON -->
+  <div id="modal-game" class="modal-backdrop">
+    <div class="modal-card border-emerald-400 shadow-emerald-400/40">
+      
+      <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-700">
+        <div class="game-badge m-0">
+          <i class="fa-solid fa-plane-departure"></i> AERO NEON
+        </div>
+        <div class="text-xs font-bold text-yellow-400 bg-yellow-400/10 border border-yellow-400/40 px-2 py-1 rounded-lg">
+          Puntos: <span id="game-score">0</span>
+        </div>
+      </div>
+
+      <div id="quiz-box">
+        <div class="text-xs text-slate-400 mb-2 text-left" id="quiz-category">Categoría: Aviación General</div>
+        <h4 class="text-sm font-bold text-white text-left mb-4" id="quiz-question">Cargando pregunta...</h4>
+
+        <div id="quiz-options" class="mb-4"></div>
+
+        <div id="quiz-feedback" class="text-xs font-bold mb-3 min-h-[18px]"></div>
+      </div>
+
+      <div class="flex justify-between items-center pt-2 border-t border-slate-800">
+        <span class="text-[0.68rem] text-slate-500">Spotters Spain Trivia</span>
+        <button id="btn-close-game" class="px-4 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-600 font-bold text-xs hover:bg-slate-700">
+          Cerrar Juego
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+        MOTOR DE CELEBRACIONES DE ESPAÑA Y CATALUÑA
+    ========================================================= */
+    function calculateEaster(year) {
+
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h =
+    (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l =
+    (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor(
+    (a + 11 * h + 22 * l) / 451
+  );
+
+  const month =
+    Math.floor(
+      (h + l - 7 * m + 114) / 31
+    ) - 1;
+
+  const day =
+    ((h + l - 7 * m + 114) % 31) + 1;
+
+  return {
+    month,
+    day
+  };
+
+}
+    const ALL_HOLIDAYS = [
+
+  {
+    id: 'christmas',
+    name: '¡Feliz Navidad Spotter! 🎄',
+    match: (m, d) =>
+      (m === 11 && d >= 15) ||
+      (m === 0 && d === 1)
+  },
+
+  {
+    id: 'kings',
+    name: 'Noche y Día de Reyes Magos 👑',
+    match: (m, d) =>
+      m === 0 &&
+      d >= 5 &&
+      d <= 6
+  },
+
+  {
+    id: 'valentine',
+    name: 'Día del Amor por la Aviación ❤️',
+    match: (m, d) =>
+      m === 1 &&
+      d === 14
+  },
+
+  {
+    id: 'santjordi',
+    name: 'Diada de Sant Jordi 🌹📖',
+    match: (m, d) =>
+      m === 3 &&
+      d === 23
+  },
+
+  {
+    id: 'easter',
+    name: 'Especial Semana Santa y Pascua 🕊️',
+    match: (m, d) => {
+
+      const year =
+        new Date().getFullYear();
+
+      const easter =
+        calculateEaster(year);
+
+      const easterDate =
+        new Date(
+          year,
+          easter.month,
+          easter.day
+        );
+
+      const currentDate =
+        new Date(
+          year,
+          m,
+          d
+        );
+
+      /*
+       * Desde Domingo de Ramos
+       * hasta Lunes de Pascua.
+       */
+
+      const palmSunday =
+        new Date(easterDate);
+
+      palmSunday.setDate(
+        easterDate.getDate() - 7
+      );
+
+      const easterMonday =
+        new Date(easterDate);
+
+      easterMonday.setDate(
+        easterDate.getDate() + 1
+      );
+
+      return (
+        currentDate >= palmSunday &&
+        currentDate <= easterMonday &&
+        !(m === 3 && d === 23)
+      );
+
+    }
+  },
+
+  {
+    id: 'labor',
+    name: 'Día Internacional del Trabajo 🛠️',
+    match: (m, d) =>
+      m === 4 &&
+      d === 1
+  },
+
+  {
+    id: 'sanjuan',
+    name: 'Nit de Sant Joan & Solsticio 🔥',
+    match: (m, d) =>
+      m === 5 &&
+      (d === 23 || d === 24)
+  },
+
+  {
+    id: 'diadacat',
+    name: 'Diada Nacional de Catalunya 🟡🔴',
+    match: (m, d) =>
+      m === 8 &&
+      d === 11
+  },
+
+  {
+    id: 'merce',
+    name: 'Festes de La Mercè (Barcelona) 🎆',
+    match: (m, d) =>
+      m === 8 &&
+      d >= 22 &&
+      d <= 25
+  },
+
+  {
+    id: 'spain',
+    name: 'Fiesta Nacional de España 🇪🇸',
+    match: (m, d) =>
+      m === 9 &&
+      d === 12
+  },
+
+  {
+    id: 'halloween',
+    name: 'Especial Todos los Santos / Castanyada 🎃',
+    match: (m, d) =>
+      (m === 9 && d === 31) ||
+      (m === 10 && d === 1)
+  },
+
+  {
+    id: 'constitution',
+    name: 'Día de la Constitución Española 🇪🇸',
+    match: (m, d) =>
+      m === 11 &&
+      (d === 6 || d === 8)
+  }
+
+];
+
+    let activeEffectAnimation = null;
+
+    function applyAutomaticHolidayTheme() {
+      const today = new Date();
+      const month = today.getMonth();
+      const day = today.getDate();
+
+      const activeHoliday = ALL_HOLIDAYS.find(h => h.match(month, day));
+
+      document.body.className = '';
+      const badge = document.getElementById('holiday-badge');
+      const titleSpan = document.getElementById('holiday-title');
+
+      if (activeHoliday) {
+        document.body.classList.add(`theme-${activeHoliday.id}`);
+        badge.style.display = 'inline-flex';
+        titleSpan.textContent = activeHoliday.name;
+        
+        if (activeHoliday.id === 'christmas') {
+          startSnowEffect();
+        } else {
+          stopEffectCanvas();
+        }
+      } else {
+        badge.style.display = 'none';
+        stopEffectCanvas();
+      }
+    }
+
+    function startSnowEffect() {
+      const canvas = document.getElementById('holiday-canvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const flakes = Array.from({ length: 45 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 3 + 1,
+        d: Math.random() + 0.5
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+        ctx.beginPath();
+        for (let f of flakes) {
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+        }
+        ctx.fill();
+
+        for (let f of flakes) {
+          f.y += f.d * f.d + 0.8;
+          f.x += Math.sin(f.y * 0.02);
+          if (f.y > height) {
+            f.y = -10;
+            f.x = Math.random() * width;
+          }
+        }
+        activeEffectAnimation = requestAnimationFrame(draw);
+      }
+
+      if (activeEffectAnimation) cancelAnimationFrame(activeEffectAnimation);
+      draw();
+    }
+
+    function stopEffectCanvas() {
+      if (activeEffectAnimation) cancelAnimationFrame(activeEffectAnimation);
+      const canvas = document.getElementById('holiday-canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    applyAutomaticHolidayTheme();
+
+    /* =========================================================
+        1. REGISTRO SERVICE WORKER
+    ========================================================= */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            console.log('Service Worker registrado:', reg.scope);
+          })
+          .catch(err => {
+            console.error('Error Service Worker:', err);
+          });
+      });
+    }
+
+    /* =========================================================
+        2. METEOROLOGÍA & TIPS SPOTTER EN TIEMPO REAL
+    ========================================================= */
+    const AIRPORTS = {
+      LEBL: { name: "Barcelona", lat: 41.297, lon: 2.078 },
+      LEMD: { name: "Madrid", lat: 40.472, lon: -3.561 },
+      LEPA: { name: "Palma", lat: 39.551, lon: 2.738 },
+      LEMG: { name: "Málaga", lat: 36.674, lon: -4.499 },
+      LEZL: { name: "Sevilla", lat: 37.418, lon: -5.893 }
+    };
+
+    async function loadMeteoData(code) {
+      const apt = AIRPORTS[code];
+      if (!apt) return;
+
+      const tipsList = document.getElementById('spotter-tips-list');
+      tipsList.innerHTML = '<div class="spotter-tip-item"><i class="fa-solid fa-spinner fa-spin"></i> Consultando satélite y METAR...</div>';
+
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${apt.lat}&longitude=${apt.lon}&current=temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m,wind_gusts_10m,precipitation,weather_code,visibility&wind_speed_unit=kn`;
+        
+        const res = await fetch(url, { cache: 'no-store' });
+        const data = await res.json();
+        const current = data.current;
+
+        const temp = Math.round(current.temperature_2m);
+        const wind = Math.round(current.wind_speed_10m);
+        const gusts = Math.round(current.wind_gusts_10m || wind);
+        const vis = current.visibility ? (current.visibility / 1000).toFixed(1) : 10;
+        const cloud = current.cloud_cover;
+        const precip = current.precipitation || 0;
+        const wCode = current.weather_code;
+
+        document.getElementById('m-temp').textContent = `${temp}°C`;
+        document.getElementById('m-wind').textContent = `${wind} kt`;
+        document.getElementById('m-vis').textContent = `${vis} km`;
+        document.getElementById('m-cloud').textContent = `${cloud}%`;
+
+        generateSingleSpotterTip(temp, wind, gusts, parseFloat(vis), cloud, precip, wCode);
+
+      } catch (e) {
+        document.getElementById('m-temp').textContent = `--°C`;
+        document.getElementById('m-wind').textContent = `-- kt`;
+        document.getElementById('m-vis').textContent = `-- km`;
+        document.getElementById('m-cloud').textContent = `--%`;
+        tipsList.innerHTML = '<div class="spotter-tip-item text-rose-400"><i class="fa-solid fa-wifi"></i> Sin conexión a Internet. Datos en tiempo real no disponibles.</div>';
+      }
+    }
+
+    function generateSingleSpotterTip(temp, wind, gusts, vis, cloud, precip, wCode) {
+      const tips = [];
+
+      if (precip > 0.1 || wCode >= 51) {
+        tips.push("<strong>Pista Mojada / Lluvia:</strong> Captura el efecto spray en las ruedas al frenar y reflejos en el asfalto. Cierra diafragma a f/5.6 y protege la cámara.");
+      }
+
+      if (temp >= 25) {
+        tips.push(`<strong>Calor elevado (${temp}°C):</strong> Posible distorsión térmica (Heat Haze) sobre la pista. Usa focales cortas o toma la foto en el punto de contacto más cercano.`);
+      } else if (temp <= 8) {
+        tips.push(`<strong>Ambiente Frío (${temp}°C):</strong> El aire denso favorece nitidez alta. Vigila la condensación en las lentes al salir del vehículo.`);
+      }
+
+      if (vis < 5) {
+        tips.push(`<strong>Baja Visibilidad (${vis} km):</strong> Ambiente de niebla/bruma. Usa la luz de aterrizaje de los aviones como punto focal y contrasta en postproducción.`);
+      }
+
+      if (gusts > 20 || wind > 15) {
+        tips.push(`<strong>Viento Cruzado / Rachas (${gusts} kt):</strong> Correcciones de deriva dinámicas al aterrizar. Dispara rápido (1/1000s o superior).`);
+      } else {
+        tips.push("<strong>Viento Calmo:</strong> Condiciones idóneas para practicar barridos (Panning) en carrera de despegue (1/40s a 1/80s).");
+      }
+
+      if (cloud > 75) {
+        tips.push("<strong>Cielo Cubierto:</strong> Luz difusa sin sombras duras en el vientre del avión. Sube el ISO a 400-800.");
+      } else if (cloud <= 25) {
+        tips.push("<strong>Sol Directo:</strong> Posiciónate con el sol a la espalda para evitar contraluces intensos en el fuselaje.");
+      }
+
+      if (tips.length === 0) {
+        tips.push("<strong>Condiciones Estables:</strong> Buen momento para fotos de aproximación y detalle de libreas.");
+      }
+
+      const selectedTip = tips[0];
+      const container = document.getElementById('spotter-tips-list');
+      container.innerHTML = `<div class="spotter-tip-item"><i class="fa-solid fa-angle-right"></i> <span>${selectedTip}</span></div>`;
+    }
+
+    document.getElementById('airport-select').addEventListener('change', (e) => {
+      loadMeteoData(e.target.value);
+    });
+
+    loadMeteoData('LEBL');
+
+    setInterval(() => {
+      const currentAirport = document.getElementById('airport-select').value;
+      loadMeteoData(currentAirport);
+    }, 10 * 60 * 1000);
+
+    /* =========================================================
+        3. DETECTOR DE INACTIVIDAD (30 SEGUNDOS)
+    ========================================================= */
+    let idleTimer = null;
+    let quizDeclinedOrFinished = false;
+
+    function resetIdleTimer() {
+      if (quizDeclinedOrFinished) return;
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        showInactivityPrompt();
+      }, 30000);
+    }
+
+    function showInactivityPrompt() {
+      if (quizDeclinedOrFinished) return;
+      document.getElementById('modal-prompt').classList.add('active');
+    }
+
+    ['mousemove', 'mousedown', 'touchstart', 'scroll', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, resetIdleTimer, { passive: true });
+    });
+
+    resetIdleTimer();
+
+    document.getElementById('btn-decline-quiz').addEventListener('click', () => {
+      document.getElementById('modal-prompt').classList.remove('active');
+      quizDeclinedOrFinished = true;
+    });
+
+    document.getElementById('btn-accept-quiz').addEventListener('click', () => {
+      document.getElementById('modal-prompt').classList.remove('active');
+      startAeroNeonGame();
+    });
+
+    /* =========================================================
+        4. JUEGO TRIVIA: AERO NEON
+    ========================================================= */
+    const TRIVIA_QUESTIONS = [
+      {
+        category: "Fotografía Spotter",
+        q: "¿Qué velocidad de obturación es más recomendable para congelar la hélice de un avión turbohélice mostrando efecto de movimiento?",
+        options: ["1/4000s", "1/125s", "1/10s", "1/8000s"],
+        correct: 1
+      },
+      {
+        category: "Aviación Comercial",
+        q: "¿Cuál es el código ICAO del aeropuerto de Barcelona-El Prat?",
+        options: ["BCN", "LEBL", "LEMD", "LEPA"],
+        correct: 1
+      },
+      {
+        category: "Técnica de Fotografía",
+        q: "Para realizar una foto estilo 'Panning' o barrido a un avión en carrera de despegue, se recomienda:",
+        options: ["Usar la máxima velocidad posible (1/4000s)", "Mover la cámara siguiendo el avión a velocidad lenta (1/30s - 1/60s)", "Usar ISO 6400", "Desactivar el enfoque automático"],
+        correct: 1
+      },
+      {
+        category: "Aeronavegación",
+        q: "¿Qué significan las siglas 'ATC' en aviación?",
+        options: ["Air Traffic Control", "Aircraft Total Clearance", "Aero Tactical Center", "Air Transport Cabin"],
+        correct: 0
+      },
+      {
+        category: "Aeronaves",
+        q: "¿Qué avión de pasajeros comercial cuenta con dos cubiertas completas de pasajeros (doble piso)?",
+        options: ["Boeing 777X", "Airbus A350-1000", "Airbus A380", "Boeing 747-400"],
+        correct: 2
+      },
+      {
+        category: "Fotografía Spotter",
+        q: "¿Qué efecto óptico negativo causa el aire caliente de las pistas en días de alta temperatura?",
+        options: ["Aberración cromática", "Heat Haze / Calima térmica", "Viñetado", "Bokeh"],
+        correct: 1
+      },
+      {
+        category: "Identificación de Pista",
+        q: "Si una pista está orientada hacia el Sur magnético (180°), ¿qué número llevará grabado en su cabecera?",
+        options: ["09", "36", "18", "27"],
+        correct: 2
+      }
+    ];
+
+    let gameScore = 0;
+    let currentQIndex = 0;
+    let shuffledQuestions = [];
+
+    function startAeroNeonGame() {
+      document.getElementById('modal-game').classList.add('active');
+      shuffledQuestions = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5);
+      currentQIndex = 0;
+      gameScore = 0;
+      document.getElementById('game-score').textContent = gameScore;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      if (currentQIndex >= shuffledQuestions.length) {
+        shuffledQuestions = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5);
+        currentQIndex = 0;
+      }
+
+      const q = shuffledQuestions[currentQIndex];
+      document.getElementById('quiz-category').textContent = `Categoría: ${q.category}`;
+      document.getElementById('quiz-question').textContent = q.q;
+      document.getElementById('quiz-feedback').textContent = '';
+
+      const optionsBox = document.getElementById('quiz-options');
+      optionsBox.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option-btn';
+        btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle"></i>`;
+        btn.onclick = () => checkAnswer(idx, q.correct, btn);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct, btn) {
+      const allBtns = document.querySelectorAll('.quiz-option-btn');
+      allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+      const feedback = document.getElementById('quiz-feedback');
+
+      if (selected === correct) {
+        btn.classList.add('correct');
+        btn.querySelector('i').className = 'fa-solid fa-circle-check text-emerald-400';
+        gameScore += 100;
+        document.getElementById('game-score').textContent = gameScore;
+        feedback.className = 'text-xs font-bold mb-3 text-emerald-400';
+        feedback.textContent = '¡Correcto! +100 puntos neón';
+      } else {
+        btn.classList.add('wrong');
+        btn.querySelector('i').className = 'fa-solid fa-circle-xmark text-rose-500';
+        allBtns[correct].classList.add('correct');
+        feedback.className = 'text-xs font-bold mb-3 text-rose-400';
+        feedback.textContent = 'Respuesta incorrecta.';
+      }
+
+      setTimeout(() => {
+        currentQIndex++;
+        renderQuestion();
+      }, 1600);
+    }
+
+    document.getElementById('btn-close-game').addEventListener('click', () => {
+      document.getElementById('modal-game').classList.remove('active');
+      quizDeclinedOrFinished = true;
+    });
+  </script>
+<!-- =====================================================
+     AVISO DE ACTUALIZACIÓN
+===================================================== -->
+
+<div id="update-overlay" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:rgba(0,0,0,0.85);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+">
+
+  <div style="
+    width:100%;
+    max-width:420px;
+    background:#07101f;
+    border:1px solid rgba(255,60,60,0.5);
+    border-radius:20px;
+    padding:28px 22px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(255,0,0,0.25);
+  ">
+
+    <div style="
+      font-size:42px;
+      margin-bottom:12px;
+      color:#ff3030;
+    ">
+      <i class="fa-solid fa-cloud-arrow-down"></i>
+    </div>
+
+    <h2 style="
+      margin:0 0 12px;
+      font-size:22px;
+      font-weight:800;
+    ">
+      ACTUALIZACIÓN DISPONIBLE
+    </h2>
+
+    <p id="update-message" style="
+      margin:0 0 10px;
+      opacity:0.85;
+      line-height:1.5;
+    ">
+      Hay una nueva versión de Spotters Spain disponible.
+    </p>
+
+    <div id="update-version" style="
+      margin-bottom:22px;
+      font-weight:700;
+      color:#ff4040;
+    ">
+    </div>
+
+    <div style="
+      display:flex;
+      gap:10px;
+      justify-content:center;
+    ">
+
+      <button
+        id="update-later"
+        type="button"
+        style="
+          flex:1;
+          padding:13px 10px;
+          border-radius:12px;
+          border:1px solid rgba(255,255,255,0.2);
+          background:#111827;
+          color:white;
+          font-weight:700;
+          cursor:pointer;
+        "
+      >
+        MÁS TARDE
+      </button>
+
+      <button
+        id="update-button"
+        type="button"
+        style="
+          flex:1;
+          padding:13px 10px;
+          border-radius:12px;
+          border:none;
+          background:#e60000;
+          color:white;
+          font-weight:800;
+          cursor:pointer;
+        "
+      >
+        ACTUALIZAR
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+/* =========================================================
+   SISTEMA DE ACTUALIZACIÓN
+========================================================= */
+
+const APP_VERSION = '1.0.5';
+
+const overlay =
+  document.getElementById('update-overlay');
+
+const message =
+  document.getElementById('update-message');
+
+const versionText =
+  document.getElementById('update-version');
+
+const updateButton =
+  document.getElementById('update-button');
+
+const laterButton =
+  document.getElementById('update-later');
+
+
+async function checkForUpdate() {
+
+  try {
+
+    const response =
+      await fetch(
+        './version.json?t=' + Date.now(),
+        {
+          cache: 'no-store'
+        }
+      );
+
+    if (!response.ok) {
+      return;
+    }
+
+    const data =
+      await response.json();
+
+    if (!data.version) {
+      return;
+    }
+
+    if (data.version !== APP_VERSION) {
+
+      message.textContent =
+        data.mensaje ||
+        'Hay una nueva versión de Spotters Spain disponible con mejoras y novedades.';
+
+      versionText.textContent =
+        'Nueva versión: ' +
+        data.version;
+
+      overlay.style.display =
+        'flex';
+    }
+
+  } catch (error) {
+
+    console.log(
+      'No se pudo comprobar la actualización.'
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BOTÓN ACTUALIZAR
+========================================================= */
+
+updateButton.addEventListener(
+  'click',
+  async function () {
+
+    updateButton.disabled = true;
+
+    updateButton.textContent =
+      'ACTUALIZANDO...';
+
+    try {
+
+      if (
+        'serviceWorker' in navigator
+      ) {
+
+        const registration =
+          await navigator.serviceWorker
+            .getRegistration();
+
+        if (registration) {
+
+          await registration.update();
+
+        }
+
+      }
+
+      /*
+       * Recarga la aplicación.
+       * El Service Worker v1.0.8
+       * ya habrá preparado el nuevo caché.
+       */
+
+      window.location.reload();
+
+    } catch (error) {
+
+      console.error(
+        'Error actualizando:',
+        error
+      );
+
+      updateButton.disabled = false;
+
+      updateButton.textContent =
+        'REINTENTAR';
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BOTÓN MÁS TARDE
+========================================================= */
+
+laterButton.addEventListener(
+  'click',
+  function () {
+
+    overlay.style.display =
+      'none';
+
+  }
+);
+
+
+/* =========================================================
+   COMPROBAR AL CARGAR
+========================================================= */
+
+window.addEventListener(
+  'load',
+  function () {
+
+    setTimeout(
+      checkForUpdate,
+      2000
+    );
+
+  }
+);
+
+</script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#030611">
+  <meta name="description" content="Spotters Spain - Apoya el Proyecto">
+  <title>Spotters Spain - Colabora con el Proyecto</title>
+
+  <!-- Web App Manifest Inline Completo -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Spotters Spain - Apoyo","short_name":"ApoyoSpotters","start_url":".","display":"standalone","background_color":"#030611","theme_color":"#00d2ff","icons":[{"src":"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/plane.svg","sizes":"192x192","type":"image/svg+xml"}]}'>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+  <style>
+    /* Botón Flotante Neón */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    /* Efecto al pasar el cursor / tocar */
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+  </style>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap');
+
+    :root {
+      --bg-dark: #030611;
+      --card-bg-start: rgba(12, 18, 45, 0.85);
+      --card-bg-end: rgba(6, 9, 24, 0.92);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --gold-yellow: #ffcc00;
+      --accent-red: #ff0055;
+      --bizum-color: #00a896;
+      --paypal-color: #0079c1;
+      --chart-line: rgba(0, 210, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      font-family: 'Montserrat', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* FONDO DE CARTA NÁUTICA / AERONÁUTICA */
+    .nautical-chart-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-color: #030611;
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 204, 0.05) 0%, transparent 50%),
+        linear-gradient(var(--chart-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--chart-line) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+    }
+
+    .compass-bg {
+      position: fixed;
+      top: 15%;
+      right: -100px;
+      width: 380px;
+      height: 380px;
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+      animation: slowRotate 120s linear infinite;
+    }
+
+    @keyframes slowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px 10px 24px 10px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header Banner */
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 204, 0, 0.5);
+      background: linear-gradient(135deg, rgba(12, 20, 45, 0.9) 0%, rgba(5, 10, 25, 0.95) 100%);
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), 0 0 15px rgba(255, 204, 0, 0.15);
+      padding: 14px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .emblem-wrapper {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-outer-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--gold-yellow);
+      background: radial-gradient(circle, rgba(0, 40, 20, 0.8) 0%, rgba(0, 15, 5, 0.9) 70%, #000 100%);
+      box-shadow: 0 0 12px rgba(0, 255, 100, 0.5);
+    }
+
+    .plane-icon-center {
+      position: absolute;
+      font-size: 1.6rem;
+      color: #ffffff;
+      transform: rotate(-35deg);
+      filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.9));
+      z-index: 3;
+    }
+
+    /* Secciones de Apoyo */
+    .support-card {
+      background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end));
+      border: 1.5px solid rgba(0, 210, 255, 0.4);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.15);
+      backdrop-filter: blur(8px);
+    }
+
+    .support-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+    }
+
+    /* Métodos de Pago Grid */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .pay-btn {
+      background: rgba(5, 10, 25, 0.8);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      color: #fff;
+      outline: none;
+    }
+
+    .pay-btn:hover, .pay-btn:active {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .pay-btn.bizum { border-color: var(--bizum-color); }
+    .pay-btn.bizum:hover, .pay-btn.bizum.active { 
+      background: rgba(0, 168, 150, 0.25); 
+      box-shadow: 0 0 16px rgba(0, 168, 150, 0.6);
+    }
+
+    .pay-btn.paypal { border-color: var(--paypal-color); }
+    .pay-btn.paypal:hover { background: rgba(0, 121, 193, 0.25); }
+
+    .pay-btn.bank { 
+      border-color: var(--gold-yellow); 
+      grid-column: span 2;
+    }
+    .pay-btn.bank:hover, .pay-btn.bank.active { 
+      background: rgba(255, 204, 0, 0.25); 
+      box-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
+    }
+
+    /* Caja de copia rápida */
+    .copy-box {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px dashed var(--neon-green);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .copy-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      color: var(--neon-green);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-copy {
+      background: rgba(0, 255, 204, 0.15);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy:hover {
+      background: var(--neon-green);
+      color: #030611;
+    }
+
+    .btn-copy.copied {
+      background: #00ffcc !important;
+      color: #030611 !important;
+      border-color: #00ffcc !important;
+    }
+
+    .footer-neon {
+      margin-top: 10px;
+      padding-top: 16px;
+      position: relative;
+      text-align: center;
+    }
+
+    .footer-neon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 30%, var(--neon-green) 70%, transparent 100%);
+    }
+
+    .footer-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+
+  <!-- Botón Flotante para volver a la página anterior -->
+  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </a>
+
+  <!-- COMPASS FONDO CARTA NÁUTICA -->
+  <div class="nautical-chart-bg"></div>
+  <svg class="compass-bg" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#00d2ff" stroke-width="0.5" stroke-dasharray="1,1"/>
+    <circle cx="50" cy="50" r="40" fill="none" stroke="#00ffcc" stroke-width="0.3"/>
+    <path d="M50,2 L54,42 L98,50 L54,58 L50,98 L46,58 L2,50 L46,42 Z" fill="none" stroke="#00d2ff" stroke-width="0.5"/>
+  </svg>
+
+  <div class="app-wrapper">
+
+    <!-- BANNER ENCABEZADO -->
+    <header class="hero-banner">
+      <div class="flex items-center justify-between gap-3">
+        <div class="emblem-wrapper">
+          <div class="radar-outer-ring"></div>
+          <i class="fa-solid fa-hand-holding-heart plane-icon-center"></i>
+        </div>
+
+        <div class="flex-1">
+          <h1 class="text-sm sm:text-2xl font-extrabold text-white tracking-tight leading-tight">
+            Apoya a Spotters Spain
+          </h1>
+          <p class="text-[0.68rem] sm:text-base text-slate-300 font-medium leading-tight">
+            Mantén vivo este proyecto.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECCIÓN: APORTACIÓN ECONÓMICA -->
+    <section class="support-card">
+      <div class="support-title">
+        <i class="fa-solid fa-piggy-bank text-yellow-400"></i> Opciones de Apoyo
+      </div>
+      <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+        Tus contribuciones nos ayudan a cubrir los costes de mantenimiento de servidores, consultas METAR en tiempo real e infraestructura.
+      </p>
+
+      <div class="payment-grid">
+        <!-- Bizum -->
+        <button type="button" class="pay-btn bizum" id="btn-bizum" onClick="showPaymentInfo('bizum')">
+          <i class="fa-solid fa-mobile-screen-button text-2xl" style="color:var(--bizum-color)"></i>
+          <span class="font-extrabold text-xs">Bizum</span>
+          <span class="text-[0.62rem] text-slate-400">Rápido y directo</span>
+        </button>
+
+        <!-- PayPal con Apertura Externa y Deep Link -->
+        <a href="https://www.paypal.com/ncp/payment/S82WCJPYLHMPN" 
+           target="_system" 
+           rel="noopener noreferrer" 
+           onclick="return openPaypalApp(event, 'https://www.paypal.com/ncp/payment/S82WCJPYLHMPN')" 
+           class="pay-btn paypal">
+          <i class="fa-brands fa-paypal text-2xl" style="color:var(--paypal-color)"></i>
+          <span class="font-extrabold text-xs">PayPal</span>
+          <span class="text-[0.62rem] text-slate-400">Tarjeta o PayPal</span>
+        </a>
+
+        <!-- IBAN -->
+        <button type="button" class="pay-btn bank" id="btn-iban" onClick="showPaymentInfo('iban')">
+          <i class="fa-solid fa-building-columns text-2xl text-yellow-400"></i>
+          <span class="font-extrabold text-xs">Transferencia Bancaria</span>
+          <span class="text-[0.62rem] text-slate-400">Cuenta IBAN</span>
+        </button>
+      </div>
+
+      <!-- Detalle Dinámico de Pago -->
+      <div id="payment-details" class="hidden">
+        <div class="copy-box">
+          <div>
+            <div class="text-[0.65rem] text-slate-400 uppercase font-bold" id="pay-label">Número Bizum</div>
+            <div class="copy-text" id="pay-value">+34 668 515 286</div>
+          </div>
+          <button type="button" class="btn-copy" id="copy-btn" onClick="copyToClipboard()">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copiar</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-neon">
+      <p class="footer-text">Spotters Spain Todos los derechos reservados 2026</p>
+    </footer>
+
+  </div>
+
+  <script>
+    /* =========================================================
+       LÓGICA PARA ABRIR PAYPAL EN LA APP O NAVEGADOR EXTERNO
+    ========================================================= */
+    function openPaypalApp(event, webUrl) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      // Intentar abrir mediante el esquema de app nativa de PayPal
+      const appUrl = "paypal://";
+      const start = Date.now();
+
+      // Intento de apertura de la app
+      window.location.href = appUrl;
+
+      // Si pasados 1200ms la app no abrió o no respondió, abrir en navegador externo
+      setTimeout(() => {
+        if (Date.now() - start < 2000) {
+          window.open(webUrl, '_system', 'location=yes');
+        }
+      }, 1200);
+
+      return false;
+    }
+
+    /* =========================================================
+       GESTOR DE CACHÉ PWA (SERVICE WORKER INLINE OPTIMIZADO)
+    ========================================================= */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swScript = `
+          const CACHE_NAME = 'spotters-support-v5';
+          const STATIC_ASSETS = [
+            './',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+            'https://cdn.tailwindcss.com',
+            'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap'
+          ];
+
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
+            );
+            self.skipWaiting();
+          });
+
+          self.addEventListener('activate', event => {
+            event.waitUntil(
+              caches.keys().then(keys => Promise.all(
+                keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); })
+              ))
+            );
+            self.clients.claim();
+          });
+
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request).then(cachedResponse => {
+                if (cachedResponse) return cachedResponse;
+                return fetch(event.request).then(networkResponse => {
+                  return caches.open(CACHE_NAME).then(cache => {
+                    cache.put(event.request, networkResponse.clone());
+                    return networkResponse;
+                  });
+                });
+              })
+            );
+          });
+        `;
+
+        const blob = new Blob([swScript], { type: 'application/javascript' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        navigator.serviceWorker.register(blobUrl).catch(() => {});
+      });
+    }
+
+    /* =========================================================
+       LÓGICA INTERACTIVA Y FEEDBACK
+    ========================================================= */
+    function showPaymentInfo(type) {
+      const detailsBox = document.getElementById('payment-details');
+      const label = document.getElementById('pay-label');
+      const value = document.getElementById('pay-value');
+      const btnBizum = document.getElementById('btn-bizum');
+      const btnIban = document.getElementById('btn-iban');
+
+      detailsBox.classList.remove('hidden');
+
+      btnBizum.classList.remove('active');
+      btnIban.classList.remove('active');
+
+      if (type === 'bizum') {
+        btnBizum.classList.add('active');
+        label.innerText = 'Número Bizum Spotters Spain';
+        value.innerText = '+34 668 515 286';
+      } else if (type === 'iban') {
+        btnIban.classList.add('active');
+        label.innerText = 'IBAN Bancario (ES)';
+        value.innerText = 'ES66 1465 0120 31 1773595439';
+      }
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('pay-value').innerText;
+      const copyBtn = document.getElementById('copy-btn');
+
+      const setCopiedUI = () => {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span>¡Copiado!</span>';
+        
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copiar</span>';
+        }, 2000);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(setCopiedUI).catch(() => fallbackCopy(text, setCopiedUI));
+      } else {
+        fallbackCopy(text, setCopiedUI);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      callback();
+    }
+  </script>
+</body>
+</html>

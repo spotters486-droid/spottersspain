@@ -1,0 +1,3459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+  >
+
+  <title>Spotters Spain · Meteorología Avanzada & Radar Windy</title>
+
+  <!-- FontAwesome 6 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
+  <!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+  <style>
+    /* Botón Flotante Neón */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      right: max(16px, env(safe-area-inset-right));
+      z-index: 99999;
+      max-width: calc(100vw - 32px);
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    /* Efecto al pasar el cursor / tocar */
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+  </style>
+
+  <style>
+
+    /* =========================================================
+       RESET GENERAL
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      min-width: 0;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      width: 100%;
+      min-width: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+      background-color: #050814;
+      color: #ffffff;
+
+      padding:
+        12px
+        max(10px, env(safe-area-inset-right))
+        calc(70px + env(safe-area-inset-bottom))
+        max(10px, env(safe-area-inset-left));
+
+      overflow-x: hidden;
+    }
+
+    :root {
+      --bg-color: #050814;
+      --card-bg: linear-gradient(145deg, #0c102b, #070a1a);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --neon-gold: #ffcc00;
+      --neon-red: #ff0055;
+    }
+
+    /* =========================================================
+       CONTENEDOR PRINCIPAL
+       ========================================================= */
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      min-width: 0;
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       ENCABEZADO
+       ========================================================= */
+
+    header {
+      width: 100%;
+      min-width: 0;
+
+      background: var(--card-bg);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 16px;
+
+      padding: 16px 14px;
+
+      text-align: center;
+      margin-bottom: 16px;
+
+      box-shadow:
+        0 0 15px rgba(0, 210, 255, 0.2),
+        inset 0 0 15px rgba(0, 210, 255, 0.1);
+    }
+
+    h1 {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(1.05rem, 4vw, 1.3rem);
+
+      color: var(--neon-cyan);
+
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-bottom: 8px;
+
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      width: 100%;
+      min-width: 0;
+
+      color: var(--neon-green);
+
+      font-size: clamp(0.76rem, 3vw, 0.85rem);
+
+      font-weight: 600;
+
+      text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+
+      margin-bottom: 12px;
+
+      line-height: 1.3;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       SELECTOR DE AEROPUERTOS
+       ========================================================= */
+
+    .airport-select-box {
+      width: 100%;
+      min-width: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      margin-top: 6px;
+    }
+
+    .airport-select-box label {
+      max-width: 100%;
+
+      font-size: 0.75rem;
+
+      color: #88a0c0;
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      line-height: 1.3;
+
+      overflow-wrap: anywhere;
+    }
+
+    .airport-select {
+      min-width: 0;
+      max-width: 100%;
+
+      background: #030611;
+
+      color: var(--neon-cyan);
+
+      border: 1.5px solid var(--neon-cyan);
+
+      border-radius: 8px;
+
+      padding: 6px 12px;
+
+      font-size: 0.82rem;
+
+      font-weight: 700;
+
+      outline: none;
+
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
+
+      cursor: pointer;
+    }
+
+    .airport-select option {
+      background: #070a1a;
+      color: #ffffff;
+    }
+
+    .airport-select optgroup {
+      background: #030611;
+      color: var(--neon-green);
+      font-weight: bold;
+    }
+
+    /* =========================================================
+       TARJETA PISTA ACTIVA
+       ========================================================= */
+
+    .runway-card {
+      position: relative;
+
+      width: 100%;
+      min-width: 0;
+
+      background: linear-gradient(145deg, #061826, #030b14);
+
+      border: 2px solid var(--neon-green);
+
+      border-radius: 16px;
+
+      padding: 16px 14px;
+
+      text-align: center;
+
+      margin-bottom: 12px;
+
+      box-shadow:
+        0 0 20px rgba(0, 255, 204, 0.25),
+        inset 0 0 10px rgba(0, 255, 204, 0.1);
+    }
+
+    .runway-label {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.68rem, 2.8vw, 0.75rem);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      color: #88a0c0;
+
+      margin-bottom: 6px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      line-height: 1.4;
+    }
+
+    .runway-label span {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    .btn-runway-info {
+      flex: 0 0 auto;
+
+      background: rgba(255, 204, 0, 0.15);
+
+      color: var(--neon-gold);
+
+      border: 1.5px solid var(--neon-gold);
+
+      width: 22px;
+      height: 22px;
+
+      border-radius: 50%;
+
+      font-size: 0.72rem;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+
+      transition: all 0.25s ease;
+
+      padding: 0;
+
+      outline: none;
+    }
+
+    .btn-runway-info:hover,
+    .btn-runway-info:active {
+      background: var(--neon-gold);
+
+      color: #050814;
+
+      box-shadow: 0 0 15px var(--neon-gold);
+
+      transform: scale(1.15);
+    }
+
+    .runway-badge {
+      width: 100%;
+      min-width: 0;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      font-size: clamp(1rem, 4.5vw, 1.25rem);
+
+      font-weight: 800;
+
+      color: var(--neon-green);
+
+      text-shadow: 0 0 12px var(--neon-green);
+
+      margin-bottom: 6px;
+
+      line-height: 1.25;
+
+      overflow-wrap: anywhere;
+    }
+
+    .runway-desc {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.75rem, 3vw, 0.82rem);
+
+      color: #d1dbe8;
+
+      line-height: 1.45;
+
+      font-weight: 500;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       MODAL INFORMACIÓN
+       ========================================================= */
+
+    .info-modal-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: rgba(5, 8, 20, 0.85);
+
+      backdrop-filter: blur(6px);
+
+      z-index: 100001;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+      overflow-y: auto;
+    }
+
+    .info-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .info-modal-box {
+      width: 100%;
+      max-width: 420px;
+      min-width: 0;
+
+      background: linear-gradient(145deg, #181405, #0a0902);
+
+      border: 2px solid var(--neon-gold);
+
+      border-radius: 18px;
+
+      padding: 22px 18px;
+
+      text-align: center;
+
+      box-shadow:
+        0 0 25px rgba(255, 204, 0, 0.5),
+        inset 0 0 12px rgba(255, 204, 0, 0.2);
+
+      transform: scale(0.9);
+
+      transition: transform 0.3s ease;
+    }
+
+    .info-modal-overlay.show .info-modal-box {
+      transform: scale(1);
+    }
+
+    .info-modal-icon {
+      font-size: 2.5rem;
+
+      color: var(--neon-gold);
+
+      text-shadow: 0 0 15px var(--neon-gold);
+
+      margin-bottom: 10px;
+    }
+
+    .info-modal-title {
+      font-size: 1.05rem;
+
+      font-weight: 800;
+
+      color: var(--neon-gold);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      margin-bottom: 10px;
+    }
+
+    .info-modal-text {
+      font-size: 0.85rem;
+
+      color: #e6ebf5;
+
+      line-height: 1.45;
+
+      margin-bottom: 18px;
+
+      background: rgba(255, 204, 0, 0.08);
+
+      border-left: 3px solid var(--neon-gold);
+
+      padding: 10px;
+
+      border-radius: 4px;
+
+      text-align: left;
+
+      overflow-wrap: anywhere;
+    }
+
+    .btn-info-modal-close {
+      background: var(--neon-gold);
+
+      color: #050814;
+
+      border: none;
+
+      padding: 8px 22px;
+
+      border-radius: 8px;
+
+      font-weight: 800;
+
+      font-size: 0.8rem;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      box-shadow: 0 0 12px var(--neon-gold);
+
+      transition: all 0.2s ease;
+    }
+
+    .btn-info-modal-close:hover {
+      background: #ffe066;
+      transform: scale(1.05);
+    }
+
+    /* =========================================================
+       RADAR
+       ========================================================= */
+
+    .radar-btn-box {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    button#btn-toggle-radar {
+      width: 100%;
+      min-width: 0;
+
+      background: linear-gradient(135deg, #070a1a, #0c102b);
+
+      color: var(--neon-cyan);
+
+      border: 2px solid var(--neon-cyan);
+
+      padding: 12px 24px;
+
+      border-radius: 12px;
+
+      font-weight: 800;
+
+      font-size: clamp(0.72rem, 3vw, 0.85rem);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+
+      transition: all 0.3s ease;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      line-height: 1.3;
+    }
+
+    button#btn-toggle-radar:hover,
+    button#btn-toggle-radar:active {
+      background: var(--neon-cyan);
+
+      color: #050814;
+
+      box-shadow: 0 0 25px var(--neon-cyan);
+
+      transform: translateY(-2px);
+    }
+
+    .radar-display-card {
+      width: 100%;
+      min-width: 0;
+
+      background: var(--card-bg);
+
+      border: 2px solid var(--neon-cyan);
+
+      border-radius: 16px;
+
+      padding: 12px;
+
+      margin-bottom: 16px;
+
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+
+      display: none;
+
+      animation: fadeInRadar 0.4s ease forwards;
+    }
+
+    @keyframes fadeInRadar {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .radar-header {
+      width: 100%;
+      min-width: 0;
+
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      margin-bottom: 10px;
+
+      padding: 0 4px;
+    }
+
+    .radar-title {
+      min-width: 0;
+      max-width: 100%;
+
+      font-size: clamp(0.68rem, 2.8vw, 0.8rem);
+
+      color: var(--neon-green);
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      display: flex;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      line-height: 1.35;
+
+      overflow-wrap: anywhere;
+    }
+
+    #radar-airport-code {
+      flex: 0 0 auto;
+    }
+
+    .radar-iframe-wrapper {
+      position: relative;
+
+      width: 100%;
+
+      height: clamp(300px, 65vw, 420px);
+
+      border-radius: 10px;
+
+      overflow: hidden;
+
+      border: 1px solid rgba(0, 210, 255, 0.4);
+
+      background: #02040a;
+    }
+
+    .radar-iframe-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* =========================================================
+       TARJETA DE SPOTTING
+       ========================================================= */
+
+    .spotting-status-card {
+      width: 100%;
+      min-width: 0;
+
+      background: var(--card-bg);
+
+      border: 2px solid var(--status-color, var(--neon-cyan));
+
+      border-radius: 16px;
+
+      padding: 18px 14px;
+
+      text-align: center;
+
+      margin-bottom: 16px;
+
+      box-shadow: 0 0 22px var(--status-glow, rgba(0, 210, 255, 0.3));
+
+      transition: all 0.4s ease;
+    }
+
+    .critical-flashing-card {
+      animation: neonRedBlink 0.8s infinite alternate !important;
+    }
+
+    @keyframes neonRedBlink {
+      0% {
+        border-color: var(--neon-red);
+
+        box-shadow:
+          0 0 10px rgba(255, 0, 85, 0.4),
+          inset 0 0 5px rgba(255, 0, 85, 0.2);
+      }
+
+      100% {
+        border-color: #ff3377;
+
+        box-shadow:
+          0 0 35px rgba(255, 0, 85, 0.95),
+          inset 0 0 18px rgba(255, 0, 85, 0.6);
+      }
+    }
+
+    .status-label {
+      font-size: 0.75rem;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      color: #88a0c0;
+
+      margin-bottom: 6px;
+
+      line-height: 1.35;
+
+      overflow-wrap: anywhere;
+    }
+
+    .status-badge {
+      width: 100%;
+      min-width: 0;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      font-size: clamp(1rem, 4.5vw, 1.3rem);
+
+      font-weight: 800;
+
+      color: var(--status-color, var(--neon-cyan));
+
+      text-shadow: 0 0 12px var(--status-color, var(--neon-cyan));
+
+      margin-bottom: 8px;
+
+      line-height: 1.25;
+
+      overflow-wrap: anywhere;
+    }
+
+    .status-desc {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.76rem, 3vw, 0.85rem);
+
+      color: #d1dbe8;
+
+      line-height: 1.45;
+
+      font-weight: 500;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       TÍTULOS DE SECCIÓN
+       ========================================================= */
+
+    .section-title {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.72rem, 3vw, 0.8rem);
+
+      color: var(--neon-green);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      margin: 16px 0 10px 0;
+
+      padding-left: 4px;
+
+      display: flex;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      line-height: 1.35;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       CUADRÍCULA METEOROLÓGICA
+       ========================================================= */
+
+    .weather-grid {
+      width: 100%;
+      min-width: 0;
+
+      display: grid;
+
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 10px;
+
+      margin-bottom: 12px;
+    }
+
+    /* =========================================================
+       TARJETAS DE DATOS
+       ========================================================= */
+
+    .data-card {
+      width: 100%;
+      min-width: 0;
+
+      background: var(--card-bg);
+
+      border: 1.5px solid var(--neon-cyan);
+
+      border-radius: 12px;
+
+      padding: 12px;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+
+      overflow: hidden;
+    }
+
+    .data-icon {
+      flex: 0 0 30px;
+
+      width: 30px;
+      min-width: 30px;
+
+      font-size: 1.6rem;
+
+      color: var(--neon-cyan);
+
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.8);
+
+      text-align: center;
+    }
+
+    .animated-shower {
+      color: var(--neon-cyan) !important;
+
+      text-shadow:
+        0 0 15px var(--neon-cyan),
+        0 0 25px var(--neon-cyan) !important;
+
+      animation: showerPulse 1.5s infinite alternate;
+    }
+
+    @keyframes showerPulse {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        transform: translateY(-3px) scale(1.1);
+      }
+    }
+
+    .data-info {
+      flex: 1 1 auto;
+
+      min-width: 0;
+      max-width: 100%;
+
+      display: flex;
+
+      flex-direction: column;
+
+      overflow: hidden;
+    }
+
+    .data-title {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.6rem, 2.6vw, 0.68rem);
+
+      color: #88a0c0;
+
+      text-transform: uppercase;
+
+      white-space: normal;
+
+      overflow-wrap: anywhere;
+
+      word-break: normal;
+
+      line-height: 1.2;
+    }
+
+    .data-value {
+      width: 100%;
+      min-width: 0;
+
+      font-size: clamp(0.78rem, 3.6vw, 1rem);
+
+      font-weight: 700;
+
+      color: #ffffff;
+
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+
+      white-space: normal;
+
+      overflow-wrap: anywhere;
+
+      word-break: break-word;
+
+      line-height: 1.25;
+    }
+
+    /* =========================================================
+       REFRESCAR
+       ========================================================= */
+
+    .refresh-box {
+      width: 100%;
+
+      text-align: center;
+
+      margin: 20px 0 16px 0;
+    }
+
+    button#btn-refresh {
+      max-width: 100%;
+
+      background: var(--neon-cyan);
+
+      color: #050814;
+
+      border: none;
+
+      padding: 10px 22px;
+
+      border-radius: 8px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      font-size: 0.8rem;
+
+      text-transform: uppercase;
+
+      box-shadow: 0 0 12px var(--neon-cyan);
+
+      transition: all 0.25s ease;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      line-height: 1.3;
+    }
+
+    button#btn-refresh:hover {
+      background: var(--neon-green);
+
+      box-shadow: 0 0 18px var(--neon-green);
+
+      transform: scale(1.03);
+    }
+
+    /* =========================================================
+       ALERTA CRÍTICA
+       ========================================================= */
+
+    .critical-alert-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: rgba(5, 8, 20, 0.85);
+
+      backdrop-filter: blur(6px);
+
+      z-index: 100000;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transition:
+        opacity 0.4s ease,
+        visibility 0.4s ease;
+
+      overflow-y: auto;
+    }
+
+    .critical-alert-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .critical-alert-box {
+      width: 100%;
+      max-width: 440px;
+      min-width: 0;
+
+      background: linear-gradient(145deg, #18050e, #0a0207);
+
+      border: 2px solid var(--neon-red);
+
+      border-radius: 20px;
+
+      padding: 24px 20px;
+
+      text-align: center;
+
+      box-shadow:
+        0 0 30px rgba(255, 0, 85, 0.6),
+        inset 0 0 15px rgba(255, 0, 85, 0.3);
+
+      transform: scale(0.85);
+
+      transition:
+        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .critical-alert-overlay.show .critical-alert-box {
+      transform: scale(1);
+    }
+
+    .alert-icon {
+      font-size: 3.2rem;
+
+      color: var(--neon-red);
+
+      text-shadow: 0 0 18px var(--neon-red);
+
+      margin-bottom: 12px;
+
+      animation: alertPulse 1.2s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 12px var(--neon-red);
+      }
+
+      100% {
+        transform: scale(1.12);
+
+        text-shadow:
+          0 0 25px var(--neon-red),
+          0 0 35px var(--neon-red);
+      }
+    }
+
+    .alert-title {
+      font-size: clamp(1rem, 5vw, 1.3rem);
+
+      font-weight: 800;
+
+      color: var(--neon-red);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+
+      text-shadow: 0 0 10px rgba(255, 0, 85, 0.8);
+
+      margin-bottom: 8px;
+
+      line-height: 1.25;
+
+      overflow-wrap: anywhere;
+    }
+
+    .alert-subtitle {
+      font-size: 0.9rem;
+
+      color: #ffffff;
+
+      font-weight: 700;
+
+      margin-bottom: 12px;
+
+      line-height: 1.35;
+
+      overflow-wrap: anywhere;
+    }
+
+    .alert-desc {
+      width: 100%;
+      min-width: 0;
+
+      font-size: 0.82rem;
+
+      color: #d1dbe8;
+
+      line-height: 1.4;
+
+      margin-bottom: 20px;
+
+      background: rgba(255, 0, 85, 0.1);
+
+      border-left: 3px solid var(--neon-red);
+
+      padding: 10px;
+
+      border-radius: 4px;
+
+      text-align: left;
+
+      overflow-wrap: anywhere;
+    }
+
+    .btn-alert-close {
+      max-width: 100%;
+
+      background: var(--neon-red);
+
+      color: #ffffff;
+
+      border: none;
+
+      padding: 10px 24px;
+
+      border-radius: 8px;
+
+      font-weight: 800;
+
+      font-size: 0.82rem;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      box-shadow: 0 0 15px var(--neon-red);
+
+      transition: all 0.25s ease;
+
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+    }
+
+    .btn-alert-close:hover {
+      background: #ff3377;
+
+      box-shadow: 0 0 22px var(--neon-red);
+
+      transform: scale(1.05);
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      width: 100%;
+      min-width: 0;
+
+      text-align: center;
+
+      color: #556680;
+
+      font-size: 0.72rem;
+
+      line-height: 1.4;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =========================================================
+       TABLET / PC
+       ========================================================= */
+
+    @media (min-width: 580px) {
+
+      .weather-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .data-card {
+        padding: 12px;
+      }
+
+    }
+
+    /* =========================================================
+       MÓVILES ESTRECHOS
+       ========================================================= */
+
+    @media (max-width: 420px) {
+
+      body {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      header,
+      .runway-card,
+      .spotting-status-card {
+        border-radius: 14px;
+      }
+
+      .data-card {
+        padding: 10px 9px;
+        gap: 7px;
+      }
+
+      .data-icon {
+        flex-basis: 27px;
+        width: 27px;
+        min-width: 27px;
+        font-size: 1.35rem;
+      }
+
+      .radar-display-card {
+        padding: 8px;
+      }
+
+      .radar-iframe-wrapper {
+        height: 300px;
+      }
+
+      .btn-float-inicio {
+        right: 10px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+      }
+    }
+
+    /* =========================================================
+       MÓVILES MUY ESTRECHOS
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+      .weather-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .data-card {
+        padding: 11px;
+      }
+
+      .data-icon {
+        flex-basis: 30px;
+        width: 30px;
+        min-width: 30px;
+      }
+
+      .data-title {
+        font-size: 0.68rem;
+      }
+
+      .data-value {
+        font-size: 0.9rem;
+      }
+
+      .airport-select {
+        width: 100%;
+      }
+
+      .airport-select-box label {
+        width: 100%;
+      }
+
+      .radar-iframe-wrapper {
+        height: 280px;
+      }
+
+      .btn-float-inicio {
+        font-size: 0.7rem;
+        padding: 7px 12px;
+      }
+    }
+
+  </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+
+<body>
+
+  <!-- Botón Flotante para volver a la página anterior -->
+  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </a>
+
+  <div class="container">
+
+    <!-- =====================================================
+         ENCABEZADO
+         ===================================================== -->
+
+    <header>
+
+      <h1>
+        <i class="fa-solid fa-cloud-sun-rain"></i>
+        Meteorología Táctica
+      </h1>
+
+      <p class="subtitle" id="selected-airport-name">
+        Barcelona-El Prat (LEBL)
+      </p>
+
+      <!-- SELECTOR DE AEROPUERTOS -->
+
+      <div class="airport-select-box">
+
+        <label for="airport-select">
+          <i class="fa-solid fa-plane-arrival"></i>
+          Aeropuerto:
+        </label>
+
+        <select
+          id="airport-select"
+          class="airport-select"
+          onchange="changeAirport()"
+        >
+
+          <optgroup label="Península">
+
+            <option value="LEAL">
+              Alicante-Elche (LEAL)
+            </option>
+
+            <option value="LEBL" selected>
+              Barcelona-El Prat (LEBL)
+            </option>
+
+            <option value="LEBB">
+              Bilbao (LEBB)
+            </option>
+
+            <option value="LECO">
+              A Coruña (LECO)
+            </option>
+
+            <option value="LEGR">
+              Granada-Jaén (LEGR)
+            </option>
+
+            <option value="LEJR">
+              Jerez (LEJR)
+            </option>
+
+            <option value="LEMD">
+              Madrid-Barajas (LEMD)
+            </option>
+
+            <option value="LEMG">
+              Málaga-Costa del Sol (LEMG)
+            </option>
+
+            <option value="LEST">
+              Santiago de Compostela (LEST)
+            </option>
+
+            <option value="LEZL">
+              Sevilla (LEZL)
+            </option>
+
+            <option value="LEVC">
+              Valencia (LEVC)
+            </option>
+
+            <option value="LEVT">
+              Vitoria (LEVT)
+            </option>
+
+            <option value="LEZJ">
+              Zaragoza (LEZJ)
+            </option>
+
+          </optgroup>
+
+          <optgroup label="Islas Baleares">
+
+            <option value="LEIB">
+              Ibiza (LEIB)
+            </option>
+
+            <option value="LEMH">
+              Menorca (LEMH)
+            </option>
+
+            <option value="LEPA">
+              Palma de Mallorca (LEPA)
+            </option>
+
+          </optgroup>
+
+          <optgroup label="Islas Canarias">
+
+            <option value="GCFV">
+              Fuerteventura (GCFV)
+            </option>
+
+            <option value="GCLP">
+              Gran Canaria (GCLP)
+            </option>
+
+            <option value="GCRR">
+              Lanzarote (GCRR)
+            </option>
+
+            <option value="GCLA">
+              La Palma (GCLA)
+            </option>
+
+            <option value="GCXO">
+              Tenerife Norte (GCXO)
+            </option>
+
+            <option value="GCTS">
+              Tenerife Sur (GCTS)
+            </option>
+
+          </optgroup>
+
+        </select>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONFIGURACIÓN TÁCTICA DE PISTAS
+         ===================================================== -->
+
+    <div class="runway-card">
+
+      <div class="runway-label">
+
+        <span>
+          Configuración Táctica de Pistas (por Viento)
+        </span>
+
+        <button
+          class="btn-runway-info"
+          onclick="openRunwayInfoModal()"
+          title="Aviso sobre el cálculo"
+        >
+          <i class="fa-solid fa-info"></i>
+        </button>
+
+      </div>
+
+      <div class="runway-badge" id="val-active-runway">
+
+        <i class="fa-solid fa-road"></i>
+        Calculando Configuración...
+
+      </div>
+
+      <p
+        class="runway-desc"
+        id="val-runway-desc"
+      >
+        Analizando componentes aerodinámicos de pista...
+      </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOTÓN RADAR WINDY
+         ===================================================== -->
+
+    <div class="radar-btn-box">
+
+      <button
+        id="btn-toggle-radar"
+        onclick="toggleRadarDisplay()"
+      >
+
+        <i class="fa-solid fa-satellite-dish"></i>
+
+        Consultar Radar Gráfico (Windy)
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         RADAR
+         ===================================================== -->
+
+    <div
+      class="radar-display-card"
+      id="radar-card"
+    >
+
+      <div class="radar-header">
+
+        <span class="radar-title">
+
+          <i class="fa-solid fa-satellite"></i>
+
+          Radar Doppler / Precipitaciones en Vivo (Windy)
+
+        </span>
+
+        <span
+          style="font-size:0.7rem;color:#88a0c0;"
+          id="radar-airport-code"
+        >
+          LEBL
+        </span>
+
+      </div>
+
+      <div class="radar-iframe-wrapper">
+
+        <iframe
+          id="windy-iframe"
+          src=""
+          loading="lazy"
+        ></iframe>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         EVALUACIÓN SPOTTING
+         ===================================================== -->
+
+    <div
+      class="spotting-status-card"
+      id="status-card"
+    >
+
+      <div class="status-label">
+        Condiciones Tácticas de Spotting
+      </div>
+
+      <div
+        class="status-badge"
+        id="status-badge"
+      >
+
+        <i class="fa-solid fa-circle-notch fa-spin"></i>
+
+        Evaluando...
+
+      </div>
+
+      <p
+        class="status-desc"
+        id="status-desc"
+      >
+        Consultando sensores meteorológicos avanzados...
+      </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         SECCIÓN 1
+         ===================================================== -->
+
+    <div class="section-title">
+
+      <i class="fa-solid fa-wind"></i>
+
+      Viento y Visibilidad de Pista
+
+    </div>
+
+    <div class="weather-grid">
+
+
+      <!-- VIENTO -->
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-wind data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Viento Sostenido
+          </span>
+
+          <span
+            class="data-value"
+            id="val-wind"
+          >
+            -- km/h
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- RÁFAGAS -->
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-align-center data-icon"
+          style="color:var(--neon-gold)"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Ráfagas Máx.
+          </span>
+
+          <span
+            class="data-value"
+            id="val-gusts"
+          >
+            -- km/h
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- DIRECCIÓN -->
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-compass data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Dirección
+          </span>
+
+          <span
+            class="data-value"
+            id="val-wind-dir"
+          >
+            --°
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- VIENTO CRUZADO -->
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-arrows-left-right data-icon"
+          style="color:var(--neon-gold)"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Viento Cruzado
+          </span>
+
+          <span
+            class="data-value"
+            id="val-crosswind"
+          >
+            -- km/h
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- VISIBILIDAD -->
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-eye data-icon"
+          style="color:var(--neon-green)"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Visibilidad
+          </span>
+
+          <span
+            class="data-value"
+            id="val-visibility"
+          >
+            -- km
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- PUNTO DE ROCÍO -->
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-smog data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Punto de Rocío
+          </span>
+
+          <span
+            class="data-value"
+            id="val-dewpoint"
+          >
+            -- °C
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRESIÓN -->
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-gauge-high data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Presión QNH
+          </span>
+
+          <span
+            class="data-value"
+            id="val-pressure"
+          >
+            -- hPa
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SECCIÓN 2
+         ===================================================== -->
+
+    <div class="section-title">
+
+      <i class="fa-solid fa-sun"></i>
+
+      Iluminación y Nubes
+
+    </div>
+
+    <div class="weather-grid">
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-temperature-half data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Temperatura
+          </span>
+
+          <span
+            class="data-value"
+            id="val-temp"
+          >
+            -- °C
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-child-reaching data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Sensación Térm.
+          </span>
+
+          <span
+            class="data-value"
+            id="val-feels"
+          >
+            -- °C
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-cloud data-icon"
+          id="icon-weather"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Estado Cielo
+          </span>
+
+          <span
+            class="data-value"
+            id="val-weather"
+          >
+            --
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-cloud-sun data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Cobertura Nubes
+          </span>
+
+          <span
+            class="data-value"
+            id="val-cloud-cover"
+          >
+            -- %
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-sun data-icon"
+          style="color:var(--neon-gold)"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Índice UV
+          </span>
+
+          <span
+            class="data-value"
+            id="val-uv"
+          >
+            --
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-sun-plant-wilt data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Sol / Ocaso
+          </span>
+
+          <span
+            class="data-value"
+            id="val-sun-times"
+          >
+            --:-- / --:--
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SECCIÓN 3
+         ===================================================== -->
+
+    <div class="section-title">
+
+      <i class="fa-solid fa-droplet"></i>
+
+      Humedad y Lluvia
+
+    </div>
+
+    <div class="weather-grid">
+
+
+      <div class="data-card">
+
+        <i
+          class="fa-solid fa-umbrella data-icon"
+          style="color:var(--neon-green)"
+        ></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Prob. Lluvia
+          </span>
+
+          <span
+            class="data-value"
+            id="val-pop"
+          >
+            -- %
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-cloud-showers-heavy data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Precipitación
+          </span>
+
+          <span
+            class="data-value"
+            id="val-rain"
+          >
+            -- mm
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="data-card">
+
+        <i class="fa-solid fa-droplet data-icon"></i>
+
+        <div class="data-info">
+
+          <span class="data-title">
+            Humedad Rel.
+          </span>
+
+          <span
+            class="data-value"
+            id="val-humidity"
+          >
+            -- %
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOTÓN ACTUALIZAR
+         ===================================================== -->
+
+    <div class="refresh-box">
+
+      <button
+        id="btn-refresh"
+        onclick="fetchWeather()"
+      >
+
+        <i class="fa-solid fa-rotate-right"></i>
+
+        Actualizar Sensores
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer id="footer-text">
+
+      Datos en vivo: Open-Meteo API / Windy<br>
+
+      Spotters Spain
+
+    </footer>
+
+  </div>
+
+
+  <!-- =======================================================
+       MODAL INFORMACIÓN PISTA
+       ======================================================= -->
+
+  <div
+    class="info-modal-overlay"
+    id="runway-info-modal"
+    onclick="closeRunwayInfoModal(event)"
+  >
+
+    <div class="info-modal-box">
+
+      <i class="fa-solid fa-circle-info info-modal-icon"></i>
+
+      <div class="info-modal-title">
+        Aviso de Estimación
+      </div>
+
+      <p class="info-modal-text">
+
+        Esta configuración se calcula matemáticamente a partir
+        del viento meteorológico actual y la orientación de las
+        pistas. No representa una confirmación de la pista
+        operativa real utilizada por ATC/AENA.
+
+      </p>
+
+      <button
+        class="btn-info-modal-close"
+        onclick="closeRunwayInfoModalDirect()"
+      >
+        Entendido
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       MODAL ALERTA CRÍTICA
+       ======================================================= -->
+
+  <div
+    class="critical-alert-overlay"
+    id="critical-alert-modal"
+    onclick="closeCriticalAlert(event)"
+  >
+
+    <div class="critical-alert-box">
+
+      <i
+        class="fa-solid fa-triangle-exclamation alert-icon"
+      ></i>
+
+      <div class="alert-title">
+        ADVERTENCIA CRÍTICA
+      </div>
+
+      <div
+        class="alert-subtitle"
+        id="alert-airport-name"
+      >
+        Aeropuerto Seleccionado
+      </div>
+
+      <p
+        class="alert-desc"
+        id="alert-desc-text"
+      >
+        Condiciones meteorológicas desfavorables detectadas.
+      </p>
+
+      <button
+        class="btn-alert-close"
+        onclick="closeCriticalAlertDirect()"
+      >
+
+        <i class="fa-solid fa-check"></i>
+
+        Entendido
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+
+    let alertTimeout = null;
+    let isRadarVisible = false;
+
+
+    /* =====================================================
+       BASE DE DATOS DE AEROPUERTOS
+       ===================================================== */
+
+    const AIRPORTS = {
+
+      LEAL: {
+        name: "Alicante-Elche (LEAL)",
+        lat: 38.282,
+        lon: -0.558,
+        runways: [
+          { name: "Config. Pista 10", heading: 100 },
+          { name: "Config. Pista 28", heading: 280 }
+        ]
+      },
+
+      LEBL: {
+        name: "Barcelona-El Prat (LEBL)",
+        lat: 41.297,
+        lon: 2.078,
+        runways: [
+          { name: "Config. Suroeste", heading: 240 },
+          { name: "Config. Noreste", heading: 60 }
+        ]
+      },
+
+      LEBB: {
+        name: "Bilbao (LEBB)",
+        lat: 43.301,
+        lon: -2.910,
+        runways: [
+          { name: "Config. Pista 30", heading: 300 },
+          { name: "Config. Pista 12", heading: 120 }
+        ]
+      },
+
+      LECO: {
+        name: "A Coruña (LECO)",
+        lat: 43.302,
+        lon: -8.377,
+        runways: [
+          { name: "Config. Pista 21", heading: 210 },
+          { name: "Config. Pista 03", heading: 30 }
+        ]
+      },
+
+      LEGR: {
+        name: "Federico García Lorca Granada-Jaén (LEGR)",
+        lat: 37.188,
+        lon: -3.777,
+        runways: [
+          { name: "Config. Pista 09", heading: 90 },
+          { name: "Config. Pista 27", heading: 270 }
+        ]
+      },
+
+      LEJR: {
+        name: "Jerez (LEJR)",
+        lat: 36.744,
+        lon: -6.060,
+        runways: [
+          { name: "Config. Pista 02", heading: 20 },
+          { name: "Config. Pista 20", heading: 200 }
+        ]
+      },
+
+      LEMD: {
+        name: "Madrid-Barajas (LEMD)",
+        lat: 40.472,
+        lon: -3.561,
+        runways: [
+          { name: "Config. Norte", heading: 360 },
+          { name: "Config. Sur", heading: 180 }
+        ]
+      },
+
+      LEMG: {
+        name: "Málaga-Costa del Sol (LEMG)",
+        lat: 36.674,
+        lon: -4.499,
+        runways: [
+          { name: "Config. Sur", heading: 130 },
+          { name: "Config. Norte", heading: 310 }
+        ]
+      },
+
+      LEST: {
+        name: "Santiago de Compostela (LEST)",
+        lat: 42.896,
+        lon: -8.415,
+        runways: [
+          { name: "Config. Pista 17", heading: 170 },
+          { name: "Config. Pista 35", heading: 350 }
+        ]
+      },
+
+      LEZL: {
+        name: "Sevilla (LEZL)",
+        lat: 37.418,
+        lon: -5.893,
+        runways: [
+          { name: "Config. Oeste", heading: 270 },
+          { name: "Config. Este", heading: 90 }
+        ]
+      },
+
+      LEVC: {
+        name: "Valencia (LEVC)",
+        lat: 39.489,
+        lon: -0.481,
+        runways: [
+          { name: "Config. Pista 12", heading: 120 },
+          { name: "Config. Pista 30", heading: 300 }
+        ]
+      },
+
+      LEVT: {
+        name: "Vitoria (LEVT)",
+        lat: 42.882,
+        lon: -2.724,
+        runways: [
+          { name: "Config. Pista 04", heading: 40 },
+          { name: "Config. Pista 22", heading: 220 }
+        ]
+      },
+
+      LEZJ: {
+        name: "Zaragoza (LEZJ)",
+        lat: 41.666,
+        lon: -1.041,
+        runways: [
+          { name: "Config. Oeste", heading: 300 },
+          { name: "Config. Este", heading: 120 }
+        ]
+      },
+
+      LEIB: {
+        name: "Ibiza (LEIB)",
+        lat: 38.872,
+        lon: 1.373,
+        runways: [
+          { name: "Config. Pista 24", heading: 240 },
+          { name: "Config. Pista 06", heading: 60 }
+        ]
+      },
+
+      LEMH: {
+        name: "Menorca (LEMH)",
+        lat: 39.862,
+        lon: 4.218,
+        runways: [
+          { name: "Config. Pista 19", heading: 190 },
+          { name: "Config. Pista 01", heading: 10 }
+        ]
+      },
+
+      LEPA: {
+        name: "Palma de Mallorca (LEPA)",
+        lat: 39.551,
+        lon: 2.738,
+        runways: [
+          { name: "Config. Oeste", heading: 240 },
+          { name: "Config. Este", heading: 60 }
+        ]
+      },
+
+      GCFV: {
+        name: "Fuerteventura (GCFV)",
+        lat: 28.452,
+        lon: -13.863,
+        runways: [
+          { name: "Config. Pista 01", heading: 10 },
+          { name: "Config. Pista 19", heading: 190 }
+        ]
+      },
+
+      GCLP: {
+        name: "Gran Canaria (GCLP)",
+        lat: 27.931,
+        lon: -15.386,
+        runways: [
+          { name: "Config. Norte", heading: 30 },
+          { name: "Config. Sur", heading: 210 }
+        ]
+      },
+
+      GCRR: {
+        name: "César Manrique-Lanzarote (GCRR)",
+        lat: 28.945,
+        lon: -13.605,
+        runways: [
+          { name: "Config. Pista 03", heading: 30 },
+          { name: "Config. Pista 21", heading: 210 }
+        ]
+      },
+
+      GCLA: {
+        name: "La Palma (GCLA)",
+        lat: 28.626,
+        lon: -17.755,
+        runways: [
+          { name: "Config. Pista 01", heading: 10 },
+          { name: "Config. Pista 19", heading: 190 }
+        ]
+      },
+
+      GCXO: {
+        name: "Tenerife Norte-Ciudad de La Laguna (GCXO)",
+        lat: 28.482,
+        lon: -16.341,
+        runways: [
+          { name: "Config. Pista 12", heading: 120 },
+          { name: "Config. Pista 30", heading: 300 }
+        ]
+      },
+
+      GCTS: {
+        name: "Tenerife Sur (GCTS)",
+        lat: 28.044,
+        lon: -16.572,
+        runways: [
+          { name: "Config. Pista 07", heading: 70 },
+          { name: "Config. Pista 25", heading: 250 }
+        ]
+      }
+
+    };
+
+
+    /* =====================================================
+       MODALES
+       ===================================================== */
+
+    function openRunwayInfoModal() {
+
+      document
+        .getElementById('runway-info-modal')
+        .classList.add('show');
+
+    }
+
+
+    function closeRunwayInfoModal(event) {
+
+      if (event.target.id === 'runway-info-modal') {
+
+        closeRunwayInfoModalDirect();
+
+      }
+
+    }
+
+
+    function closeRunwayInfoModalDirect() {
+
+      document
+        .getElementById('runway-info-modal')
+        .classList.remove('show');
+
+    }
+
+
+    /* =====================================================
+       CÓDIGOS METEOROLÓGICOS WMO
+       ===================================================== */
+
+    function parseWmoCode(code) {
+
+      if (code === 0)
+        return {
+          text: "Despejado",
+          icon: "fa-sun",
+          anim: ""
+        };
+
+      if (code === 1 || code === 2)
+        return {
+          text: "Nubes Dispersas",
+          icon: "fa-cloud-sun",
+          anim: ""
+        };
+
+      if (code === 3)
+        return {
+          text: "Cubierto",
+          icon: "fa-cloud",
+          anim: ""
+        };
+
+      if (code >= 45 && code <= 48)
+        return {
+          text: "Niebla Táctica",
+          icon: "fa-smog",
+          anim: "fa-fade"
+        };
+
+      if (code >= 51 && code <= 67)
+        return {
+          text: "Lluvia / Llovizna",
+          icon: "fa-cloud-rain",
+          anim: "animated-shower fa-bounce"
+        };
+
+      if (code >= 80 && code <= 82)
+        return {
+          text: "Chubascos",
+          icon: "fa-cloud-showers-heavy",
+          anim: "animated-shower fa-bounce"
+        };
+
+      if (code >= 95)
+        return {
+          text: "Tormenta",
+          icon: "fa-cloud-bolt",
+          anim: "animated-shower fa-shake"
+        };
+
+      return {
+        text: "Nublado",
+        icon: "fa-cloud",
+        anim: ""
+      };
+
+    }
+
+
+    /* =====================================================
+       RADAR WINDY
+       ===================================================== */
+
+    function toggleRadarDisplay() {
+
+      const radarCard =
+        document.getElementById('radar-card');
+
+      const btn =
+        document.getElementById('btn-toggle-radar');
+
+      isRadarVisible = !isRadarVisible;
+
+
+      if (isRadarVisible) {
+
+        radarCard.style.display = 'block';
+
+        btn.innerHTML =
+          `<i class="fa-solid fa-eye-slash"></i> Ocultar Radar Gráfico`;
+
+        updateRadarUrl();
+
+      } else {
+
+        radarCard.style.display = 'none';
+
+        btn.innerHTML =
+          `<i class="fa-solid fa-satellite-dish"></i> Consultar Radar Gráfico (Windy)`;
+
+      }
+
+    }
+
+
+    function updateRadarUrl() {
+
+      const code =
+        document.getElementById('airport-select').value;
+
+      const apt = AIRPORTS[code];
+
+
+      document
+        .getElementById('radar-airport-code')
+        .textContent = code;
+
+
+      if (isRadarVisible) {
+
+        const windyUrl =
+          `https://embed.windy.com/embed2.html?lat=${apt.lat}&lon=${apt.lon}&detailLat=${apt.lat}&detailLon=${apt.lon}&width=650&height=420&zoom=9&level=surface&overlay=radar&product=radar&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1`;
+
+        document
+          .getElementById('windy-iframe')
+          .src = windyUrl;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CÁLCULO DE PISTA
+       ===================================================== */
+
+    function calculateActiveRunway(
+      windSpeed,
+      windDir,
+      runways
+    ) {
+
+      if (!runways || runways.length === 0) {
+
+        return {
+          bestRunway: "Información no disponible",
+          headwind: 0,
+          crosswind: 0,
+          desc: "Sin datos de configuración de pistas."
+        };
+
+      }
+
+
+      if (windSpeed < 2) {
+
+        return {
+          bestRunway: runways[0].name,
+          headwind: 0,
+          crosswind: 0,
+          desc:
+            "Viento en calma (< 2 km/h). Configuración preferente activa por procedimiento estándar."
+        };
+
+      }
+
+
+      let bestRunway = null;
+
+      let maxHeadwind = -Infinity;
+
+      let calculatedCrosswind = 0;
+
+
+      runways.forEach(rwy => {
+
+        const angleRad =
+          (windDir - rwy.heading) *
+          (Math.PI / 180);
+
+        const headwind =
+          windSpeed * Math.cos(angleRad);
+
+        const crosswind =
+          Math.abs(
+            windSpeed * Math.sin(angleRad)
+          );
+
+
+        if (headwind > maxHeadwind) {
+
+          maxHeadwind = headwind;
+
+          bestRunway = rwy.name;
+
+          calculatedCrosswind = crosswind;
+
+        }
+
+      });
+
+
+      const headwindKmH =
+        maxHeadwind.toFixed(1);
+
+      const crosswindKmH =
+        calculatedCrosswind.toFixed(1);
+
+
+      return {
+
+        bestRunway,
+
+        headwind: headwindKmH,
+
+        crosswind: crosswindKmH,
+
+        desc:
+          `Alineada por viento de cara de ${headwindKmH} km/h (Viento cruzado: ${crosswindKmH} km/h).`
+
+      };
+
+    }
+
+
+    /* =====================================================
+       SONIDO ALERTA
+       ===================================================== */
+
+    function playWarningSound() {
+
+      try {
+
+        const AudioContext =
+          window.AudioContext ||
+          window.webkitAudioContext;
+
+        if (!AudioContext) return;
+
+
+        const audioCtx =
+          new AudioContext();
+
+
+        const osc1 =
+          audioCtx.createOscillator();
+
+        const gain1 =
+          audioCtx.createGain();
+
+
+        osc1.type = 'sawtooth';
+
+        osc1.frequency.setValueAtTime(
+          880,
+          audioCtx.currentTime
+        );
+
+        gain1.gain.setValueAtTime(
+          0.2,
+          audioCtx.currentTime
+        );
+
+        gain1.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioCtx.currentTime + 0.25
+        );
+
+
+        osc1.connect(gain1);
+
+        gain1.connect(
+          audioCtx.destination
+        );
+
+
+        osc1.start(
+          audioCtx.currentTime
+        );
+
+        osc1.stop(
+          audioCtx.currentTime + 0.25
+        );
+
+
+        const osc2 =
+          audioCtx.createOscillator();
+
+        const gain2 =
+          audioCtx.createGain();
+
+
+        osc2.type = 'sawtooth';
+
+        osc2.frequency.setValueAtTime(
+          880,
+          audioCtx.currentTime + 0.3
+        );
+
+        gain2.gain.setValueAtTime(
+          0.2,
+          audioCtx.currentTime + 0.3
+        );
+
+        gain2.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioCtx.currentTime + 0.55
+        );
+
+
+        osc2.connect(gain2);
+
+        gain2.connect(
+          audioCtx.destination
+        );
+
+
+        osc2.start(
+          audioCtx.currentTime + 0.3
+        );
+
+        osc2.stop(
+          audioCtx.currentTime + 0.55
+        );
+
+
+      } catch (e) {
+
+        console.warn(
+          "Reproducción de audio bloqueada por política del navegador:",
+          e
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       EVALUACIÓN SPOTTING
+       ===================================================== */
+
+    function evaluateSpottingConditions(
+      weatherCode,
+      windKmH,
+      gustsKmH,
+      rainMm,
+      rainProb,
+      humidity,
+      visKm
+    ) {
+
+      if (
+        rainProb > 20 ||
+        rainMm > 0.5 ||
+        weatherCode >= 51 ||
+        (weatherCode >= 45 && weatherCode <= 48) ||
+        visKm < 3.0
+      ) {
+
+        let razon =
+          `Probabilidad de lluvia elevada (${rainProb}%).`;
+
+
+        if (rainMm > 0.5) {
+
+          razon =
+            `Lluvia activa (${rainMm} mm). Riesgo alto de salpicaduras en lentes.`;
+
+        }
+
+
+        if (visKm < 3.0) {
+
+          razon =
+            `Visibilidad muy reducida en pista (${visKm} km).`;
+
+        }
+
+
+        if (
+          weatherCode >= 45 &&
+          weatherCode <= 48
+        ) {
+
+          razon =
+            "Niebla densa afectando la visibilidad de pista.";
+
+        }
+
+
+        return {
+
+          title: "CONDICIONES CRÍTICAS",
+
+          icon: "fa-circle-xmark",
+
+          desc:
+            `Entorno no recomendado para fotografía. ${razon}`,
+
+          color: "#ff0055",
+
+          glow:
+            "rgba(255, 0, 85, 0.5)"
+
+        };
+
+      }
+
+
+      if (
+        gustsKmH > 40 ||
+        windKmH > 30
+      ) {
+
+        return {
+
+          title: "VIENTO MÁXIMO / RÁFAGAS",
+
+          icon:
+            "fa-triangle-exclamation",
+
+          desc:
+            `Ráfagas elevadas de ${gustsKmH} km/h. Complicado estabilizar la imagen a focales largas.`,
+
+          color: "#ffcc00",
+
+          glow:
+            "rgba(255, 204, 0, 0.5)"
+
+        };
+
+      }
+
+
+      if (
+        (weatherCode === 0 ||
+          weatherCode === 1) &&
+        windKmH < 20 &&
+        visKm >= 8.0
+      ) {
+
+        return {
+
+          title: "CONDICIONES ÓPTIMAS",
+
+          icon: "fa-circle-check",
+
+          desc:
+            `Luz solar constante, nitidez alta en aire (${visKm} km visibilidad) y viento estable.`,
+
+          color: "#00ffcc",
+
+          glow:
+            "rgba(0, 255, 204, 0.6)"
+
+        };
+
+      }
+
+
+      return {
+
+        title: "ACEPTABLE PARA FOTOS",
+
+        icon: "fa-camera",
+
+        desc:
+          `Condiciones operativas. Visibilidad de ${visKm} km y bajo riesgo de precipitaciones.`,
+
+        color: "#00d2ff",
+
+        glow:
+          "rgba(0, 210, 255, 0.5)"
+
+      };
+
+    }
+
+
+    /* =====================================================
+       CAMBIAR AEROPUERTO
+       ===================================================== */
+
+    function changeAirport() {
+
+      if (alertTimeout)
+        clearTimeout(alertTimeout);
+
+
+      closeCriticalAlertDirect();
+
+
+      const code =
+        document.getElementById(
+          'airport-select'
+        ).value;
+
+
+      const apt =
+        AIRPORTS[code];
+
+
+      document
+        .getElementById(
+          'selected-airport-name'
+        )
+        .textContent = apt.name;
+
+
+      document
+        .getElementById(
+          'footer-text'
+        )
+        .innerHTML =
+          `Datos en vivo: Open-Meteo API · Coordenadas ${code}<br>Spotters Spain`;
+
+
+      updateRadarUrl();
+
+      fetchWeather();
+
+    }
+
+
+    /* =====================================================
+       ALERTA CRÍTICA
+       ===================================================== */
+
+    function triggerCriticalAlert(
+      airportName,
+      descText
+    ) {
+
+      if (alertTimeout)
+        clearTimeout(alertTimeout);
+
+
+      alertTimeout = setTimeout(() => {
+
+        document
+          .getElementById(
+            'alert-airport-name'
+          )
+          .textContent = airportName;
+
+
+        document
+          .getElementById(
+            'alert-desc-text'
+          )
+          .textContent = descText;
+
+
+        document
+          .getElementById(
+            'critical-alert-modal'
+          )
+          .classList.add('show');
+
+
+        playWarningSound();
+
+      }, 3000);
+
+    }
+
+
+    function closeCriticalAlert(event) {
+
+      if (
+        event.target.id ===
+        'critical-alert-modal'
+      ) {
+
+        closeCriticalAlertDirect();
+
+      }
+
+    }
+
+
+    function closeCriticalAlertDirect() {
+
+      document
+        .getElementById(
+          'critical-alert-modal'
+        )
+        .classList.remove('show');
+
+    }
+
+
+    /* =====================================================
+       CONSULTA METEOROLÓGICA
+       ===================================================== */
+
+    async function fetchWeather() {
+
+      const card =
+        document.getElementById(
+          'status-card'
+        );
+
+
+      const badge =
+        document.getElementById(
+          'status-badge'
+        );
+
+
+      const desc =
+        document.getElementById(
+          'status-desc'
+        );
+
+
+      const code =
+        document.getElementById(
+          'airport-select'
+        ).value;
+
+
+      const apt =
+        AIRPORTS[code];
+
+
+      card.classList.remove(
+        'critical-flashing-card'
+      );
+
+
+      badge.innerHTML =
+        `<i class="fa-solid fa-circle-notch fa-spin"></i> Leyendo sensores...`;
+
+
+      document
+        .getElementById(
+          'val-active-runway'
+        )
+        .innerHTML =
+          `<i class="fa-solid fa-circle-notch fa-spin"></i> Calculando...`;
+
+
+      try {
+
+        const url =
+          `https://api.open-meteo.com/v1/forecast?latitude=${apt.lat}&longitude=${apt.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,visibility,dew_point_2m,uv_index&daily=sunrise,sunset&hourly=precipitation_probability&timezone=auto`;
+
+
+        const response =
+          await fetch(
+            url,
+            {
+              cache: 'no-store'
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        const current =
+          data.current;
+
+
+        let rainProb = 0;
+
+
+        if (
+          data.hourly &&
+          data.hourly.precipitation_probability &&
+          data.hourly.precipitation_probability.length > 0
+        ) {
+
+          const currentHour =
+            new Date().getHours();
+
+
+          rainProb =
+            data.hourly
+              .precipitation_probability[
+                currentHour
+              ] ??
+            data.hourly
+              .precipitation_probability[0] ??
+            0;
+
+        }
+
+
+        const temp =
+          current.temperature_2m;
+
+        const feels =
+          current.apparent_temperature;
+
+        const humidity =
+          current.relative_humidity_2m;
+
+        const rain =
+          current.precipitation;
+
+        const windSpeed =
+          current.wind_speed_10m;
+
+        const gusts =
+          current.wind_gusts_10m;
+
+        const windDir =
+          current.wind_direction_10m;
+
+        const weatherCode =
+          current.weather_code;
+
+        const visKm =
+          (current.visibility / 1000)
+            .toFixed(1);
+
+        const pressure =
+          current.surface_pressure
+            .toFixed(0);
+
+        const cloudCover =
+          current.cloud_cover;
+
+        const dewPoint =
+          current.dew_point_2m;
+
+        const uv =
+          current.uv_index;
+
+
+        let sunrise = "--:--";
+        let sunset = "--:--";
+
+
+        if (
+          data.daily &&
+          data.daily.sunrise &&
+          data.daily.sunset
+        ) {
+
+          sunrise =
+            data.daily
+              .sunrise[0]
+              .split("T")[1];
+
+
+          sunset =
+            data.daily
+              .sunset[0]
+              .split("T")[1];
+
+        }
+
+
+        const runwayInfo =
+          calculateActiveRunway(
+            windSpeed,
+            windDir,
+            apt.runways
+          );
+
+
+        const wmo =
+          parseWmoCode(
+            weatherCode
+          );
+
+
+        const evaluation =
+          evaluateSpottingConditions(
+            weatherCode,
+            windSpeed,
+            gusts,
+            rain,
+            rainProb,
+            humidity,
+            parseFloat(visKm)
+          );
+
+
+        /* PISTA */
+
+        document
+          .getElementById(
+            'val-active-runway'
+          )
+          .innerHTML =
+            `<i class="fa-solid fa-road"></i> ${runwayInfo.bestRunway}`;
+
+
+        document
+          .getElementById(
+            'val-runway-desc'
+          )
+          .textContent =
+            runwayInfo.desc;
+
+
+        document
+          .getElementById(
+            'val-crosswind'
+          )
+          .textContent =
+            `${runwayInfo.crosswind} km/h`;
+
+
+        /* METEOROLOGÍA */
+
+        document
+          .getElementById('val-temp')
+          .textContent =
+            `${temp} °C`;
+
+
+        document
+          .getElementById('val-feels')
+          .textContent =
+            `${feels} °C`;
+
+
+        document
+          .getElementById('val-pop')
+          .textContent =
+            `${rainProb} %`;
+
+
+        document
+          .getElementById('val-humidity')
+          .textContent =
+            `${humidity} %`;
+
+
+        document
+          .getElementById('val-rain')
+          .textContent =
+            `${rain} mm`;
+
+
+        document
+          .getElementById('val-wind')
+          .textContent =
+            `${windSpeed} km/h`;
+
+
+        document
+          .getElementById('val-gusts')
+          .textContent =
+            `${gusts} km/h`;
+
+
+        document
+          .getElementById('val-wind-dir')
+          .textContent =
+            `${windDir}°`;
+
+
+        document
+          .getElementById('val-visibility')
+          .textContent =
+            `${visKm} km`;
+
+
+        document
+          .getElementById('val-pressure')
+          .textContent =
+            `${pressure} hPa`;
+
+
+        document
+          .getElementById('val-cloud-cover')
+          .textContent =
+            `${cloudCover} %`;
+
+
+        document
+          .getElementById('val-dewpoint')
+          .textContent =
+            `${dewPoint} °C`;
+
+
+        document
+          .getElementById('val-uv')
+          .textContent =
+            `${uv}`;
+
+
+        document
+          .getElementById('val-sun-times')
+          .textContent =
+            `${sunrise} / ${sunset}`;
+
+
+        document
+          .getElementById('val-weather')
+          .textContent =
+            wmo.text;
+
+
+        document
+          .getElementById('icon-weather')
+          .className =
+            `fa-solid ${wmo.icon} data-icon ${wmo.anim}`;
+
+
+        /* ESTADO SPOTTING */
+
+        card.style.setProperty(
+          '--status-color',
+          evaluation.color
+        );
+
+
+        card.style.setProperty(
+          '--status-glow',
+          evaluation.glow
+        );
+
+
+        badge.innerHTML =
+          `<i class="fa-solid ${evaluation.icon}"></i> ${evaluation.title}`;
+
+
+        desc.textContent =
+          evaluation.desc;
+
+
+        if (
+          evaluation.title ===
+          "CONDICIONES CRÍTICAS"
+        ) {
+
+          card.classList.add(
+            'critical-flashing-card'
+          );
+
+
+          triggerCriticalAlert(
+            apt.name,
+            evaluation.desc
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Error meteorológico:",
+          error
+        );
+
+
+        badge.innerHTML =
+          `<i class="fa-solid fa-triangle-exclamation"></i> ERROR`;
+
+
+        desc.textContent =
+          "Error al recibir la telemetría en tiempo real.";
+
+
+        card.style.setProperty(
+          '--status-color',
+          '#ff0055'
+        );
+
+
+        card.style.setProperty(
+          '--status-glow',
+          'rgba(255, 0, 85, 0.4)'
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CARGA INICIAL
+       ===================================================== */
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      fetchWeather();
+
+    });
+
+  </script>
+
+</body>
+</html>

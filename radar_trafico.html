@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Spotters Spain · Radar Barcelona</title>
+
+  <!-- Iconos de FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* RESETEO & VARIABLES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-color: #050814;
+      --panel-bg: linear-gradient(145deg, #0c102b, #070a1a);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --neon-red: #ff0055;
+      --neon-gold: #ffcc00;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ENCABEZADO MEJORADO */
+    header {
+      background: linear-gradient(180deg, #070a1a 0%, #0c102b 100%);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+      flex-wrap: wrap;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+    }
+
+    header h1 i {
+      animation: spin-radar 6s linear infinite;
+    }
+
+    header h1 span {
+      background: var(--neon-red);
+      color: white;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+      animation: pulse-live 1.8s infinite;
+    }
+
+    /* ENLACES RÁPIDOS */
+    .links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 6px rgba(0, 210, 255, 0.2);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .links a:hover {
+      background: var(--neon-cyan);
+      color: #000000;
+      box-shadow: 0 0 12px var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      background: var(--bg-color);
+      overflow: hidden;
+    }
+
+    /* BARRA SUPERIOR DEL PANEL RADAR */
+    .panel-header {
+      background: #03050d;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+      gap: 12px;
+    }
+
+    .panel-header .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--neon-green);
+      text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+    }
+
+    .panel-header .badge {
+      font-size: 0.65rem;
+      background: rgba(0, 255, 204, 0.15);
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      box-shadow: 0 0 6px rgba(0, 255, 204, 0.3);
+    }
+
+    /* BOTÓN PANTALLA COMPLETA ESTILO NEÓN */
+    .btn-fullscreen {
+      background: var(--neon-green);
+      color: #000000;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 10px var(--neon-green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-fullscreen:hover {
+      background: #ffffff;
+      box-shadow: 0 0 18px #ffffff;
+      transform: scale(1.04);
+    }
+
+    .btn-fullscreen:active {
+      transform: scale(0.96);
+    }
+
+    /* IFRAME DEL MAPA */
+    .panel iframe {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000000;
+      min-height: 450px;
+    }
+
+    /* MODO PANTALLA COMPLETA */
+    .panel.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      min-height: 100vh;
+    }
+
+    body.fs-active header,
+    body.fs-active footer,
+    body.fs-active .btn-float-inicio {
+      display: none;
+    }
+
+    /* FOOTER TÁCTICO */
+    footer {
+      background: #03050d;
+      padding: 8px 16px;
+      font-size: 0.72rem;
+      color: #7a8b9e;
+      text-align: center;
+      border-top: 1px solid rgba(0, 210, 255, 0.2);
+    }
+
+    footer a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* BOTÓN FLOTANTE ATRÁS NEÓN */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      right: max(20px, env(safe-area-inset-right));
+      z-index: 99999;
+      max-width: calc(100vw - 32px);
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    /* ANIMACIONES */
+    @keyframes spin-radar {
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ADAPTACIÓN MÓVIL */
+    @media (max-width: 600px) {
+      header {
+        padding: 8px 12px;
+      }
+      header h1 {
+        font-size: 0.95rem;
+      }
+      .links a {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+      }
+      .btn-fullscreen {
+        padding: 5px 10px;
+        font-size: 0.72rem;
+      }
+      .btn-float-inicio {
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        right: 12px;
+        font-size: 0.72rem;
+        padding: 7px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header>
+    <h1>
+      <i class="fa-solid fa-crosshairs"></i> Spotters Spain
+      <span>LIVE</span>
+    </h1>
+
+    <div class="links">
+      <a href="https://www.flightradar24.com/41.39,2.17/11" target="_blank" rel="noopener">
+        <i class="fa-solid fa-plane-departure"></i> Flightradar24
+      </a>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR DEL RADAR -->
+  <div class="container">
+    <div class="panel" id="traffic-panel">
+      
+      <!-- ENCABEZADO DEL PANEL -->
+      <div class="panel-header">
+        <div class="left">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>TMA BARCELONA / LEBL</span>
+          <span class="badge">SENSORS ON</span>
+        </div>
+
+        <button class="btn-fullscreen" id="btn-fs" onclick="toggleFullscreen()">
+          <i class="fa-solid fa-expand" id="fs-icon"></i>
+          <span id="fs-text">Pantalla Completa</span>
+        </button>
+      </div>
+
+      <!-- IFRAME ADS-B EXCHANGE -->
+      <iframe
+        id="traffic-iframe"
+        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=180&largeMode=1&hideSidebar&hideButtons"
+        title="Tráfico aéreo Barcelona - ADS-B Exchange"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    Telemetría en tiempo real: ADS-B Exchange · Spotters Spain
+  </footer>
+
+  <!-- BOTÓN FLOTANTE ATRÁS NEÓN -->
+  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </a>
+
+  <!-- SCRIPT MEJORADO -->
+  <script>
+    function toggleFullscreen() {
+      const panel = document.getElementById('traffic-panel');
+      const btnText = document.getElementById('fs-text');
+      const btnIcon = document.getElementById('fs-icon');
+      const isFullscreen = panel.classList.contains('fullscreen');
+
+      if (isFullscreen) {
+        // Salir del modo pantalla completa CSS
+        panel.classList.remove('fullscreen');
+        document.body.classList.remove('fs-active');
+        btnText.textContent = 'Pantalla Completa';
+        btnIcon.className = 'fa-solid fa-expand';
+
+        // Salir de Fullscreen nativo del navegador si estaba activo
+        if (document.exitFullscreen && document.fullscreenElement) {
+          document.exitFullscreen().catch(err => console.log(err));
+        }
+      } else {
+        // Entrar en modo pantalla completa CSS
+        panel.classList.add('fullscreen');
+        document.body.classList.add('fs-active');
+        btnText.textContent = 'Salir';
+        btnIcon.className = 'fa-solid fa-compress';
+
+        // Solicitar Fullscreen nativo en móviles para ocultar la barra del navegador
+        if (panel.requestFullscreen) {
+          panel.requestFullscreen().catch(err => console.log(err));
+        }
+      }
+    }
+
+    // Escuchar tecla Escape para restaurar interfaz
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const panel = document.getElementById('traffic-panel');
+        if (panel.classList.contains('fullscreen')) {
+          toggleFullscreen();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

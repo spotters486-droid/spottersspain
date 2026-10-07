@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Botón Flotante para volver a la página anterior -->
+<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+  <i class="fa-solid fa-arrow-left"></i> Atrás
+</a>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Spotters Spain · LEBL Info Aeropuerto</title>
+  <!-- Iconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* RESETEO & VARIABLES ESTILO SPOTTERS SPAIN */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-color: #050814;
+      --card-bg: linear-gradient(145deg, #0c102b, #070a1a);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --neon-gold: #ffcc00;
+      --neon-red: #ff0055;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: #ffffff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 12px 10px 75px 10px;
+    }
+
+    .app {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* CABECERA CON BADGE NEÓN Y MÉTRICAS */
+    .header {
+      background: var(--card-bg);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 16px;
+      padding: 16px 14px;
+      text-align: center;
+      margin-bottom: 14px;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2), inset 0 0 15px rgba(0, 210, 255, 0.1);
+      position: relative;
+    }
+
+    .icao-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--neon-gold);
+      color: #050814;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      box-shadow: 0 0 10px var(--neon-gold);
+      margin-bottom: 6px;
+    }
+
+    .header h1 {
+      font-size: 1.35rem;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      margin-bottom: 2px;
+    }
+
+    .official-name {
+      color: var(--neon-cyan);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .location {
+      color: #88a0c0;
+      font-size: 0.75rem;
+    }
+
+    /* CAJAS RÁPIDAS DE DATOS */
+    .quick {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .quick-box {
+      background: rgba(0, 210, 255, 0.05);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 10px;
+      padding: 8px 4px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.1);
+    }
+
+    .quick-box strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--neon-green);
+      text-shadow: 0 0 6px rgba(0, 255, 204, 0.6);
+    }
+
+    .quick-box span {
+      display: block;
+      font-size: 0.62rem;
+      color: #88a0c0;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* MENÚ HORIZONTAL DE SECCIONES */
+    .menu {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 6px 0;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .menu::-webkit-scrollbar {
+      display: none;
+    }
+
+    .menu button {
+      flex: 0 0 auto;
+      padding: 8px 14px;
+      background: var(--card-bg);
+      color: #a0b2ce;
+      border: 1px solid var(--neon-cyan);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .menu button.active, .menu button:hover {
+      background: var(--neon-cyan);
+      color: #050814;
+      box-shadow: 0 0 12px var(--neon-cyan);
+      border-color: var(--neon-cyan);
+    }
+
+    /* SECCIONES Y CONTENEDORES */
+    .section {
+      background: var(--card-bg);
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+      padding-bottom: 6px;
+    }
+
+    /* PISTAS INTERACTIVAS Y CANVAS NEÓN */
+    .runway-card {
+      background: rgba(5, 8, 20, 0.6);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .runway-card:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .runway-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .runway-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .badge {
+      padding: 3px 8px;
+      background: rgba(0, 255, 204, 0.15);
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: bold;
+      box-shadow: 0 0 6px rgba(0, 255, 204, 0.3);
+    }
+
+    .runway-canvas-container {
+      width: 100%;
+      height: 48px;
+      background: #02040a;
+      border-radius: 6px;
+      margin: 8px 0;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      overflow: hidden;
+    }
+
+    canvas.rwy-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .runway-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .data {
+      background: rgba(5, 8, 20, 0.8);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 8px;
+      padding: 6px 8px;
+    }
+
+    .data span {
+      display: block;
+      color: #88a0c0;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+    }
+
+    .data strong {
+      font-size: 0.85rem;
+      color: #ffffff;
+    }
+
+    /* FRECUENCIAS INTERACTIVAS */
+    .frequency {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 8px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .frequency:hover {
+      background: rgba(0, 210, 255, 0.08);
+    }
+
+    .frequency-name {
+      display: block;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .frequency-desc {
+      display: block;
+      color: #88a0c0;
+      font-size: 0.7rem;
+    }
+
+    .frequency-number {
+      color: var(--neon-cyan);
+      font-size: 1.05rem;
+      font-weight: 900;
+      text-shadow: 0 0 8px rgba(0, 210, 255, 0.7);
+    }
+
+    /* GRID DE CARDS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .card-item {
+      background: rgba(5, 8, 20, 0.8);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .card-item:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+      transform: scale(1.02);
+    }
+
+    .card-item strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--neon-green);
+      margin-bottom: 2px;
+    }
+
+    .card-item span {
+      display: block;
+      color: #a0b2ce;
+      font-size: 0.72rem;
+      margin-top: 2px;
+    }
+
+    .note {
+      font-size: 0.7rem;
+      color: #71808d;
+      line-height: 1.4;
+      border-color: rgba(255, 0, 85, 0.4);
+    }
+
+    .note strong {
+      color: var(--neon-red);
+    }
+
+    footer {
+      text-align: center;
+      color: #556680;
+      font-size: 0.72rem;
+      margin-top: 10px;
+    }
+
+    /* MODAL DINÁMICO DE DETALLES DETALLADOS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 8, 20, 0.85);
+      backdrop-filter: blur(6px);
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, #0c102b, #050814);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 0, 85, 0.15);
+      color: var(--neon-red);
+      border: 1px solid var(--neon-red);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--neon-green);
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body {
+      font-size: 0.82rem;
+      color: #c0d2ee;
+      line-height: 1.5;
+    }
+
+    .modal-body p {
+      margin-bottom: 8px;
+    }
+
+    .modal-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+    }
+
+    .modal-detail-row span {
+      color: #88a0c0;
+    }
+
+    .modal-detail-row strong {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- CABECERA -->
+    <header class="header">
+      <span class="icao-badge" id="icao">LEBL</span>
+      <h1 id="airportName">Barcelona-El Prat</h1>
+      <p class="official-name" id="officialName">Josep Tarradellas Barcelona-El Prat</p>
+      <p class="location" id="location">Barcelona · España</p>
+
+      <div class="quick">
+        <div class="quick-box">
+          <strong id="iata">BCN</strong>
+          <span>IATA</span>
+        </div>
+        <div class="quick-box">
+          <strong id="elevation">12 ft</strong>
+          <span>Elevación</span>
+        </div>
+        <div class="quick-box">
+          <strong id="operation">H24</strong>
+          <span>Operación</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MENÚ HORIZONTAL -->
+    <nav class="menu">
+      <button class="active" data-target="pistas"><i class="fa-solid fa-plane-arrival"></i> Pistas</button>
+      <button data-target="frecuencias"><i class="fa-solid fa-walkie-talkie"></i> Frecuencias</button>
+      <button data-target="ils"><i class="fa-solid fa-tower-cell"></i> ILS</button>
+      <button data-target="radioayudas"><i class="fa-solid fa-satellite-dish"></i> Radioayudas</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- PISTAS -->
+      <section class="section" id="pistas">
+        <div class="section-title"><i class="fa-solid fa-plane-arrival"></i> Pistas de Aterrizaje / Despegue</div>
+        <div id="runways"></div>
+      </section>
+
+      <!-- FRECUENCIAS -->
+      <section class="section" id="frecuencias">
+        <div class="section-title"><i class="fa-solid fa-walkie-talkie"></i> Frecuencias de Torre y Control</div>
+        <div id="frequencies"></div>
+      </section>
+
+      <!-- ILS -->
+      <section class="section" id="ils">
+        <div class="section-title"><i class="fa-solid fa-tower-cell"></i> Sistemas de Aterrizaje Instrumental (ILS)</div>
+        <div class="grid" id="ilsList"></div>
+      </section>
+
+      <!-- RADIOAYUDAS -->
+      <section class="section" id="radioayudas">
+        <div class="section-title"><i class="fa-solid fa-satellite-dish"></i> Radioayudas (VOR / NDB)</div>
+        <div class="grid" id="navaids"></div>
+      </section>
+
+      <!-- INFORMACIÓN GENERAL -->
+      <section class="section">
+        <div class="section-title"><i class="fa-solid fa-circle-info"></i> Información General</div>
+        <div class="grid">
+          <div class="card-item" onClick="showGenericInfo('ICAO', 'LEBL - Código de la Organización de Aviación Civil Internacional asignado a Barcelona-El Prat.')">
+            <strong>LEBL</strong><span>Código ICAO</span>
+          </div>
+          <div class="card-item" onClick="showGenericInfo('IATA', 'BCN - Código de la Asociación Internacional de Transporte Aéreo utilizado en billetes y sistemas comerciales.')">
+            <strong>BCN</strong><span>Código IATA</span>
+          </div>
+          <div class="card-item" onClick="showGenericInfo('Ubicación', 'El aeropuerto está situado a 12 km al suroeste del centro de Barcelona, entre los términos municipales de El Prat de Llobregat, Viladecans y Sant Boi.')">
+            <strong>Barcelona</strong><span>Ciudad</span>
+          </div>
+          <div class="card-item" onClick="showGenericInfo('Operador', 'AENA (Aeropuertos Españoles y Navegación Aérea) / Proveedor ATS: ENAIRE.')">
+            <strong>España</strong><span>País</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVISO -->
+      <section class="section note">
+        <strong><i class="fa-solid fa-triangle-exclamation"></i> Información Aeronáutica:</strong><br>
+        Toca cualquier elemento para ver detalles operativos ampliados. Datos procedentes del AIP España (ENAIRE).
+      </section>
+
+    </main>
+
+    <footer>Spotters Spain</footer>
+
+  </div>
+
+  <!-- MODAL DE DETALLES -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <button class="modal-close" onClick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-title" id="modalTitle">Detalle</div>
+      <div class="modal-body" id="modalBody">
+        <!-- Contenido dinámico -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DATOS DE LEBL
+    const airportData = {
+      icao: "LEBL",
+      iata: "BCN",
+      name: "Barcelona-El Prat",
+      official: "Josep Tarradellas Barcelona-El Prat",
+      city: "Barcelona",
+      country: "España",
+      elevation: "12 ft",
+      operation: "H24",
+      runways: [
+        { 
+          name: "06L / 24R", 
+          length: "3.352 m", 
+          width: "60 m", 
+          heading: "064° / 244°", 
+          surface: "Asfalto / Hormigón", 
+          ils: "CAT III",
+          desplazado: "24R: 350 m",
+          uso: "Pista Principal de Despegues (06L) y Aterrizajes Nocturnos (24R)",
+          details: "Es la pista más larga del aeropuerto. Dispone de luces PAPI de 3° y balizamiento de centro de pista. Usada preferentemente para despegues en configuración Oeste (24R) y llegadas en configuración Este (06L)."
+        },
+        { 
+          name: "06R / 24L", 
+          length: "2.660 m", 
+          width: "60 m", 
+          heading: "064° / 244°", 
+          surface: "Asfalto", 
+          ils: "CAT III",
+          desplazado: "Sin umbral desplazado",
+          uso: "Pista Principal de Llegadas Diurnas (24L) y Despegues (06R)",
+          details: "Conocida como la pista del lado mar. Es la Pista Preferente para aterrizajes diurnos en Configuración Oeste. Equipada con ILS CAT III y salidas rápidas de rodaje (RETs) para optimizar el flujo de llegadas."
+        },
+        { 
+          name: "02 / 20", 
+          length: "2.528 m", 
+          width: "45 m", 
+          heading: "018° / 198°", 
+          surface: "Asfalto", 
+          ils: "CAT I",
+          desplazado: "02: 200 m",
+          uso: "Pista Transversal / Nocturna",
+          details: "Se utiliza principalmente para despegues nocturnos por la cabecera 02 para evitar el impacto acústico sobre zonas urbanizadas de Gavà y Castelldefels. Cruza con las pistas paralelas."
+        }
+      ],
+      frequencies: [
+        { name: "BARCELONA TOWER (ARR/DEP)", description: "Torre Principal", frequency: "118.105 MHz", details: "Gestión directa de despegues y aterrizajes en las pistas activas. Canal primario ATS." },
+        { name: "BARCELONA TOWER (DEP)", description: "Torre Despegues", frequency: "118.330 MHz", details: "Frecuencia táctica secundaria asignada a las autorizaciones e inmediaciones de la pista de salida." },
+        { name: "BARCELONA GROUND (GMC C)", description: "Rodaje Centro", frequency: "121.655 MHz", details: "Control de movimientos en superficie para las calles de rodaje principales y cruces en zona central." },
+        { name: "BARCELONA GROUND (GMC N)", description: "Rodaje Norte", frequency: "121.705 MHz", details: "Gestión del tráfico de rodaje en la plataforma T2 y accesos a la zona Norte." },
+        { name: "BARCELONA GROUND (GMC S)", description: "Rodaje Sur", frequency: "122.230 MHz", details: "Gestión de maniobras en tierra alrededor de la Terminal T1 y satélite." },
+        { name: "BARCELONA DELIVERY", description: "Autorizaciones Clr", frequency: "121.805 MHz", details: "Emisión de autorizaciones de ruta IFR iniciales (PDC) previo a puesta en marcha." },
+        { name: "ATIS LLEGADAS", description: "Información ATIS ARR", frequency: "118.655 MHz", details: "Emisión continua con meteorología, pistas en uso y avisos para tráficos en llegada." },
+        { name: "ATIS SALIDAS", description: "Información ATIS DEP", frequency: "121.980 MHz", details: "Emisión continua de información previa a la salida para tráficos despegando de LEBL." },
+        { name: "EMERGENCIA / GUARDIA", description: "Frecuencia Internacional", frequency: "121.500 MHz", details: "Monitoreo continuo H24 para situaciones de auxilio o fallos de comunicación." }
+      ],
+      ils: [
+        { runway: "06L", id: "QAA", frequency: "110.300 MHz", category: "CAT III", glide: "3.0°", details: "ILS de alta precisión para aproximaciones de baja visibilidad por la cabecera 06L." },
+        { runway: "24R", id: "BCA", frequency: "109.500 MHz", category: "CAT III", glide: "3.0°", details: "Equipado con DME asociado. Utilizado frecuentemente para aproximaciones en configuración Oeste." },
+        { runway: "06R", id: "BLE", frequency: "110.750 MHz", category: "CAT III", glide: "3.0°", details: "Sistema ILS CAT III B con guía de alineación y trayectoria de planeo automatizada." },
+        { runway: "24L", id: "BLW", frequency: "111.500 MHz", category: "CAT III", glide: "3.0°", details: "Frecuencia principal de aproximación ILS para la pista de llegadas diurnas." },
+        { runway: "02", id: "BLT", frequency: "108.750 MHz", category: "CAT I", glide: "3.0°", details: "Soporte de aproximación instrumental para la pista cruzada 02." }
+      ],
+      navaids: [
+        { id: "BCN", type: "VOR / DME", frequency: "116.700 MHz", channel: "CH 114X", details: "Radioayuda omnidireccional ubicad dentro del recinto aeroportuario. Punto de referencia clave." },
+        { id: "PRA", type: "VOR / DME", frequency: "114.300 MHz", channel: "CH 90X", details: "VOR de El Prat de Llobregat, utilizado para la definición de SID/STAR." },
+        { id: "SLL", type: "VOR / DME", frequency: "112.000 MHz", channel: "CH 57X", details: "VOR de Sant Sadurní, punto crucial en las rutas de llegada y salida del área terminal de Barcelona." },
+        { id: "VNV", type: "NDB", frequency: "380 kHz", channel: "N/A", details: "Radiofaro no direccional de baja frecuencia para ayuda complementaria a la navegación." }
+      ]
+    };
+
+    // DIBUJAR PISTA TÉCNICA DINÁMICA CON CANVAS
+    function drawRunwayCanvas(canvasId, name) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = canvas.parentElement.clientWidth;
+      const h = canvas.height = canvas.parentElement.clientHeight;
+
+      // Fondo Asfalto
+      ctx.fillStyle = '#0a0d18';
+      ctx.fillRect(0, 0, w, h);
+
+      // Pista
+      const rwyHeight = h * 0.45;
+      const rwyY = (h - rwyHeight) / 2;
+      ctx.fillStyle = '#1c2333';
+      ctx.fillRect(10, rwyY, w - 20, rwyHeight);
+      ctx.strokeStyle = '#00d2ff';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(10, rwyY, w - 20, rwyHeight);
+
+      // Línea central discontinua
+      ctx.strokeStyle = '#ffffff';
+      ctx.setLineDash([8, 6]);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(35, h / 2);
+      ctx.lineTo(w - 35, h / 2);
+      ctx.stroke();
+      ctx.setLineDash([]); // Reset dash
+
+      // Marcas de Umbral (Threshold Lines)
+      ctx.fillStyle = '#ffffff';
+      for (let i = -2; i <= 2; i++) {
+        if (i === 0) continue;
+        ctx.fillRect(15, (h / 2) + (i * 3) - 1, 12, 2);
+        ctx.fillRect(w - 27, (h / 2) + (i * 3) - 1, 12, 2);
+      }
+
+      // Nombres de Pistas escritos en neón
+      const parts = name.split(' / ');
+      ctx.fillStyle = '#00ffcc';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText(parts[0], 32, (h / 2) + 3);
+      ctx.fillText(parts[1], w - 55, (h / 2) + 3);
+
+      // Luces PAPI/ALS de los extremos
+      ctx.fillStyle = '#ff0055';
+      ctx.beginPath();
+      ctx.arc(6, h / 2, 3, 0, Math.PI * 2);
+      ctx.arc(w - 6, h / 2, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // RENDERIZAR DATOS
+    function renderAirportData() {
+      document.getElementById("icao").textContent = airportData.icao;
+      document.getElementById("airportName").textContent = airportData.name;
+      document.getElementById("officialName").textContent = airportData.official;
+      document.getElementById("location").textContent = `${airportData.city} · ${airportData.country}`;
+      document.getElementById("iata").textContent = airportData.iata;
+      document.getElementById("elevation").textContent = airportData.elevation;
+      document.getElementById("operation").textContent = airportData.operation;
+
+      // Render Pistas
+      const runwayContainer = document.getElementById("runways");
+      runwayContainer.innerHTML = "";
+      airportData.runways.forEach((runway, idx) => {
+        const canvasId = `rwy-canvas-${idx}`;
+        runwayContainer.innerHTML += `
+          <div class="runway-card" onclick="showRunwayDetails(${idx})">
+            <div class="runway-header">
+              <span class="runway-name">${runway.name}</span>
+              <span class="badge">ILS ${runway.ils}</span>
+            </div>
+            <div class="runway-canvas-container">
+              <canvas id="${canvasId}" class="rwy-canvas"></canvas>
+            </div>
+            <div class="runway-grid">
+              <div class="data"><span>Longitud</span><strong>${runway.length}</strong></div>
+              <div class="data"><span>Ancho</span><strong>${runway.width}</strong></div>
+              <div class="data"><span>Orientación</span><strong>${runway.heading}</strong></div>
+              <div class="data"><span>Superficie</span><strong>${runway.surface}</strong></div>
+            </div>
+          </div>
+        `;
+      });
+
+      // Dibujar Canvas de pistas tras insertar en DOM
+      setTimeout(() => {
+        airportData.runways.forEach((runway, idx) => {
+          drawRunwayCanvas(`rwy-canvas-${idx}`, runway.name);
+        });
+      }, 50);
+
+      // Render Frecuencias
+      const frequencyContainer = document.getElementById("frequencies");
+      frequencyContainer.innerHTML = "";
+      airportData.frequencies.forEach((freq, idx) => {
+        frequencyContainer.innerHTML += `
+          <div class="frequency" onclick="showFrequencyDetails(${idx})">
+            <div>
+              <span class="frequency-name">${freq.name}</span>
+              <span class="frequency-desc">${freq.description}</span>
+            </div>
+            <span class="frequency-number">${freq.frequency}</span>
+          </div>
+        `;
+      });
+
+      // Render ILS
+      const ilsContainer = document.getElementById("ilsList");
+      ilsContainer.innerHTML = "";
+      airportData.ils.forEach((item, idx) => {
+        ilsContainer.innerHTML += `
+          <div class="card-item" onclick="showILSDetails(${idx})">
+            <strong>RWY ${item.runway}</strong>
+            <span>ID: ${item.id}</span>
+            <span>${item.frequency}</span>
+            <span>${item.category}</span>
+          </div>
+        `;
+      });
+
+      // Render Radioayudas
+      const navaidContainer = document.getElementById("navaids");
+      navaidContainer.innerHTML = "";
+      airportData.navaids.forEach((nav, idx) => {
+        navaidContainer.innerHTML += `
+          <div class="card-item" onclick="showNavaidDetails(${idx})">
+            <strong>${nav.id}</strong>
+            <span>${nav.type}</span>
+            <span>${nav.frequency}</span>
+          </div>
+        `;
+      });
+    }
+
+    // NAVEGACIÓN
+    const menuButtons = document.querySelectorAll(".menu button");
+    menuButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        menuButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        const target = document.getElementById(button.dataset.target);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    // FUNCIONES MODAL DINÁMICO
+    function openModal(title, contentHtml) {
+      document.getElementById('modalTitle').innerHTML = title;
+      document.getElementById('modalBody').innerHTML = contentHtml;
+      document.getElementById('detailModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    function showRunwayDetails(idx) {
+      const rwy = airportData.runways[idx];
+      const content = `
+        <div class="modal-detail-row"><span>Pista:</span><strong>RWY ${rwy.name}</strong></div>
+        <div class="modal-detail-row"><span>Dimensiones:</span><strong>${rwy.length} x ${rwy.width}</strong></div>
+        <div class="modal-detail-row"><span>Rumbo Magnético:</span><strong>${rwy.heading}</strong></div>
+        <div class="modal-detail-row"><span>Categoría ILS:</span><strong>${rwy.ils}</strong></div>
+        <div class="modal-detail-row"><span>Umbral Desplazado:</span><strong>${rwy.desplazado}</strong></div>
+        <br>
+        <p><strong>Uso Preferente:</strong><br>${rwy.uso}</p>
+        <p style="margin-top:8px;"><strong>Detalles Técnicos:</strong><br>${rwy.details}</p>
+      `;
+      openModal(`<i class="fa-solid fa-plane-arrival"></i> Pista ${rwy.name}`, content);
+    }
+
+    function showFrequencyDetails(idx) {
+      const f = airportData.frequencies[idx];
+      const content = `
+        <div class="modal-detail-row"><span>Dependencia:</span><strong>${f.name}</strong></div>
+        <div class="modal-detail-row"><span>Frecuencia:</span><strong>${f.frequency}</strong></div>
+        <div class="modal-detail-row"><span>Servicio:</span><strong>${f.description}</strong></div>
+        <br>
+        <p><strong>Información Operativa:</strong><br>${f.details}</p>
+      `;
+      openModal(`<i class="fa-solid fa-walkie-talkie"></i> ${f.frequency}`, content);
+    }
+
+    function showILSDetails(idx) {
+      const ils = airportData.ils[idx];
+      const content = `
+        <div class="modal-detail-row"><span>Cabecera:</span><strong>RWY ${ils.runway}</strong></div>
+        <div class="modal-detail-row"><span>Identificador:</span><strong>${ils.id}</strong></div>
+        <div class="modal-detail-row"><span>Frecuencia:</span><strong>${ils.frequency}</strong></div>
+        <div class="modal-detail-row"><span>Categoría:</span><strong>${ils.category}</strong></div>
+        <div class="modal-detail-row"><span>Senda de Planeo:</span><strong>${ils.glide}</strong></div>
+        <br>
+        <p><strong>Descripción:</strong><br>${ils.details}</p>
+      `;
+      openModal(`<i class="fa-solid fa-tower-cell"></i> ILS RWY ${ils.runway}`, content);
+    }
+
+    function showNavaidDetails(idx) {
+      const nav = airportData.navaids[idx];
+      const content = `
+        <div class="modal-detail-row"><span>Identificador:</span><strong>${nav.id}</strong></div>
+        <div class="modal-detail-row"><span>Tipo:</span><strong>${nav.type}</strong></div>
+        <div class="modal-detail-row"><span>Frecuencia:</span><strong>${nav.frequency}</strong></div>
+        <div class="modal-detail-row"><span>Canal DME:</span><strong>${nav.channel}</strong></div>
+        <br>
+        <p><strong>Uso en Cartografía:</strong><br>${nav.details}</p>
+      `;
+      openModal(`<i class="fa-solid fa-satellite-dish"></i> ${nav.type} ${nav.id}`, content);
+    }
+
+    function showGenericInfo(title, desc) {
+      openModal(`<i class="fa-solid fa-circle-info"></i> ${title}`, `<p>${desc}</p>`);
+    }
+
+    // Redimensionar Canvas si cambia el tamaño de pantalla
+    window.addEventListener('resize', () => {
+      airportData.runways.forEach((runway, idx) => {
+        drawRunwayCanvas(`rwy-canvas-${idx}`, runway.name);
+      });
+    });
+
+    // EJECUTAR RENDERIZADO AL CÁRGAR
+    renderAirportData();
+  </script>
+</body>
+</html>

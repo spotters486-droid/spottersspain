@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Spotters Spain · Noticias de Aviación en Castellano</title>
+  <!-- Iconos de FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* RESETEO & VARIABLES NEÓN */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #050814;
+      --card-bg: linear-gradient(145deg, #0c102b, #070a1a);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --neon-red: #ff0055;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 12px max(10px, env(safe-area-inset-right)) calc(70px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ENCABEZADO */
+    header {
+      background: var(--card-bg);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 16px;
+      padding: 16px 14px;
+      text-align: center;
+      margin-bottom: 16px;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2), inset 0 0 15px rgba(0, 210, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px rgba(0, 210, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      color: var(--neon-green);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: #88a0c0;
+    }
+
+    /* CONTENEDOR DE FILTROS */
+    .filter-group {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .filter-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .filter-box label {
+      font-size: 0.75rem;
+      color: #88a0c0;
+      font-weight: 700;
+      min-width: 90px;
+      text-align: right;
+    }
+
+    .date-select {
+      background: #030611;
+      color: var(--neon-cyan);
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
+      cursor: pointer;
+      max-width: 250px;
+      width: 100%;
+    }
+
+    /* BOTÓN REFRESCAR NEÓN */
+    button#btn {
+      background: var(--neon-cyan);
+      color: #050814;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px var(--neon-cyan);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button#btn:hover {
+      background: var(--neon-green);
+      box-shadow: 0 0 18px var(--neon-green);
+      transform: scale(1.03);
+    }
+
+    button#btn:disabled {
+      background: #334155;
+      color: #64748b;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    /* LISTA DE NOTICIAS */
+    .list {
+      list-style: none;
+    }
+
+    .list li {
+      background: var(--card-bg);
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .list li:hover {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 18px rgba(0, 255, 204, 0.35);
+    }
+
+    .source-badge-box {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .source {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--neon-green);
+      background: rgba(0, 255, 204, 0.1);
+      border: 1px solid var(--neon-green);
+      padding: 2px 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 6px rgba(0, 255, 204, 0.2);
+    }
+
+    .lang-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--neon-cyan);
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+
+    .news-image {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: block;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      background: #000000;
+    }
+
+    /* VISTA DE RESUMEN Y NOTICIA COMPLETA */
+    .summary-text {
+      font-size: 0.85rem;
+      color: #a0b2ce;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .full-article-body {
+      display: none;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(0, 210, 255, 0.3);
+    }
+
+    .full-article-body p {
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* BOTÓN LEER COMPLETA */
+    .toggle-btn {
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toggle-btn:hover {
+      background: var(--neon-cyan);
+      color: #050814;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    .loading, .error {
+      text-align: center;
+      padding: 30px 15px;
+      color: #88a0c0;
+      list-style: none;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #556680;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    /* BOTÓN FLOTANTE ATRÁS NEÓN */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      right: max(16px, env(safe-area-inset-right));
+      z-index: 99999;
+      max-width: calc(100vw - 32px);
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    @media (max-width: 420px) {
+      .btn-float-inicio {
+        right: 10px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        font-size: 0.7rem;
+        padding: 7px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BOTÓN FLOTANTE PARA VOLVER A LA PÁGINA ANTERIOR -->
+  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </a>
+
+  <div class="container">
+    <!-- ENCABEZADO -->
+    <header>
+      <h1><i class="fa-solid fa-newspaper"></i> Noticias de Aviación</h1>
+      <p class="subtitle" id="current-source-title">Preferente · Noticias en Castellano</p>
+
+      <div class="filter-group">
+        <!-- DESPLEGABLE SELECCIÓN DE FABRICANTE / FUENTE -->
+        <div class="filter-box">
+          <label for="source-filter"><i class="fa-solid fa-industry"></i> Fuente:</label>
+          <select id="source-filter" class="date-select" onchange="changeSource()">
+            <option value="preferente" selected>Preferente (Aerolíneas)</option>
+            <option value="airbus">Airbus (Oficial)</option>
+            <option value="boeing">Boeing (Oficial)</option>
+          </select>
+        </div>
+
+        <!-- FILTRO POR DÍAS -->
+        <div class="filter-box">
+          <label for="day-filter"><i class="fa-regular fa-calendar-check"></i> Mostrar:</label>
+          <select id="day-filter" class="date-select" onchange="filterAndRender()">
+            <option value="all" selected>Todas las noticias</option>
+            <option value="1">Últimas 24h (Hoy)</option>
+            <option value="2">Últimos 2 días</option>
+            <option value="3">Últimos 3 días</option>
+            <option value="7">Última semana</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="status" id="status">Comprobando caché de 10 días...</p>
+      <button id="btn"><i class="fa-solid fa-rotate-right"></i> Actualizar ahora</button>
+    </header>
+
+    <!-- CONTENEDOR DE NOTICIAS -->
+    <ul class="list" id="news-list">
+      <li class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Cargando noticias en castellano...</li>
+    </ul>
+
+    <footer id="footer-source-text">
+      Fuente: Preferente.com · Sección Aerolíneas<br>
+      Spotters Spain
+    </footer>
+  </div>
+
+  <script>
+    const CACHE_BASE_KEY = 'aviation_news_10days_cache_v1_';
+    const CACHE_DAYS = 10; // PERSISTENCIA ESTRICTA DE 10 DÍAS
+
+    // RESPALDO DE SEGURIDAD EN CASTELLANO
+    const FALLBACK_NEWS = {
+      preferente: [
+        {
+          title: "Las aerolíneas refuerzan sus programaciones de vuelo para la temporada estival",
+          link: "https://www.preferente.com",
+          source: "Preferente",
+          date: new Date(),
+          summaryText: "Las principales compañías aéreas que operan en Europa registran altos niveles de ocupación y amplían sus frecuencias en rutas intercontinentales...",
+          fullText: "<p>Las aerolíneas españolas e internacionales incrementan notablemente su oferta de asientos impulsadas por la fuerte demanda turística y la incorporación de nuevos aviones de última generación a sus flotas comerciales.</p>",
+          image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      airbus: [
+        {
+          title: "Airbus entrega el primer A321neo ensamblado en la línea de montaje de Tianjin a un cliente europeo",
+          link: "https://www.airbus.com",
+          source: "Airbus Oficial",
+          date: new Date(),
+          summaryText: "Airbus alcanza un nuevo hito operativo al expandir sus capacidades globales de ensamblaje para satisfacer la demanda récord de aviones comerciales...",
+          fullText: "<p>Airbus ha anunciado la entrega con éxito de un nuevo avión A321neo procedente de sus instalaciones de ensamblaje final. El fabricante continúa aumentando la producción en sus líneas europeas y asiáticas para cumplir con los pedidos de las aerolíneas a nivel mundial.</p>",
+          image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      boeing: [
+        {
+          title: "Boeing destaca las perspectivas del mercado comercial y los avances en la flota 737 MAX",
+          link: "https://boeing.mediaroom.com",
+          source: "Boeing Oficial",
+          date: new Date(),
+          summaryText: "Boeing actualiza sus proyecciones de flota global impulsada por la alta demanda de renovación de aviones de un solo pasillo y de largo alcance...",
+          fullText: "<p>Boeing Commercial Airplanes ha detallado los objetivos clave de entrega y mejoras de ingeniería para sus programas 787 Dreamliner y 737 MAX, respondiendo al crecimiento sostenido de pedidos de las principales aerolíneas mundiales.</p>",
+          image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80"
+        }
+      ]
+    };
+
+    const SOURCES_CONFIG = {
+      preferente: {
+        name: 'Preferente',
+        subtitle: 'Preferente · Noticias de Aerolíneas (Castellano)',
+        footer: 'Fuente: Preferente.com · Sección Aerolíneas',
+        url: 'https://www.preferente.com/noticias-de-transportes/noticias-de-aerolineas/feed'
+      },
+      airbus: {
+        name: 'Airbus Oficial',
+        subtitle: 'Airbus · Sala de Prensa Oficial (Traducida al Castellano)',
+        footer: 'Fuente Oficial: Airbus Press Releases',
+        url: 'https://www.airbus.com/en/newsroom/press-releases/rss.xml'
+      },
+      boeing: {
+        name: 'Boeing Oficial',
+        subtitle: 'Boeing · Sala de Prensa Oficial (Traducida al Castellano)',
+        footer: 'Fuente Oficial: Boeing Media Room',
+        url: 'https://boeing.mediaroom.com/news-releases-rss?pagetemplate=rss'
+      }
+    };
+
+    let currentSourceKey = 'preferente';
+    let rawNewsList = [];
+
+    function canUseStorage() {
+      try {
+        const test = '__test__';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    const storageAvailable = canUseStorage();
+
+    // COMPROBAR SI LA CACHÉ ES VÁLIDA POR 10 DÍAS
+    function isCacheValid(sourceKey) {
+      if (!storageAvailable) return false;
+      try {
+        const raw = localStorage.getItem(CACHE_BASE_KEY + sourceKey);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        const ageDays = (Date.now() - data.timestamp) / (1000 * 60 * 60 * 24);
+        return ageDays < CACHE_DAYS && data.news && data.news.length > 0;
+      } catch {
+        return false;
+      }
+    }
+
+    function getCached(sourceKey) {
+      if (!storageAvailable) return null;
+      try {
+        return JSON.parse(localStorage.getItem(CACHE_BASE_KEY + sourceKey));
+      } catch {
+        return null;
+      }
+    }
+
+    function saveCache(sourceKey, news) {
+      if (!storageAvailable) return;
+      try {
+        localStorage.setItem(CACHE_BASE_KEY + sourceKey, JSON.stringify({
+          timestamp: Date.now(),
+          news
+        }));
+      } catch (e) {}
+    }
+
+    function fetchWithTimeout(url, ms = 7000) {
+      return Promise.race([
+        fetch(url),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms))
+      ]);
+    }
+
+    // TRADUCTOR EN TIEMPO REAL AL CASTELLANO
+    async function translateToCastellano(text) {
+      if (!text || text.trim().length === 0) return text;
+      try {
+        const clean = text.replace(/<[^>]*>/g, ' ');
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=${encodeURIComponent(clean.substring(0, 900))}`;
+        const res = await fetchWithTimeout(url, 4500);
+        const data = await res.json();
+        if (data && data[0]) {
+          return data[0].map(item => item[0]).join('');
+        }
+      } catch (e) {
+        console.warn('Uso de respaldo por indisponibilidad de traductor:', e);
+      }
+      return text;
+    }
+
+    function cleanText(html) {
+      if (!html) return '';
+      return html
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function formatFullArticle(htmlContent) {
+      if (!htmlContent) return '';
+      let text = htmlContent
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '');
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = text;
+      
+      const paragraphs = Array.from(tempDiv.querySelectorAll('p'))
+        .map(p => p.textContent.trim())
+        .filter(t => t.length > 20);
+
+      if (paragraphs.length > 0) {
+        return paragraphs.map(p => `<p>${p}</p>`).join('');
+      }
+
+      const clean = cleanText(text);
+      return `<p>${clean}</p>`;
+    }
+
+    function getImageUrl(item) {
+      if (item.thumbnail) return item.thumbnail;
+      if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+      const content = item.content || item.description || '';
+      const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+      return match ? match[1] : null;
+    }
+
+    async function fetchFeed(config) {
+      const apis = [
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(config.url)}`,
+        `https://api.allorigins.win/get?url=${encodeURIComponent(config.url)}`
+      ];
+
+      for (const api of apis) {
+        try {
+          const res = await fetchWithTimeout(api);
+          const data = await res.json();
+          
+          let items = [];
+          if (data.status === 'ok' && data.items && data.items.length > 0) {
+            items = data.items;
+          } else if (data.contents) {
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(data.contents, "text/xml");
+            const xmlItems = Array.from(xml.querySelectorAll("item, entry"));
+            
+            items = xmlItems.map(node => ({
+              title: node.querySelector("title") ? node.querySelector("title").textContent : "",
+              link: node.querySelector("link") ? (node.querySelector("link").getAttribute("href") || node.querySelector("link").textContent) : "#",
+              pubDate: node.querySelector("pubDate, updated, published") ? node.querySelector("pubDate, updated, published").textContent : new Date(),
+              description: node.querySelector("description, content") ? node.querySelector("description, content").textContent : ""
+            }));
+          }
+
+          if (items.length > 0) {
+            const processedItems = [];
+
+            for (const item of items.slice(0, 10)) {
+              const rawBody = item.content || item.description || '';
+              let summary = cleanText(rawBody).substring(0, 180) + '...';
+              let fullBodyFormatted = formatFullArticle(rawBody);
+              let title = (item.title || '').trim();
+
+              if (currentSourceKey !== 'preferente') {
+                title = await translateToCastellano(title);
+                summary = await translateToCastellano(summary);
+                fullBodyFormatted = `<p>${await translateToCastellano(cleanText(rawBody).substring(0, 600))}</p>`;
+              }
+
+              processedItems.push({
+                title: title,
+                link: item.link || '#',
+                source: config.name,
+                date: item.pubDate ? new Date(item.pubDate) : new Date(),
+                summaryText: summary,
+                fullText: fullBodyFormatted,
+                image: getImageUrl(item)
+              });
+            }
+
+            return processedItems;
+          }
+        } catch (e) {
+          console.warn('Proxy fallido para:', config.name);
+        }
+      }
+
+      return FALLBACK_NEWS[currentSourceKey] || [];
+    }
+
+    function changeSource() {
+      currentSourceKey = document.getElementById('source-filter').value;
+      const config = SOURCES_CONFIG[currentSourceKey];
+      
+      document.getElementById('current-source-title').textContent = config.subtitle;
+      document.getElementById('footer-source-text').innerHTML = `${config.footer}<br>Spotters Spain`;
+
+      loadNews(false);
+    }
+
+    function filterAndRender() {
+      const filterValue = document.getElementById('day-filter').value;
+      let filtered = [...rawNewsList];
+
+      if (filterValue !== 'all') {
+        const maxDays = parseInt(filterValue, 10);
+        const now = new Date().getTime();
+        const maxMs = maxDays * 24 * 60 * 60 * 1000;
+
+        filtered = filtered.filter(item => {
+          const itemTime = new Date(item.date).getTime();
+          return (now - itemTime) <= maxMs;
+        });
+      }
+
+      render(filtered);
+    }
+
+    function render(news) {
+      const list = document.getElementById('news-list');
+      if (!news || news.length === 0) {
+        list.innerHTML = '<li class="loading"><i class="fa-solid fa-circle-exclamation"></i> No hay noticias registradas para el rango de días seleccionado.</li>';
+        return;
+      }
+
+      list.innerHTML = news.map((item, index) => `
+        <li>
+          <div class="source-badge-box">
+            <span class="source"><i class="fa-solid fa-plane"></i> ${item.source}</span>
+            <span class="lang-badge"><i class="fa-solid fa-language"></i> Castellano</span>
+          </div>
+          ${item.image ? `<img class="news-image" src="${item.image}" alt="" loading="lazy" onerror="this.style.display='none'">` : ''}
+          <div class="title">${item.title}</div>
+          
+          <!-- Resumen corto -->
+          <div class="summary-text" id="summary-${index}">
+            ${item.summaryText}
+          </div>
+          
+          <!-- Noticia completa limpia -->
+          <div class="full-article-body" id="full-body-${index}">
+            ${item.fullText}
+          </div>
+
+          <div class="meta">
+            <i class="fa-regular fa-calendar-days"></i> 
+            ${new Date(item.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+          </div>
+          
+          <button class="toggle-btn" onclick="toggleNewsBody(${index})" id="btn-${index}">
+            <i class="fa-solid fa-book-open"></i> Leer noticia completa
+          </button>
+        </li>
+      `).join('');
+    }
+
+    // DESPLEGAR / CONTRAER NOTICIA
+    window.toggleNewsBody = function(index) {
+      const summary = document.getElementById(`summary-${index}`);
+      const fullBody = document.getElementById(`full-body-${index}`);
+      const btn = document.getElementById(`btn-${index}`);
+
+      if (fullBody.style.display === 'block') {
+        fullBody.style.display = 'none';
+        summary.style.display = 'block';
+        btn.innerHTML = `<i class="fa-solid fa-book-open"></i> Leer noticia completa`;
+      } else {
+        fullBody.style.display = 'block';
+        summary.style.display = 'none';
+        btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> Contraer noticia`;
+      }
+    };
+
+    // CARGA CON SISTEMA DE CACHÉ DE 10 DÍAS
+    async function loadNews(forceRefresh = false) {
+      const status = document.getElementById('status');
+      const btn = document.getElementById('btn');
+      const list = document.getElementById('news-list');
+      const config = SOURCES_CONFIG[currentSourceKey];
+      btn.disabled = true;
+
+      // 1. SI LA CACHÉ ES VÁLIDA (< 10 DÍAS) Y NO SE FORZÓ REFRESCO, CARGA DIRECTA
+      if (!forceRefresh && isCacheValid(currentSourceKey)) {
+        const cacheData = getCached(currentSourceKey);
+        rawNewsList = cacheData.news;
+        rawNewsList.forEach(item => item.date = new Date(item.date));
+        
+        filterAndRender();
+
+        const expiresDate = new Date(cacheData.timestamp + CACHE_DAYS * 24 * 60 * 60 * 1000);
+        status.textContent = `Caché activa (10 días) · Próxima actualización: ${expiresDate.toLocaleDateString('es-ES')}`;
+        btn.disabled = false;
+        return;
+      }
+
+      // 2. SI HA PASADO MÁS DE 10 DÍAS O SE APRIETA REFRESCAR, DESCARGAR Y TRADUCIR DE NUEVO
+      status.textContent = `Actualizando fuentes de ${config.name}...`;
+      list.innerHTML = '<li class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Obteniendo y traduciendo noticias al castellano...</li>';
+      
+      let items = await fetchFeed(config);
+      
+      if (!items || items.length === 0) {
+        items = FALLBACK_NEWS[currentSourceKey] || [];
+      }
+
+      items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      const seen = new Set();
+      const unique = [];
+      for (const item of items) {
+        const key = item.title.toLowerCase().slice(0, 45);
+        if (!seen.has(key) && item.title.length > 5) {
+          seen.add(key);
+          unique.push(item);
+        }
+      }
+
+      rawNewsList = unique;
+      filterAndRender();
+
+      // SAVE DE CACHÉ DE 10 DÍAS
+      if (rawNewsList.length > 0) {
+        saveCache(currentSourceKey, rawNewsList);
+      }
+
+      const nextUpdate = new Date(Date.now() + CACHE_DAYS * 24 * 60 * 60 * 1000);
+      status.textContent = `Guardado en caché por 10 días · Próximo refresco: ${nextUpdate.toLocaleDateString('es-ES')}`;
+      btn.disabled = false;
+    }
+
+    document.getElementById('btn').addEventListener('click', function() {
+      loadNews(true);
+    });
+
+    loadNews();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="description" content="Spotters Spain - Módulo de Aerolíneas y Herramientas de Campo">
+  <title>Spotters Spain - Módulo de Aerolíneas</title>
+
+  <!-- PWA Manifest Inline Data URI -->
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Spotters Spain - AIR","short_name":"SpottersAIR","start_url":".","display":"standalone","background_color":"#0a0e17","theme_color":"#00e5ff"}'>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --card-bg: rgba(18, 26, 43, 0.85);
+      --border-color: rgba(0, 229, 255, 0.25);
+      --accent-neon: #00e5ff;
+      --accent-purple: #9d4edd;
+      --accent-green: #00ff88;
+      --accent-gold: #ffb703;
+      --accent-red: #ff4d4d;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 12px 8px 80px 8px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 12px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    /* Cabecera Spotters Spain */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 14px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title span {
+      color: var(--accent-neon);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+    }
+
+    .sync-status {
+      font-size: 0.7rem;
+      color: var(--accent-green);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Buscador Rápido */
+    .search-box {
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-neon);
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+    }
+
+    /* Selector de Aerolínea */
+    .selector {
+      width: 100%;
+      background: #0f172a;
+      color: var(--accent-neon);
+      border: 1px solid var(--border-color);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='%2300e5ff' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      margin-bottom: 14px;
+    }
+
+    /* Pestañas */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--accent-neon);
+      border-bottom-color: var(--accent-neon);
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tarjetas de Información */
+    .grid-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .info-card label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .info-card .val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      word-break: break-word;
+    }
+
+    /* Estilos Caja de Historia y Desplegable */
+    .history-card {
+      background: rgba(0, 229, 255, 0.03);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .history-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--accent-neon);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .history-text {
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+      text-align: justify;
+    }
+
+    .btn-read-more {
+      background: none;
+      border: none;
+      color: var(--accent-neon);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 6px 0 0 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-read-more:hover {
+      text-decoration: underline;
+    }
+
+    /* Enlaces Rápidos a Radar */
+    .radar-links {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .radar-btn {
+      flex: 1;
+      text-align: center;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid var(--border-color);
+      color: var(--accent-neon);
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .radar-btn:hover {
+      background: rgba(0, 229, 255, 0.25);
+    }
+
+    /* Formulario Spotter Log Rediseñado (Ultra Compacto) */
+    .log-form {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+    }
+
+    .log-form-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent-neon);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .form-control {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 5px 8px;
+      color: #fff;
+      font-size: 0.78rem;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      height: 32px;
+    }
+
+    .form-control[type="datetime-local"] {
+      font-size: 0.70rem;
+      padding: 2px 4px;
+      color: var(--accent-neon);
+      font-weight: 600;
+      -webkit-appearance: none;
+    }
+
+    .form-control[type="datetime-local"]::-webkit-calendar-picker-indicator {
+      filter: invert(1) sepia(1) saturate(5) hue-rotate(160deg);
+      cursor: pointer;
+      width: 12px;
+      height: 12px;
+      margin-left: 0;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-neon);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-neon);
+      color: #0a0e17;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .export-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .btn-export {
+      background: rgba(0, 255, 136, 0.15);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-clear {
+      background: rgba(255, 77, 77, 0.15);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .log-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .log-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-left: 4px solid var(--accent-neon);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .log-reg {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .log-details {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Flotas */
+    .fleet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fleet-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent-neon);
+    }
+
+    .fleet-model {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .badge-count {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--accent-neon);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+
+    /* Rutas Estructuradas */
+    .routes-group {
+      margin-bottom: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .routes-region {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent-neon);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: rgba(157, 78, 221, 0.18);
+      border: 1px solid rgba(157, 78, 221, 0.35);
+      color: #e9d5ff;
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    /* Media Cards */
+    .media-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .media-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .media-card svg {
+      width: 100%;
+      max-height: 140px;
+    }
+
+    .media-card p {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Libreas Especiales */
+    .special-card {
+      background: rgba(157, 78, 221, 0.1);
+      border: 1px solid rgba(157, 78, 221, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .special-card.caught {
+      border-color: var(--accent-green);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .special-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .special-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #d8b4fe;
+    }
+
+    .special-reg {
+      font-size: 0.75rem;
+      color: var(--accent-neon);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .rarity-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
+    }
+
+    .rarity-legendary { background: rgba(255, 183, 3, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+    .rarity-rare { background: rgba(157, 78, 221, 0.25); color: #d8b4fe; border: 1px solid var(--accent-purple); }
+    .rarity-special { background: rgba(0, 229, 255, 0.2); color: var(--accent-neon); border: 1px solid var(--accent-neon); }
+
+    .catch-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .catch-btn.active {
+      background: rgba(0, 255, 136, 0.2);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* Sol / Luz */
+    .sun-box {
+      background: rgba(255, 183, 3, 0.05);
+      border: 1px solid rgba(255, 183, 3, 0.25);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .sun-title {
+      color: var(--accent-gold);
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sun-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .sun-item {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .sun-item label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .sun-item .val {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .compass-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .compass-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent-neon);
+      margin-bottom: 8px;
+    }
+
+    .runway-advice {
+      font-size: 0.82rem;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* Comparativas */
+    .comp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .comp-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .comp-title {
+      font-weight: 800;
+      color: var(--accent-neon);
+    }
+
+    .comp-code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .comp-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Botón Flotante Neón */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="top-bar">
+      <div class="brand-title">Spotters Spain <span>// AIR HUB</span></div>
+      <div class="sync-status" id="syncStatus"></div>
+    </div>
+
+    <!-- Buscador Integrado -->
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar por aerolínea, IATA, ICAO o matrícula..." oninput="filterAirlines()">
+    </div>
+
+    <!-- Selector de Aerolínea -->
+    <select id="airlineSelect" class="selector" onchange="loadAirlineData()">
+      <optgroup label="España">
+        <option value="VLG" selected>Vueling (VY / VLG)</option>
+        <option value="IBE">Iberia (IB / IBE)</option>
+        <option value="AEA">Air Europa (UX / AEA)</option>
+        <option value="IBP">Iberia Express (I2 / IBS)</option>
+        <option value="IBB">Binter Canarias (NT / IBB)</option>
+        <option value="VOE">Volotea (V7 / VOE)</option>
+        <option value="LVL">Level (LL / LVL)</option>
+        <option value="PUE">Plus Ultra (PU / PUE)</option>
+      </optgroup>
+      <optgroup label="Europa Occidental y Nórdicos">
+        <option value="DLH">Lufthansa (LH / DLH)</option>
+        <option value="AFR">Air France (AF / AFR)</option>
+        <option value="KLM">KLM Royal Dutch (KL / KLM)</option>
+        <option value="BAW">British Airways (BA / BAW)</option>
+        <option value="TAP">TAP Air Portugal (TP / TAP)</option>
+        <option value="SAS">SAS Scandinavian (SK / SAS)</option>
+        <option value="FIN">Finnair (AY / FIN)</option>
+        <option value="NOZ">Norwegian (DY / NOZ)</option>
+      </optgroup>
+      <optgroup label="Low-Cost & Europa Central/Este">
+        <option value="RYR">Ryanair (FR / RYR)</option>
+        <option value="EZY">easyJet (U2 / EZY)</option>
+        <option value="WZZ">Wizz Air (W6 / WZZ)</option>
+        <option value="THY">Turkish Airlines (TK / THY)</option>
+        <option value="EWG">Eurowings (EW / EWG)</option>
+        <option value="TRA">Transavia (HV / TRA)</option>
+      </optgroup>
+    </select>
+
+    <!-- Navegación por Pestañas -->
+    <div class="nav-tabs">
+      <button class="tab-btn active" id="btn-tab-ficha" onclick="switchTab(event, 'ficha')">Ficha</button>
+      <button class="tab-btn" id="btn-tab-historia" onclick="switchTab(event, 'historia')">📜 Historia</button>
+      <button class="tab-btn" id="btn-tab-log" onclick="switchTab(event, 'log')">📝 Cuaderno Log</button>
+      <button class="tab-btn" id="btn-tab-radio" onclick="switchTab(event, 'radio')">📻 Radio & Ops</button>
+      <button class="tab-btn" id="btn-tab-sol" onclick="switchTab(event, 'sol')">☀️ Sol / Luz Spotter</button>
+      <button class="tab-btn" id="btn-tab-flota" onclick="switchTab(event, 'flota')">Flotas</button>
+      <button class="tab-btn" id="btn-tab-rutas" onclick="switchTab(event, 'rutas')">Rutas Oficiales</button>
+      <button class="tab-btn" id="btn-tab-libreas" onclick="switchTab(event, 'libreas')">Logos y Estándar</button>
+      <button class="tab-btn" id="btn-tab-especiales" onclick="switchTab(event, 'especiales')">✨ Libreas Especiales</button>
+      <button class="tab-btn" id="btn-tab-comparativa" onclick="switchTab(event, 'comparativa')">Comparativa</button>
+    </div>
+
+    <!-- Pestaña Ficha General -->
+    <div id="ficha" class="panel active">
+      <div class="grid-info">
+        <div class="info-card"><label>País</label><div class="val" id="info-pais">-</div></div>
+        <div class="info-card"><label>Año Fundación</label><div class="val" id="info-fundacion" style="color:var(--accent-gold);">-</div></div>
+        <div class="info-card"><label>Sede Principal</label><div class="val" id="info-sede">-</div></div>
+        <div class="info-card"><label>Código IATA / ICAO</label><div class="val" id="info-codigo">-</div></div>
+      </div>
+
+      <!-- Resumen Historia Expandible con Botón Leer Más -->
+      <div class="history-card">
+        <div class="history-title">📖 Origen e Historia</div>
+        <div class="history-text" id="info-historia-corta">Cargando historia...</div>
+        <button id="btnToggleHistory" class="btn-read-more" onclick="toggleHistoryExpansion()">
+          <span>Leer más</span> <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
+      <div class="radar-links">
+        <a id="radar-fr24" class="radar-btn" href="#" target="_blank">✈️ FR24 Live</a>
+        <a id="radar-rb" class="radar-btn" href="#" target="_blank">📡 RadarBox</a>
+      </div>
+    </div>
+
+    <!-- Pestaña Historia Detallada -->
+    <div id="historia" class="panel">
+      <div class="history-card" style="margin-top:0;">
+        <div class="history-title">🏛️ Historia y Surgimiento Completo</div>
+        <div class="history-text" id="info-historia-completa">Seleccione una aerolínea...</div>
+      </div>
+    </div>
+
+    <!-- Pestaña Cuaderno de Campo (Spotter Log) -->
+    <div id="log" class="panel">
+      <div class="log-form">
+        <div class="log-form-title">📷 Registrar Nuevo Avistamiento</div>
+        <form id="spotterLogForm" onsubmit="saveSpotterLog(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Matrícula / Reg</label>
+              <input type="text" id="logReg" class="form-control" placeholder="Ej. EC-LVP" required>
+            </div>
+            <div class="form-group">
+              <label>Pista / Cabecera</label>
+              <input type="text" id="logRunway" class="form-control" placeholder="Ej. 24L / 25R" required>
+            </div>
+            <div class="form-group">
+              <label>Aeropuerto ICAO</label>
+              <input type="text" id="logAero" class="form-control" placeholder="Ej. LEBL" required>
+            </div>
+            <div class="form-group">
+              <label>Fecha y Hora</label>
+              <input type="datetime-local" id="logDateTime" class="form-control" required>
+            </div>
+            <div class="form-group full">
+              <label>Notas / Ubicación / Librea</label>
+              <input type="text" id="logNotes" class="form-control" placeholder="Ej. Despegue con sol de tarde desde Mirador del Prat">
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">💾 Guardar Avistamiento</button>
+        </form>
+      </div>
+
+      <div class="export-bar">
+        <span style="font-size:0.85rem; font-weight:800; color:#fff;" id="logCount">Registros: 0</span>
+        <div>
+          <button class="btn-export" onclick="exportLogsToCSV()">📥 Exportar CSV</button>
+          <button class="btn-clear" onclick="clearLogs()">🗑️ Borrar</button>
+        </div>
+      </div>
+
+      <div class="log-list" id="logListContainer">
+        <!-- Renderizado dinámico de logs -->
+      </div>
+    </div>
+
+    <div id="radio" class="panel">
+      <div class="grid-info">
+        <div class="info-card"><label>Callsign Radio</label><div class="val" id="radio-callsign" style="color:var(--accent-neon);">-</div></div>
+        <div class="info-card"><label>Código Telefónico</label><div class="val" id="radio-telefonia">-</div></div>
+        <div class="info-card"><label>Terminal BCN (El Prat)</label><div class="val" id="radio-t-bcn">-</div></div>
+        <div class="info-card"><label>Terminal MAD (Barajas)</label><div class="val" id="radio-t-mad">-</div></div>
+      </div>
+    </div>
+
+    <div id="sol" class="panel">
+      <div class="sun-box">
+        <div class="sun-title">☀️ Asistente de Iluminación Aeronáutica</div>
+        <div class="sun-grid">
+          <div class="sun-item"><label>Posición Solar Actual</label><div class="val" id="sun-azimuth">Calculando...</div></div>
+          <div class="sun-item"><label>Elevación del Sol</label><div class="val" id="sun-elevation">Calculando...</div></div>
+          <div class="sun-item"><label>Golden Hour (Amanecer)</label><div class="val" id="sun-golden-am">07:15 - 08:00</div></div>
+          <div class="sun-item"><label>Golden Hour (Atardecer)</label><div class="val" id="sun-golden-pm">19:30 - 20:15</div></div>
+        </div>
+      </div>
+
+      <div class="compass-card">
+        <div class="compass-title">📐 Orientación Recomendada en Pista</div>
+        <div class="runway-advice" id="sun-advice">
+          Analizando ángulo solar para evitar contraluz lateral...
+        </div>
+      </div>
+    </div>
+
+    <div id="flota" class="panel">
+      <div class="fleet-list" id="fleet-container"></div>
+    </div>
+
+    <div id="rutas" class="panel">
+      <div id="routes-container"></div>
+    </div>
+
+    <div id="libreas" class="panel">
+      <div class="media-grid">
+        <div class="media-card">
+          <div id="logo-wrapper" style="width:100%;"></div>
+          <p>Logotipo Oficial Vectorial</p>
+        </div>
+        <div class="media-card">
+          <div id="livery-wrapper" style="width:100%;"></div>
+          <p>Librea / Pintura Estándar</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="especiales" class="panel">
+      <div id="special-container"></div>
+    </div>
+
+    <div id="comparativa" class="panel">
+      <div class="comp-list" id="comp-container"></div>
+    </div>
+  </div>
+
+  <!-- Botón Flotante para volver a la página anterior -->
+  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </a>
+
+  <script>
+    // Variables de control de estado de lectura
+    let currentFullHistoryText = "";
+    let isHistoryExpanded = false;
+
+    // SVGs Vectoriales
+    const svgLogos = {
+      VLG: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><circle cx="45" cy="50" r="28" fill="#FFCC00"/><circle cx="45" cy="50" r="10" fill="#000"/><text x="88" y="60" fill="#FFF" font-weight="bold" font-size="28">vueling</text></svg>`,
+      IBE: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><path d="M20 20 H180 L140 80 H20 Z" fill="#D71921"/><path d="M190 20 H280 L240 80 H150 Z" fill="#FFCA00"/><text x="135" y="60" fill="#FFF" font-weight="bold" font-size="26">IBERIA</text></svg>`,
+      AEA: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><circle cx="45" cy="50" r="30" fill="#00529B"/><text x="36" y="60" fill="#FFF" font-weight="bold" font-size="28">ae</text><text x="90" y="60" fill="#00529B" font-weight="bold" font-size="26">Air Europa</text></svg>`,
+      DLH: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#05164d"/><circle cx="50" cy="50" r="30" fill="#f0ab00"/><text x="95" y="62" fill="#FFF" font-weight="bold" font-size="26">Lufthansa</text></svg>`,
+      AFR: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><path d="M20 20 H70 L50 80 H20 Z" fill="#002157"/><path d="M75 20 H105 L85 80 H55 Z" fill="#002157"/><path d="M110 20 H140 L120 80 H90 Z" fill="#ED2939"/><text x="150" y="60" fill="#FFF" font-weight="bold" font-size="22">AIR FRANCE</text></svg>`,
+      KLM: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#00a1e4"/><text x="80" y="65" fill="#FFF" font-weight="900" font-size="38">KLM</text></svg>`,
+      BAW: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><path d="M20 30 H180 L150 70 H20 Z" fill="#EB2226"/><path d="M160 30 H280 L250 70 H130 Z" fill="#012169"/><text x="40" y="60" fill="#FFF" font-weight="bold" font-size="18">BRITISH AIRWAYS</text></svg>`,
+      TAP: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="30" y="65" fill="#118342" font-weight="900" font-size="40">TAP</text><text x="130" y="65" fill="#E30613" font-weight="bold" font-size="24">PORTUGAL</text></svg>`,
+      SAS: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#000033"/><text x="70" y="68" fill="#FFF" font-weight="900" font-size="42">SAS</text></svg>`,
+      FIN: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="30" y="65" fill="#00205B" font-weight="900" font-size="36">FINNAIR</text></svg>`,
+      NOZ: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#d81010"/><text x="30" y="62" fill="#FFF" font-weight="bold" font-size="28">norwegian</text></svg>`,
+      RYR: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#073590"/><text x="30" y="62" fill="#F1CC00" font-weight="900" font-size="32">RYANAIR</text></svg>`,
+      EZY: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#ff6600"/><text x="30" y="62" fill="#FFF" font-weight="bold" font-size="32">easyJet</text></svg>`,
+      WZZ: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#c6007e"/><text x="40" y="62" fill="#FFF" font-weight="900" font-size="32">WIZZ</text></svg>`,
+      THY: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#c8102e"/><circle cx="50" cy="50" r="28" fill="#FFF"/><text x="90" y="60" fill="#FFF" font-weight="bold" font-size="22">TURKISH</text></svg>`,
+      EWG: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="30" y="62" fill="#8f1246" font-weight="900" font-size="30">eurowings</text></svg>`,
+      TRA: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#00d084"/><text x="30" y="62" fill="#022d5a" font-weight="bold" font-size="30">transavia</text></svg>`,
+      IBP: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><path d="M20 20 H150 L120 80 H20 Z" fill="#D71921"/><text x="130" y="60" fill="#00ff88" font-weight="bold" font-size="22">EXPRESS</text></svg>`,
+      IBB: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="40" y="62" fill="#009640" font-weight="bold" font-size="30">Binter</text></svg>`,
+      VOE: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="40" y="60" fill="#C00000" font-weight="bold" font-size="28">VOLOTEA</text></svg>`,
+      LVL: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="40" y="60" fill="#00A3E0" font-weight="900" font-size="32">LEVEL</text></svg>`,
+      PUE: `<svg viewBox="0 0 300 100"><rect width="300" height="100" fill="#0a0e17"/><text x="30" y="60" fill="#002F6C" font-weight="bold" font-size="26">PLUS ULTRA</text></svg>`
+    };
+
+    const svgLiveries = {
+      VLG: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#CBD5E1"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#FFCC00"/><text x="60" y="60" fill="#333" font-weight="bold" font-size="12">Vueling A320neo Standard</text></svg>`,
+      IBE: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#E2E8F0"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#D71921"/><text x="60" y="60" fill="#D71921" font-weight="bold" font-size="12">Iberia A350 Standard</text></svg>`,
+      DLH: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#E2E8F0"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#05164d"/><text x="60" y="60" fill="#05164d" font-weight="bold" font-size="12">Lufthansa A350 / B787</text></svg>`,
+      AFR: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#FFF"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#002157"/><text x="60" y="60" fill="#002157" font-weight="bold" font-size="12">Air France A350-900</text></svg>`,
+      KLM: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#00a1e4"/><text x="60" y="60" fill="#FFF" font-weight="bold" font-size="12">KLM B787 Dreamliner</text></svg>`,
+      BAW: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#FFF"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#012169"/><text x="60" y="60" fill="#012169" font-weight="bold" font-size="12">British Airways B777</text></svg>`,
+      RYR: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#FFF"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#073590"/><text x="60" y="60" fill="#F1CC00" font-weight="bold" font-size="12">Ryanair B737-800</text></svg>`,
+      EZY: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#FFF"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#ff6600"/><text x="60" y="60" fill="#ff6600" font-weight="bold" font-size="12">easyJet A320neo</text></svg>`,
+      WZZ: `<svg viewBox="0 0 350 120"><rect width="350" height="120" fill="#121a2b"/><path d="M30 65 C 100 55, 230 55, 300 65 L 330 30 L 280 30 Z" fill="#FFF"/><path d="M280 30 L 330 30 L 310 65 Z" fill="#c6007e"/><text x="60" y="60" fill="#c6007e" font-weight="bold" font-size="12">Wizz Air A321neo</text></svg>`
+    };
+
+    // Base de datos de Aerolíneas
+    const database = {
+      VLG: {
+        nombre: "Vueling", pais: "España 🇪🇸", fundacion: "2004", sede: "Barcelona (El Prat)", iata: "VY", icao: "VLG",
+        historia: "Vueling nació en febrero de 2004 en Barcelona impulsada por Carlos Muñoz y Lázaro Ros, realizando su vuelo inaugural en julio de ese año entre Barcelona e Ibiza con dos Airbus A320. Nació con la visión de revolucionar el mercado low-cost en el sur de Europa aportando una imagen fresca y moderna. En 2009 se fusionó con Clickair y posteriormente se integró en el grupo IAG (International Airlines Group) en 2013, convirtiéndose en el pilar principal de corto y medio radio en el aeropuerto de Barcelona-El Prat.",
+        callsign: "VUELING", telefonica: "Vueling", termBCN: "T1", termMAD: "T4",
+        flota: [{ modelo: "Airbus A320neo / 200", unidades: 88 }, { modelo: "Airbus A321neo / 200", unidades: 22 }, { modelo: "Airbus A319-100", unidades: 6 }],
+        rutas: {
+          "Hubs / Bases Principales": ["Barcelona (BCN)", "Roma-Fiumicino (FCO)", "París-Orly (ORY)", "Bilbao (BIO)", "Palma de Mallorca (PMI)", "Málaga (AGP)"],
+          "Rutas Nacionales": ["Madrid (MAD)", "Sevilla (SVQ)", "Valencia (VLC)", "Alicante (ALC)", "Tenerife Norte (TFN)", "Gran Canaria (LPA)", "Ibiza (IBZ)", "Menorca (MAH)", "Santiago (SCQ)", "A Coruña (LCG)", "Vigo (VGO)", "Asturias (OVD)", "Granada (GRX)"],
+          "Rutas Internacionales / Europa": ["Londres-Gatwick (LGW)", "Milán-Malpensa (MXP)", "Ámsterdam (AMS)", "Bruselas (BRU)", "Lisboa (LIS)", "Oporto (OPO)", "Zúrich (ZRH)", "Ginebra (GVA)", "Múnich (MUC)", "Stuttgart (STR)", "Viena (VIE)"],
+          "Norte de África & Levante": ["Casablanca (CMN)", "Marrakech (RAK)", "Tánger (TNG)", "Túnez (TUN)", "Argel (ALG)", "Tel Aviv (TLV)"]
+        },
+        especiales: [{ id: "vlg_lvp", rareza: "rare", rarezaTxt: "Rara", nombre: "We Love Places / Yellow Special", reg: "EC-LVP (A320)", svg: `<svg viewBox="0 0 350 100"><rect width="350" height="100" fill="#1e293b"/><rect x="20" y="20" width="310" height="60" fill="#FFCC00" rx="8"/><text x="40" y="55" fill="#000" font-weight="bold" font-size="14">WE LOVE PLACES (SPECIAL)</text></svg>` }]
+      },
+      IBE: {
+        nombre: "Iberia", pais: "España 🇪🇸", fundacion: "1927", sede: "Madrid (Adolfo Suárez Barajas)", iata: "IB", icao: "IBE",
+        historia: "Iberia se fundó el 28 de junio de 1927 por el empresario Horacio Echevarrieta y la alemana Lufthansa. Su vuelo inaugural unió Madrid y Barcelona en diciembre de 1927 en presencia del rey Alfonso XIII. En 1946 se convirtió en la primera aerolínea en volar entre Europa y América del Sur conectando Madrid y Buenos Aires. Tras décadas como la aerolínea bandera estatal española, fue privatizada en 2001 y fundó el grupo IAG junto con British Airways en 2011.",
+        callsign: "IBERIA", telefonica: "Iberia", termBCN: "T1", termMAD: "T4 / T4S",
+        flota: [{ modelo: "Airbus A350-900", unidades: 22 }, { modelo: "Airbus A330-200/300", unidades: 24 }, { modelo: "Airbus A321XLR", unidades: 8 }, { modelo: "Airbus A320neo", unidades: 17 }],
+        rutas: {
+          "Hub Principal": ["Madrid-Barajas (MAD) - T4 / T4S"],
+          "América del Norte": ["Nueva York (JFK)", "Miami (MIA)", "Chicago (ORD)", "Boston (BOS)", "Los Ángeles (LAX)", "Washington (IAD)", "San Francisco (SFO)", "Dallas (DFW)"],
+          "América Latina": ["Buenos Aires (EZE)", "São Paulo (GRU)", "México (MEX)", "Bogotá (BOG)", "Santiago de Chile (SCL)", "Lima (LIM)", "Montevideo (MVD)", "Quito (UIO)", "San José (SJO)", "Panamá (PTY)", "Caracas (CCS)", "Guayaquil (GYE)", "San Juan (SJU)", "La Habana (HAV)", "Santo Domingo (SDQ)"],
+          "Europa & Schengen": ["Londres-Heathrow (LHR)", "París-CDG/Orly", "Roma (FCO)", "Milán (MXP)", "Frankfurt (FRA)", "Múnich (MUC)", "Lisboa (LIS)", "Atenas (ATH)", "Bruselas (BRU)", "Ámsterdam (AMS)", "Zúrich (ZRH)"],
+          "Conexiones Nacionales": ["Barcelona (BCN - Puente Aéreo)", "Bilbao (BIO)", "A Coruña (LCG)", "Vigo (VGO)", "Asturias (OVD)", "Jerez (XRY)", "Granada (GRX)"]
+        },
+        especiales: [
+          { id: "ibe_mfi", rareza: "legendary", rarezaTxt: "Leyenda", nombre: "Retro Livery (Años 80)", reg: "EC-MFI (A321)", svg: `<svg viewBox="0 0 350 100"><rect width="350" height="100" fill="#1e293b"/><path d="M20 50 H330 V70 H20 Z" fill="#D71921"/><path d="M20 40 H330 V48 H20 Z" fill="#FFCA00"/><text x="40" y="35" fill="#FFF" font-weight="bold" font-size="14">IBERIA RETRO LIVERY (1980s)</text></svg>` },
+          { id: "ibe_nbe", rareza: "rare", rarezaTxt: "Rara", nombre: "Equipo Olímpico / Equipo España", reg: "EC-NBE (A350)", svg: `<svg viewBox="0 0 350 100"><rect width="350" height="100" fill="#1e293b"/><circle cx="50" cy="50" r="25" fill="#00e5ff"/><text x="90" y="55" fill="#FFF" font-weight="bold" font-size="14">TEAM ESPAÑA / OLYMPICS</text></svg>` }
+        ]
+      },
+      AEA: {
+        nombre: "Air Europa", pais: "España 🇪🇸", fundacion: "1986", sede: "Madrid / Llucmajor", iata: "UX", icao: "AEA",
+        historia: "Air Europa nació en 1986 bajo la denominación Air España S.A., constituida por el grupo británico ILG (International Leisures Group). Fue la primera aerolínea privada española en romper el monopolio estatal de Iberia al operar vuelos regulares domésticos a partir de 1993. Adquirida por el Grupo Globalia presidido por Pepe Hidalgo, consolidó su gran hub transatlántico en Madrid-Barajas enlazando Europa con Latinoamérica.",
+        callsign: "EUROPA", telefonica: "Europa", termBCN: "T1", termMAD: "T1 / T2",
+        flota: [{ modelo: "Boeing 787-8/9 Dreamliner", unidades: 26 }, { modelo: "Boeing 737-800", unidades: 21 }],
+        rutas: {
+          "Hub Principal": ["Madrid-Barajas (MAD)"],
+          "Largo Radio (América)": ["Miami (MIA)", "Nueva York (JFK)", "Buenos Aires (EZE)", "São Paulo (GRU)", "Bogotá (BOG)", "Medellín (MDE)", "Lima (LIM)", "Montevideo (MVD)", "Santo Domingo (SDQ)", "Cancún (CUN)", "La Habana (HAV)", "Panamá (PTY)", "Asunción (ASU)", "Santa Cruz (VVI)", "Córdoba (COR)", "Guayaquil (GYE)", "Quito (UIO)"],
+          "Red Europea": ["París-ORL", "Roma-FCO", "Milán-MXP", "Ámsterdam-AMS", "Oporto-OPO", "Lisboa-LIS", "Frankfurt-FRA", "Múnich-MUC"],
+          "Red Nacional & Baleares/Canarias": ["Barcelona (BCN)", "Palma (PMI)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)", "Lanzarote (ACE)", "Ibiza (IBZ)", "Vigo (VGO)", "A Coruña (LCG)"]
+        },
+        especiales: []
+      },
+      IBP: {
+        nombre: "Iberia Express", pais: "España 🇪🇸", fundacion: "2011", sede: "Madrid", iata: "I2", icao: "IBS",
+        historia: "Iberia Express fue creada en octubre de 2011 por Iberia para operar rutas de corto y medio radio en España y Europa, compitiendo contra las aerolíneas low-cost y aportando tráfico de alimentación al hub de Madrid-Barajas. Comenzó sus operaciones comerciales en marzo de 2012 y se ha posicionado de forma recurrente como una de las aerolíneas más puntuales del mundo.",
+        callsign: "EXPRESSIBERIA", telefonica: "Express Iberia", termBCN: "T1", termMAD: "T4",
+        flota: [{ modelo: "Airbus A321neo", unidades: 12 }, { modelo: "Airbus A320-200", unidades: 13 }],
+        rutas: {
+          "Base Madrid": ["Madrid-Barajas (MAD)"],
+          "Canarias": ["Tenerife Norte (TFN)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)", "Lanzarote (ACE)", "Fuerteventura (FUE)", "La Palma (SPC)"],
+          "Baleares": ["Palma de Mallorca (PMI)", "Ibiza (IBZ)", "Menorca (MAH)"],
+          "Nacional Peninsular": ["Santiago (SCQ)", "Sevilla (SVQ)", "Málaga (AGP)"],
+          "Internacional Corto Radio": ["Londres-LGW", "París-CDG", "Berlín (BER)", "Dublín (DUB)", "Nápoles (NAP)", "Copenhague (CPH)", "Lyon (LYS)"]
+        },
+        especiales: []
+      },
+      IBB: {
+        nombre: "Binter Canarias", pais: "España 🇪🇸", fundacion: "1989", sede: "Gran Canaria / Tenerife", iata: "NT", icao: "IBB",
+        historia: "Binter Canarias fue creada en febrero de 1989 por la filial regional de Iberia para conectar de forma rápida y regular las islas del archipiélago canario con aviones turbohélice CASA CN-235 y posteriormente ATR 72. En 2002 fue adquirida por inversores canarios. En los últimos años dio el salto internacional e intercontinental incorporando reactores Embraer E195-E2 para enlazar Canarias con la Península y África.",
+        callsign: "BINTER", telefonica: "Binter", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Embraer E195-E2", unidades: 16 }, { modelo: "ATR 72-600", unidades: 27 }],
+        rutas: {
+          "Bases Interinsulares": ["Gran Canaria (LPA)", "Tenerife Norte (TFN)", "Tenerife Sur (TFS)", "Lanzarote (ACE)", "Fuerteventura (FUE)", "La Palma (SPC)", "El Hierro (VDE)", "La Gomera (GMZ)"],
+          "Rutas Peninsulares (Embraer E2)": ["Madrid (MAD)", "Barcelona (BCN)", "Vigo (VGO)", "A Coruña (LCG)", "Asturias (OVD)", "San Sebastián (EAS)", "Santander (SDR)", "Pamplona (PNA)", "Zaragoza (ZAZ)", "Murcia (RMU)", "Jerez (XRY)", "Granada (GRX)"],
+          "Internacional (África / Macaronesia)": ["Funchal/Madeira (FNC)", "Ponta Delgada (PDL)", "Casablanca (CMN)", "Marrakech (RAK)", "Agadir (AGA)", "El Aaiún (EUN)", "Dajla (VIL)", "Nouakchott (NKC)", "Dakar (DSS)", "Toulouse (TLS)", "Lille (LIL)"]
+        },
+        especiales: []
+      },
+      VOE: {
+        nombre: "Volotea", pais: "España 🇪🇸", fundacion: "2011", sede: "Barcelona / Asturias", iata: "V7", icao: "VOE",
+        historia: "Volotea fue fundada en 2011 por Carlos Muñoz y Lázaro Ros (creadores de Vueling). Se estructuró comercialmente para conectar ciudades medianas y pequeñas de Europa sin pasar por los grandes hubs saturados. Comenzó operando con aviones Boeing 717 hasta sustituir toda su flota por la familia Airbus A320 y A319.",
+        callsign: "VOLOTEA", telefonica: "Volotea", termBCN: "T2", termMAD: "T2",
+        flota: [{ modelo: "Airbus A320-200", unidades: 41 }, { modelo: "Airbus A319-100", unidades: 19 }],
+        rutas: {
+          "Bases en España": ["Asturias (OVD)", "Bilbao (BIO)", "Verona", "Nantes", "Burdeos", "Estrasburgo", "Marsella", "Toulouse"],
+          "Conexiones España": ["Palma (PMI)", "Menorca (MAH)", "Ibiza (IBZ)", "Málaga (AGP)", "Alicante (ALC)", "Sevilla (SVQ)", "A Coruña (LCG)", "Murcia (RMU)", "Granada (GRX)", "Zaragoza (ZAZ)", "San Sebastián (EAS)"],
+          "Francia e Italia": ["Nantes (NTE)", "Burdeos (BOD)", "Marsella (MRS)", "Lille (LIL)", "Lyon (LYS)", "Venecia (VCE)", "Verona (VRN)", "Nápoles (NAP)", "Palermo (PMO)", "Cagliari (CAG)", "Olbia (OLB)"]
+        },
+        especiales: []
+      },
+      LVL: {
+        nombre: "Level", pais: "España 🇪🇸", fundacion: "2017", sede: "Barcelona (El Prat)", iata: "LL", icao: "LVL",
+        historia: "LEVEL fue lanzada por el grupo IAG en marzo de 2017 como marca comercial de bajo coste para vuelos de largo radio en el aeropuerto de Barcelona-El Prat. Su objetivo inicial fue contrarrestar la irrupción de Norwegian en el mercado transatlántico desde Cataluña, volando con aviones Airbus A330 a las principales capitales de América.",
+        callsign: "LEVEL", telefonica: "Level", termBCN: "T1", termMAD: "-",
+        flota: [{ modelo: "Airbus A330-200", unidades: 6 }],
+        rutas: {
+          "Hub Exclusivo": ["Barcelona-El Prat (BCN)"],
+          "Norteamérica": ["Nueva York (JFK)", "Boston (BOS)", "Los Ángeles (LAX)", "San Francisco (SFO)", "Miami (MIA)"],
+          "Sudamérica": ["Buenos Aires (EZE)", "Santiago de Chile (SCL)"]
+        },
+        especiales: []
+      },
+      PUE: {
+        nombre: "Plus Ultra", pais: "España 🇪🇸", fundacion: "2011", sede: "Madrid", iata: "PU", icao: "PUE",
+        historia: "Plus Ultra Líneas Aéreas fue fundada en 2011 por antiguos directivos de Air Madrid. Obtuvo su certificado de operador aéreo en 2015, realizando vuelos chárter y posteriormente vuelos regulares de largo radio desde Madrid hacia Latinoamérica y África con aviones Airbus A340 y A330.",
+        callsign: "SPANISH", telefonica: "Spanish", termBCN: "-", termMAD: "T4",
+        flota: [{ modelo: "Airbus A330-200/300", unidades: 5 }],
+        rutas: {
+          "Base Madrid": ["Madrid-Barajas (MAD)"],
+          "Latinoamérica": ["Lima (LIM)", "Bogotá (BOG)", "Caracas (CCS)", "Cartagena de Indias (CTG)", "Malabo (SSG)"]
+        },
+        especiales: []
+      },
+      DLH: {
+        nombre: "Lufthansa", pais: "Alemania 🇩🇪", fundacion: "1953 (Orig. 1926)", sede: "Frankfurt / Múnich", iata: "LH", icao: "DLH",
+        historia: "Lufthansa se fundó originalmente en Berlín en 1926 tras la fusión de Deutscher Aero Lloyd y Junkers Luftverkehr. Tras ser liquidada después de la Segunda Guerra Mundial, se refundó en Colonia en 1953 reiniciando vuelos en 1955. Es la compañía líder del Grupo Lufthansa y una de las aerolíneas más grandes y respetadas del mundo.",
+        callsign: "LUFTHANSA", telefonica: "Lufthansa", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Airbus A350-900", unidades: 26 }, { modelo: "Boeing 787-9", unidades: 10 }, { modelo: "Boeing 747-8i", unidades: 19 }, { modelo: "Airbus A320neo / A321neo", unidades: 110 }],
+        rutas: {
+          "Hubs Principales": ["Frankfurt (FRA)", "Múnich (MUC)"],
+          "Conexiones España": ["Madrid (MAD)", "Barcelona (BCN)", "Palma (PMI)", "Málaga (AGP)", "Alicante (ALC)", "Valencia (VLC)", "Bilbao (BIO)", "Sevilla (SVQ)", "Ibiza (IBZ)"],
+          "Red Intercontinental": ["Nueva York (JFK)", "Chicago (ORD)", "Los Ángeles (LAX)", "Tokio (HND)", "Pekín (PEK)", "Singapur (SIN)", "São Paulo (GRU)", "Buenos Aires (EZE)", "Johannesburgo (JNB)"]
+        },
+        especiales: []
+      },
+      AFR: {
+        nombre: "Air France", pais: "Francia 🇫🇷", fundacion: "1933", sede: "París (CDG)", iata: "AF", icao: "AFR",
+        historia: "Air France se fundó el 7 de octubre de 1933 fruto de la fusión de Air Orient, Air Union, Compagnie Générale Aéropostale y CIDNA. Fue pionera en la aviación comercial global y operadora insigne del Concorde supersónico. En 2004 se unió a KLM formando el grupo franco-holandés Air France-KLM.",
+        callsign: "AIRFRANS", telefonica: "Air France", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Airbus A350-900", unidades: 32 }, { modelo: "Boeing 777-300ER", unidades: 43 }, { modelo: "Airbus A220-300", unidades: 36 }],
+        rutas: {
+          "Hub Principal": ["París-Charles de Gaulle (CDG)", "París-Orly (ORY)"],
+          "Conexiones España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Valencia (VLC)", "Bilbao (BIO)", "Palma (PMI)", "Ibiza (IBZ)", "Sevilla (SVQ)"],
+          "Red Global": ["Nueva York (JFK)", "Los Ángeles (LAX)", "Tokio (HND)", "Montreal (YUL)", "Bogotá (BOG)", "Santiago (SCL)", "Dakar (DSS)", "Brazzaville (BZV)"]
+        },
+        especiales: []
+      },
+      KLM: {
+        nombre: "KLM Royal Dutch", pais: "Países Bajos 🇳🇱", fundacion: "1919", sede: "Ámsterdam (Schiphol)", iata: "KL", icao: "KLM",
+        historia: "KLM (Koninklijke Luchtvaart Maatschappij) fue fundada el 7 de octubre de 1919 por Albert Plesman, lo que la convierte en la aerolínea más antigua del mundo que sigue operando bajo su nombre original. Su primer vuelo se realizó en 1920 entre Londres y Ámsterdam.",
+        callsign: "KLM", telefonica: "KLM", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Boeing 787-9/10 Dreamliner", unidades: 28 }, { modelo: "Boeing 777-200ER/300ER", unidades: 31 }, { modelo: "Airbus A321neo", unidades: 8 }],
+        rutas: {
+          "Hub Principal": ["Ámsterdam-Schiphol (AMS)"],
+          "Rutas España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Alicante (ALC)", "Valencia (VLC)", "Bilbao (BIO)", "Palma (PMI)", "Ibiza (IBZ)"],
+          "Largo Radio": ["Curazao (CUR)", "Sint Maarten (SXM)", "Paramaribo (PBM)", "Nairobi (NBO)", "Nueva York (JFK)", "Singapur (SIN)", "Bangkok (BKK)"]
+        },
+        especiales: []
+      },
+      BAW: {
+        nombre: "British Airways", pais: "Reino Unido 🇬🇧", fundacion: "1974 (Orig. 1919)", sede: "Londres (Heathrow)", iata: "BA", icao: "BAW",
+        historia: "British Airways fue constituida en 1974 tras la fusión de BOAC (British Overseas Airways Corporation) y BEA (British European Airways), fundadas originalmente en 1919. Operó el avión supersónico Concorde durante 27 años hasta 2003 y cofundó la alianza Oneworld en 1999.",
+        callsign: "SPEEDBIRD", telefonica: "Speedbird", termBCN: "T1", termMAD: "T4",
+        flota: [{ modelo: "Airbus A350-1000", unidades: 18 }, { modelo: "Boeing 777-200ER/300ER", unidades: 59 }, { modelo: "Airbus A380-800", unidades: 12 }, { modelo: "Boeing 787-8/9/10", unidades: 38 }],
+        rutas: {
+          "Hub Principal": ["Londres-Heathrow (LHR)", "Londres-Gatwick (LGW)", "Londres-City (LCY)"],
+          "Rutas España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Palma (PMI)", "Ibiza (IBZ)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)", "Valencia (VLC)"],
+          "Red Transatlántica / Global": ["Nueva York (JFK)", "Boston (BOS)", "Chicago (ORD)", "Los Ángeles (LAX)", "Hong Kong (HKG)", "Sídney (SYD)", "Johannesburgo (JNB)"]
+        },
+        especiales: []
+      },
+      TAP: {
+        nombre: "TAP Air Portugal", pais: "Portugal 🇵🇹", fundacion: "1945", sede: "Lisboa (Humberto Delgado)", iata: "TP", icao: "TAP",
+        historia: "TAP (Transportes Aéreos Portugueses) se fundó en marzo de 1945 por Humberto Delgado. Realizó su primer vuelo comercial en 1946 entre Lisboa y Madrid. Se consagró como el puente aéreo indiscutible entre Europa y Brasil.",
+        callsign: "AIR PORTUGAL", telefonica: "Air Portugal", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Airbus A330-900neo", unidades: 19 }, { modelo: "Airbus A321LR", unidades: 13 }, { modelo: "Airbus A320neo", unidades: 15 }],
+        rutas: {
+          "Hub Principal": ["Lisboa (LIS)", "Oporto (OPO)"],
+          "Puente aéreo & España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Sevilla (SVQ)", "Valencia (VLC)", "Bilbao (BIO)", "Tenerife (TFN)", "Gran Canaria (LPA)"],
+          "Brasil & América": ["São Paulo (GRU)", "Río de Janeiro (GIG)", "Salvador (SSA)", "Recife (REC)", "Fortaleza (FOR)", "Brasilia (BSB)", "Miami (MIA)", "Nueva York (JFK)"]
+        },
+        especiales: []
+      },
+      SAS: {
+        nombre: "SAS Scandinavian", pais: "Suecia/Dinamarca 🇸🇪🇩🇰", fundacion: "1946", sede: "Copenhague / Estocolmo", iata: "SK", icao: "SAS",
+        historia: "SAS (Scandinavian Airlines System) nació en agosto de 1946 tras la alianza estratégica de las aerolíneas nacionales de Dinamarca, Noruega y Suecia para consolidar las operaciones intercontinentales escandinavas.",
+        callsign: "SCANDINAVIAN", telefonica: "Scandinavian", termBCN: "T1", termMAD: "T2",
+        flota: [{ modelo: "Airbus A350-900", unidades: 4 }, { modelo: "Airbus A320neo", unidades: 60 }, { modelo: "Airbus A330-300", unidades: 7 }],
+        rutas: {
+          "Hubs Nórdicos": ["Copenhague (CPH)", "Estocolmo-Arlanda (ARN)", "Oslo-Gardermoen (OSL)"],
+          "Conexiones España": ["Barcelona (BCN)", "Madrid (MAD)", "Málaga (AGP)", "Alicante (ALC)", "Palma (PMI)", "Las Palmas (LPA)", "Tenerife (TFS)"]
+        },
+        especiales: []
+      },
+      FIN: {
+        nombre: "Finnair", pais: "Finlandia 🇫🇮", fundacion: "1923", sede: "Helsinki-Vantaa", iata: "AY", icao: "FIN",
+        historia: "Finnair se fundó el 1 de noviembre de 1923 bajo el nombre Aero O/Y. Es una de las aerolíneas más antiguas del mundo en activo. Especializada en la ruta polar que conecta Europa y Asia por la ruta geográfica más corta.",
+        callsign: "FINNAIR", telefonica: "Finnair", termBCN: "T1", termMAD: "T4",
+        flota: [{ modelo: "Airbus A350-900", unidades: 17 }, { modelo: "Airbus A330-300", unidades: 8 }, { modelo: "Airbus A321-200", unidades: 15 }],
+        rutas: {
+          "Hub Principal": ["Helsinki-Vantaa (HEL)"],
+          "España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Alicante (ALC)", "Palma (PMI)", "Tenerife (TFS)", "Gran Canaria (LPA)"],
+          "Ruta Asiática Polar": ["Tokio (HND/NRT)", "Seúl (ICN)", "Bangkok (BKK)", "Singapur (SIN)", "Shanghái (PVG)", "Dallas (DFW)"]
+        },
+        especiales: []
+      },
+      NOZ: {
+        nombre: "Norwegian", pais: "Noruega 🇳🇴", fundacion: "1993", sede: "Oslo-Gardermoen", iata: "DY", icao: "NOZ",
+        historia: "Norwegian Air Shuttle se fundó en 1993 operando rutas regionales con aviones Fokker 50. En 2002 adoptó el modelo low-cost con reactores Boeing 737, expandiéndose vertiginosamente por toda Europa.",
+        callsign: "NORDIC", telefonica: "Nordic", termBCN: "T2", termMAD: "T2",
+        flota: [{ modelo: "Boeing 737-800", unidades: 68 }, { modelo: "Boeing 737 MAX 8", unidades: 16 }],
+        rutas: {
+          "Bases Escandinavas": ["Oslo (OSL)", "Bergen (BGO)", "Estocolmo (ARN)", "Copenhague (CPH)", "Helsinki (HEL)"],
+          "Bases España": ["Barcelona (BCN)", "Málaga (AGP)", "Alicante (ALC)", "Palma (PMI)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)"]
+        },
+        especiales: []
+      },
+      RYR: {
+        nombre: "Ryanair", pais: "Irlanda 🇮🇪", fundacion: "1984", sede: "Dublín", iata: "FR", icao: "RYR",
+        historia: "Ryanair fue fundada en 1984 por la familia Ryan operando un único turbohélice entre Waterford y Londres-Gatwick. En la década de 1990, bajo el liderazgo de Michael O'Leary, reestructuró totalmente su modelo imitando a la estadounidense Southwest, convirtiéndose en el gigante de bajo coste líder indiscutible en pasajeros en Europa.",
+        callsign: "RYANAIR", telefonica: "Ryanair", termBCN: "T2", termMAD: "T1",
+        flota: [{ modelo: "Boeing 737-800", unidades: 410 }, { modelo: "Boeing 737 MAX 200 (Gamechanger)", unidades: 145 }],
+        rutas: {
+          "Bases Principales España": ["Madrid (MAD)", "Barcelona (BCN)", "Girona (GRO)", "Reus (REU)", "Palma (PMI)", "Málaga (AGP)", "Alicante (ALC)", "Valencia (VLC)", "Sevilla (SVQ)", "Santiago (SCQ)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)"],
+          "Red Europa (+200 Destinos)": ["Dublín (DUB)", "Londres-Stansted (STN)", "Milán-Bérgamo (BGY)", "Roma-Ciampino (CIA)", "Bruselas-Charleroi (CRL)", "Fráncfort-Hahn (HHN)", "Oporto (OPO)", "Cracovia (KRK)", "Varsovia (WMI)"]
+        },
+        especiales: []
+      },
+      EZY: {
+        nombre: "easyJet", pais: "Reino Unido 🇬🇧", fundacion: "1995", sede: "Londres-Luton", iata: "U2", icao: "EZY",
+        historia: "easyJet fue fundada en marzo de 1995 por el empresario chipriota Stelios Haji-Ioannou. Comenzó operando con dos Boeing 737 alquilados entre Londres-Luton, Edimburgo y Glasgow. Se ha consolidado como la segunda aerolínea de bajo coste de Europa.",
+        callsign: "EASY", telefonica: "Easy", termBCN: "T2", termMAD: "T1",
+        flota: [{ modelo: "Airbus A320neo", unidades: 58 }, { modelo: "Airbus A321neo", unidades: 15 }, { modelo: "Airbus A320-200", unidades: 170 }],
+        rutas: {
+          "Bases España": ["Barcelona (BCN)", "Palma de Mallorca (PMI)", "Málaga (AGP)", "Alicante (ALC)"],
+          "Red Europea": ["Londres-Gatwick (LGW)", "Londres-Luton (LTN)", "Ginebra (GVA)", "Múnich (MUC)", "París-CDG/Orly", "Milán-MXP", "Ámsterdam (AMS)", "Berlín (BER)", "Lisboa (LIS)"]
+        },
+        especiales: []
+      },
+      WZZ: {
+        nombre: "Wizz Air", pais: "Hungría 🇭🇺", fundacion: "2003", sede: "Budapest", iata: "W6", icao: "WZZ",
+        historia: "Wizz Air fue fundada en septiembre de 2003 por József Váradi. Su primer vuelo despegó desde Katowice en mayo de 2004. Ha liderado el mercado ultra low-cost en Europa Central, del Este y de Oriente Medio.",
+        callsign: "WIZZAIRO", telefonica: "Wizzair", termBCN: "T2", termMAD: "T1",
+        flota: [{ modelo: "Airbus A321neo", unidades: 110 }, { modelo: "Airbus A320neo", unidades: 45 }],
+        rutas: {
+          "Bases Europa Central / Este": ["Budapest (BUD)", "Varsovia (WAW)", "Bucarest (OTP)", "Sofía (SOF)", "Cluj-Napoca (CLJ)", "Tirana (TIA)", "Kutaisi (KUT)", "Roma-FCO", "Milán-MXP"],
+          "Destinos España": ["Madrid (MAD)", "Barcelona (BCN)", "Valencia (VLC)", "Málaga (AGP)", "Alicante (ALC)", "Palma (PMI)", "Sevilla (SVQ)", "Zaragoza (ZAZ)", "Castellón (CDT)"],
+          "Oriente Medio": ["Abu Dabi (AUH)", "Riad (RUH)", "Jeddah (JED)", "Tel Aviv (TLV)"]
+        },
+        especiales: []
+      },
+      THY: {
+        nombre: "Turkish Airlines", pais: "Turquía 🇹🇷", fundacion: "1933", sede: "Estambul (IST)", iata: "TK", icao: "THY",
+        historia: "Turkish Airlines se creó el 20 de mayo de 1933 como Departamento de Administración de Aerolíneas del Estado con una flota de solo 5 aviones. Se ha convertido en la aerolínea que vuela a más países y destinos internacionales del planeta.",
+        callsign: "TURKISH", telefonica: "Turkish", termBCN: "T1", termMAD: "T1",
+        flota: [{ modelo: "Airbus A350-900", unidades: 22 }, { modelo: "Boeing 787-9", unidades: 22 }, { modelo: "Airbus A330-200/300", unidades: 50 }, { modelo: "Airbus A321neo", unidades: 56 }],
+        rutas: {
+          "Mega-Hub Global": ["Estambul Airport (IST)"],
+          "Conexiones España": ["Madrid (MAD)", "Barcelona (BCN)", "Málaga (AGP)", "Valencia (VLC)", "Bilbao (BIO)"],
+          "Red Mundial (+300 Ciudades)": ["Tokio (HND/NRT)", "Pekín (PEK)", "Seúl (ICN)", "Bangkok (BKK)", "Singapur (SIN)", "Sídney (SYD)", "El Cairo (CAI)", "Tashkent (TAS)", "Nueva York (JFK)"]
+        },
+        especiales: []
+      },
+      EWG: {
+        nombre: "Eurowings", pais: "Alemania 🇩🇪", fundacion: "1993", sede: "Düsseldorf", iata: "EW", icao: "EWG",
+        historia: "Eurowings se fundó en 1993 fruto de la fusión de dos aerolíneas regionales alemanas (NFD y RFD). En 2001 fue adquirida por el Grupo Lufthansa y transformada en su filial directa de bajo coste.",
+        callsign: "EUROWINGS", telefonica: "Eurowings", termBCN: "T2", termMAD: "T2",
+        flota: [{ modelo: "Airbus A320neo", unidades: 15 }, { modelo: "Airbus A321neo", unidades: 6 }, { modelo: "Airbus A320-200", unidades: 75 }],
+        rutas: {
+          "Bases Alemania": ["Düsseldorf (DUS)", "Colonia/Bonn (CGN)", "Hamburgo (HAM)", "Stuttgart (STR)", "Berlín (BER)", "Praga (PRG)", "Estocolmo (ARN)"],
+          "Bases / Destinos España": ["Palma de Mallorca (PMI)", "Málaga (AGP)", "Alicante (ALC)", "Barcelona (BCN)", "Madrid (MAD)", "Ibiza (IBZ)", "Tenerife Sur (TFS)", "Gran Canaria (LPA)"]
+        },
+        especiales: []
+      },
+      TRA: {
+        nombre: "Transavia", pais: "Países Bajos 🇳🇱", fundacion: "1965", sede: "Ámsterdam / París", iata: "HV", icao: "TRA",
+        historia: "Transavia se fundó a finales de 1965 bajo el nombre Transavia Holland. Inició operaciones chárter en 1966. Adquirida posteriormente por KLM, funciona como la aerolínea low-cost independiente del grupo Air France-KLM.",
+        callsign: "TRANSAVIA", telefonica: "Transavia", termBCN: "T2", termMAD: "T2",
+        flota: [{ modelo: "Airbus A320neo", unidades: 12 }, { modelo: "Boeing 737-800", unidades: 42 }],
+        rutas: {
+          "Bases Principales": ["Ámsterdam (AMS)", "Róterdam (RTM)", "Eindhoven (EIN)", "París-Orly (ORY)", "Lyon (LYS)", "Nantes (NTE)"],
+          "Destinos España": ["Barcelona (BCN)", "Madrid (MAD)", "Málaga (AGP)", "Alicante (ALC)", "Valencia (VLC)", "Sevilla (SVQ)", "Palma (PMI)", "Ibiza (IBZ)", "Tenerife Sur (TFS)"]
+        },
+        especiales: []
+      }
+    };
+
+    // Control de Expansión de Historia
+    function toggleHistoryExpansion() {
+      const container = document.getElementById('info-historia-corta');
+      const btn = document.getElementById('btnToggleHistory');
+
+      if (!isHistoryExpanded) {
+        container.innerText = currentFullHistoryText;
+        btn.innerHTML = `<span>Leer menos</span> <i class="fa-solid fa-chevron-up"></i>`;
+        isHistoryExpanded = true;
+      } else {
+        container.innerText = currentFullHistoryText.length > 180 ? (currentFullHistoryText.substring(0, 180) + '...') : currentFullHistoryText;
+        btn.innerHTML = `<span>Leer más</span> <i class="fa-solid fa-chevron-down"></i>`;
+        isHistoryExpanded = false;
+      }
+    }
+
+    // Funcionalidades de Spotter Log
+    function saveSpotterLog(e) {
+      e.preventDefault();
+      const reg = document.getElementById('logReg').value.toUpperCase().trim();
+      const aero = document.getElementById('logAero').value.toUpperCase().trim();
+      const runway = document.getElementById('logRunway').value.toUpperCase().trim();
+      const dateTime = document.getElementById('logDateTime').value;
+      const notes = document.getElementById('logNotes').value.trim();
+
+      const newLog = { id: Date.now(), reg, aero, runway, dateTime, notes };
+      const logs = JSON.parse(localStorage.getItem('spotters_logs') || '[]');
+      logs.unshift(newLog);
+      localStorage.setItem('spotters_logs', JSON.stringify(logs));
+
+      document.getElementById('spotterLogForm').reset();
+      setDefaultLogDateTime();
+      renderSpotterLogs();
+    }
+
+    function renderSpotterLogs() {
+      const logs = JSON.parse(localStorage.getItem('spotters_logs') || '[]');
+      document.getElementById('logCount').innerText = `Registros: ${logs.length}`;
+      const container = document.getElementById('logListContainer');
+
+      if (logs.length === 0) {
+        container.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:20px; font-size:0.85rem;">No hay avistamientos registrados aún.</p>`;
+        return;
+      }
+
+      container.innerHTML = logs.map(l => `
+        <div class="log-item">
+          <div>
+            <div class="log-reg">✈ ${l.reg} <span style="font-size:0.75rem; color:var(--accent-neon);">(${l.aero} - Pista ${l.runway})</span></div>
+            <div class="log-details">📅 ${new Date(l.dateTime).toLocaleString('es-ES')} ${l.notes ? '| 📝 ' + l.notes : ''}</div>
+          </div>
+          <button style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:0.9rem;" onclick="deleteLog(${l.id})">❌</button>
+        </div>
+      `).join('');
+    }
+
+    function deleteLog(id) {
+      let logs = JSON.parse(localStorage.getItem('spotters_logs') || '[]');
+      logs = logs.filter(l => l.id !== id);
+      localStorage.setItem('spotters_logs', JSON.stringify(logs));
+      renderSpotterLogs();
+    }
+
+    function clearLogs() {
+      if (confirm('¿Seguro que deseas borrar todo el cuaderno de avistamientos?')) {
+        localStorage.removeItem('spotters_logs');
+        renderSpotterLogs();
+      }
+    }
+
+    function exportLogsToCSV() {
+      const logs = JSON.parse(localStorage.getItem('spotters_logs') || '[]');
+      if (logs.length === 0) {
+        alert('No hay registros para exportar.');
+        return;
+      }
+
+      let csv = 'Matricula,Aeropuerto,Pista,Fecha_Hora,Notas\n';
+      logs.forEach(l => {
+        csv += `"${l.reg}","${l.aero}","${l.runway}","${l.dateTime}","${l.notes.replace(/"/g, '""')}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `Spotters_Spain_Log_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function setDefaultLogDateTime() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('logDateTime').value = now.toISOString().slice(0,16);
+    }
+
+    function filterAirlines() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const select = document.getElementById('airlineSelect');
+      let firstMatch = null;
+
+      Array.from(select.options).forEach(option => {
+        const key = option.value;
+        const data = database[key];
+        if (!data) return;
+
+        const matchesName = data.nombre.toLowerCase().includes(query);
+        const matchesCodes = data.iata.toLowerCase().includes(query) || data.icao.toLowerCase().includes(query);
+        const matchesRegs = data.especiales && data.especiales.some(s => s.reg.toLowerCase().includes(query));
+
+        if (matchesName || matchesCodes || matchesRegs) {
+          option.style.display = "";
+          if (!firstMatch) firstMatch = option.value;
+        } else {
+          option.style.display = "none";
+        }
+      });
+
+      if (firstMatch && query.length > 1) {
+        select.value = firstMatch;
+        loadAirlineData();
+      }
+    }
+
+    function switchTab(evt, tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      evt.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+
+      if (tabId === 'sol') updateSunCalculations();
+      if (tabId === 'log') renderSpotterLogs();
+    }
+
+    function updateSunCalculations() {
+      const now = new Date();
+      const hours = now.getHours();
+      const mins = now.getMinutes();
+      const timeNum = hours + mins / 60;
+
+      let approxAzimuth = Math.round((timeNum / 24) * 360);
+      let approxElev = Math.round(Math.sin((timeNum - 6) / 12 * Math.PI) * 60);
+      if (approxElev < 0) approxElev = 0;
+
+      document.getElementById('sun-azimuth').innerText = `${approxAzimuth}° (${getCompassSector(approxAzimuth)})`;
+      document.getElementById('sun-elevation').innerText = `${approxElev}° sobre el horizonte`;
+
+      const adviceElem = document.getElementById('sun-advice');
+      if (approxElev <= 0) {
+        adviceElem.innerHTML = "🌙 <strong>Noche:</strong> Sin iluminación solar. Se recomiendan exposiciones largas de noche.";
+      } else if (approxAzimuth >= 60 && approxAzimuth <= 140) {
+        adviceElem.innerHTML = "🌅 <strong>Sol de Mañana (Este/Sudeste):</strong> Fotografiar desde lados OESTE de las pistas para sol a la espalda.";
+      } else if (approxAzimuth > 140 && approxAzimuth < 220) {
+        adviceElem.innerHTML = "☀️ <strong>Sol de Mediodía (Sur):</strong> Sol muy alto. Se producen sombras bajo el fuselaje.";
+      } else {
+        adviceElem.innerHTML = "🌇 <strong>Sol de Tarde (Oeste/Sudoeste):</strong> Fotografiar desde puntos ESTE (ej. Mirador BCN / Paracuellos MAD) para capturar el fuselaje iluminado.";
+      }
+    }
+
+    function getCompassSector(deg) {
+      if (deg > 337.5 || deg <= 22.5) return "Norte (N)";
+      if (deg > 22.5 && deg <= 67.5) return "Nordeste (NE)";
+      if (deg > 67.5 && deg <= 112.5) return "Este (E)";
+      if (deg > 112.5 && deg <= 157.5) return "Sudeste (SE)";
+      if (deg > 157.5 && deg <= 202.5) return "Sur (S)";
+      if (deg > 202.5 && deg <= 247.5) return "Sudoeste (SO)";
+      if (deg > 247.5 && deg <= 292.5) return "Oeste (O)";
+      return "Noroeste (NO)";
+    }
+
+    function toggleCatch(id) {
+      const caught = JSON.parse(localStorage.getItem('spotters_caught') || '{}');
+      caught[id] = !caught[id];
+      localStorage.setItem('spotters_caught', JSON.stringify(caught));
+      loadAirlineData();
+    }
+
+    function loadAirlineData() {
+      const key = document.getElementById('airlineSelect').value;
+      const data = database[key];
+
+      document.getElementById('info-pais').innerText = data.pais;
+      document.getElementById('info-fundacion').innerText = data.fundacion || '-';
+      document.getElementById('info-sede').innerText = data.sede;
+      document.getElementById('info-codigo').innerText = `${data.iata} / ${data.icao}`;
+      
+      // Manejo de la Historia y Desplegable en Ficha
+      currentFullHistoryText = data.historia || 'Información histórica no disponible.';
+      isHistoryExpanded = false;
+
+      const btn = document.getElementById('btnToggleHistory');
+      const container = document.getElementById('info-historia-corta');
+
+      if (currentFullHistoryText.length > 180) {
+        container.innerText = currentFullHistoryText.substring(0, 180) + '...';
+        btn.style.display = "inline-flex";
+        btn.innerHTML = `<span>Leer más</span> <i class="fa-solid fa-chevron-down"></i>`;
+      } else {
+        container.innerText = currentFullHistoryText;
+        btn.style.display = "none";
+      }
+
+      document.getElementById('info-historia-completa').innerText = currentFullHistoryText;
+
+      document.getElementById('radar-fr24').href = `https://www.flightradar24.com/data/airlines/${data.icao.toLowerCase()}`;
+      document.getElementById('radar-rb').href = `https://www.radarbox.com/data/airlines/${data.icao}`;
+
+      document.getElementById('radio-callsign').innerText = data.callsign || '-';
+      document.getElementById('radio-telefonia').innerText = data.telefonica || '-';
+      document.getElementById('radio-t-bcn').innerText = data.termBCN || '-';
+      document.getElementById('radio-t-mad').innerText = data.termMAD || '-';
+
+      document.getElementById('fleet-container').innerHTML = data.flota.map(i => `
+        <div class="fleet-item"><span class="fleet-model">${i.modelo}</span><span class="badge-count">${i.unidades}</span></div>
+      `).join('');
+
+      const routesContainer = document.getElementById('routes-container');
+      if (data.rutas && Object.keys(data.rutas).length > 0) {
+        routesContainer.innerHTML = Object.keys(data.rutas).map(region => `
+          <div class="routes-group">
+            <div class="routes-region">📍 ${region}</div>
+            <div class="tags-container">
+              ${data.rutas[region].map(city => `<span class="tag">${city}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        routesContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:20px;">Consulte la base oficial para las rutas secundarias de ${data.nombre}.</p>`;
+      }
+
+      document.getElementById('logo-wrapper').innerHTML = svgLogos[key] || '';
+      document.getElementById('livery-wrapper').innerHTML = svgLiveries[key] || `<p style="color:var(--text-muted); padding:20px;">Esquema estándar disponible en flota.</p>`;
+
+      const specContainer = document.getElementById('special-container');
+      const caughtMap = JSON.parse(localStorage.getItem('spotters_caught') || '{}');
+
+      if (data.especiales && data.especiales.length > 0) {
+        specContainer.innerHTML = data.especiales.map(s => {
+          const isCaught = !!caughtMap[s.id];
+          return `
+            <div class="special-card ${isCaught ? 'caught' : ''}">
+              <div class="special-header">
+                <div>
+                  <div class="special-title">✨ ${s.nombre}</div>
+                  <div class="special-reg">Matrícula: ${s.reg}</div>
+                </div>
+                <span class="rarity-badge rarity-${s.rareza}">${s.rarezaTxt}</span>
+              </div>
+              <div style="width:100%;">${s.svg}</div>
+              <button class="catch-btn ${isCaught ? 'active' : ''}" onclick="toggleCatch('${s.id}')">
+                ${isCaught ? '✅ ¡Cazado / Fotografiado!' : '📷 Marcar como Cazado (Spotter Log)'}
+              </button>
+            </div>
+          `;
+        }).join('');
+      } else {
+        specContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:20px; font-size:0.85rem;">No constan libreas especiales activas en registro para ${data.nombre} en este ciclo.</p>`;
+      }
+    }
+
+    function renderComparative() {
+      document.getElementById('comp-container').innerHTML = Object.keys(database).map(k => {
+        const d = database[k];
+        return `
+          <div class="comp-card">
+            <div class="comp-header"><span class="comp-title">${d.nombre}</span><span class="comp-code">${d.iata} / ${d.icao}</span></div>
+            <div class="comp-desc"><strong>Fundada:</strong> ${d.fundacion} | <strong>Callsign:</strong> ${d.callsign} | <strong>Flota:</strong> ${d.flota.map(f=>f.modelo).join(', ')}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* REGISTRO DE SERVICE WORKER */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          const CACHE_NAME = 'spotters-air-v6';
+          self.addEventListener('install', e => {
+            e.waitUntil(
+              caches.open(CACHE_NAME).then(cache => {
+                return cache.addAll([
+                  './',
+                  'index.html'
+                ]);
+              }).then(() => self.skipWaiting())
+            );
+          });
+
+          self.addEventListener('activate', e => {
+            e.waitUntil(
+              caches.keys().then(keys => {
+                return Promise.all(
+                  keys.map(key => {
+                    if (key !== CACHE_NAME) return caches.delete(key);
+                  })
+                );
+              }).then(() => self.clients.claim())
+            );
+          });
+
+          self.addEventListener('fetch', e => {
+            e.respondWith(
+              caches.match(e.request).then(cachedResponse => {
+                if (cachedResponse) {
+                  fetch(e.request).then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200) {
+                      caches.open(CACHE_NAME).then(cache => cache.put(e.request, networkResponse));
+                    }
+                  }).catch(() => {});
+                  return cachedResponse;
+                }
+                return fetch(e.request).then(response => {
+                  if (!response || response.status !== 200 || response.type !== 'basic') {
+                    return response;
+                  }
+                  const responseToCache = response.clone();
+                  caches.open(CACHE_NAME).then(cache => cache.put(e.request, responseToCache));
+                  return response;
+                });
+              })
+            );
+          });
+        `;
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        navigator.serviceWorker.register(URL.createObjectURL(blob))
+          .then(() => console.log('Caché Spotters AIR inicializada'))
+          .catch(() => {});
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAirlineData();
+      renderComparative();
+      updateSunCalculations();
+      setDefaultLogDateTime();
+      renderSpotterLogs();
+    });
+  </script>
+</body>
+</html>
