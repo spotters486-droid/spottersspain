@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Botón Flotante para volver a la página anterior -->
+<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+  <i class="fa-solid fa-arrow-left"></i> Atrás
+</a>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Spotters Spain · Noticias de Aviación en Castellano</title>
@@ -331,10 +371,7 @@
 </head>
 <body>
 
-  <!-- BOTÓN FLOTANTE PARA VOLVER A LA PÁGINA ANTERIOR -->
-  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
-    <i class="fa-solid fa-arrow-left"></i> Atrás
-  </a>
+
 
   <div class="container">
     <!-- ENCABEZADO -->
@@ -346,7 +383,7 @@
         <!-- DESPLEGABLE SELECCIÓN DE FABRICANTE / FUENTE -->
         <div class="filter-box">
           <label for="source-filter"><i class="fa-solid fa-industry"></i> Fuente:</label>
-          <select id="source-filter" class="date-select" onchange="changeSource()">
+          <select id="source-filter" class="date-select" onChange="changeSource()">
             <option value="preferente" selected>Preferente (Aerolíneas)</option>
             <option value="airbus">Airbus (Oficial)</option>
             <option value="boeing">Boeing (Oficial)</option>
@@ -356,7 +393,7 @@
         <!-- FILTRO POR DÍAS -->
         <div class="filter-box">
           <label for="day-filter"><i class="fa-regular fa-calendar-check"></i> Mostrar:</label>
-          <select id="day-filter" class="date-select" onchange="filterAndRender()">
+          <select id="day-filter" class="date-select" onChange="filterAndRender()">
             <option value="all" selected>Todas las noticias</option>
             <option value="1">Últimas 24h (Hoy)</option>
             <option value="2">Últimos 2 días</option>

@@ -3,19 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Spotters Spain · Radar Barcelona</title>
+  <title>Spotters Spain · Radar Barcelona & Spain Heavy Scanner</title>
 
-  <!-- Iconos de FontAwesome -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    /* RESETEO & VARIABLES */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
 
+  <style>
     :root {
       --bg-color: #050814;
       --panel-bg: linear-gradient(145deg, #0c102b, #070a1a);
@@ -23,6 +16,12 @@
       --neon-green: #00ffcc;
       --neon-red: #ff0055;
       --neon-gold: #ffcc00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
@@ -36,7 +35,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* ENCABEZADO MEJORADO */
+    /* HEADER */
     header {
       background: linear-gradient(180deg, #070a1a 0%, #0c102b 100%);
       padding: 10px 16px;
@@ -48,23 +47,26 @@
       flex-wrap: wrap;
       gap: 10px;
       z-index: 10;
+      transition: border-color 0.5s ease, box-shadow 0.5s ease;
     }
 
     header h1 {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       display: flex;
       align-items: center;
       gap: 10px;
       color: var(--neon-cyan);
       text-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+      transition: all 0.5s ease;
+      letter-spacing: 0.5px;
     }
 
-    header h1 i {
+    header h1 i.radar-icon {
       animation: spin-radar 6s linear infinite;
     }
 
-    header h1 span {
+    header h1 span.live-badge {
       background: var(--neon-red);
       color: white;
       font-size: 0.65rem;
@@ -75,7 +77,21 @@
       animation: pulse-live 1.8s infinite;
     }
 
-    /* ENLACES RÁPIDOS */
+    /* HEAVY DETECTED RGB NEON GLOW FOR SPOTTERS SPAIN TITLE */
+    header.heavy-detected {
+      border-bottom-color: var(--neon-gold);
+      box-shadow: 0 0 25px rgba(255, 204, 0, 0.6);
+    }
+
+    header.heavy-detected h1 {
+      background: linear-gradient(90deg, #ff0055, #ffcc00, #00ffcc, #00d2ff, #ff0055);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbow-glow 3s ease infinite, pulse-heavy-text 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.8));
+    }
+
     .links {
       display: flex;
       gap: 8px;
@@ -105,7 +121,69 @@
       transform: translateY(-2px);
     }
 
-    /* CONTENEDOR PRINCIPAL */
+    /* HEAVY SELECTOR BAR & SCANNER TICKER */
+    .heavy-selector-bar {
+      background: #03050d;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+      flex-wrap: wrap;
+    }
+
+    .heavy-selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .heavy-tag-title {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--neon-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding-right: 8px;
+      border-right: 1px solid rgba(255, 204, 0, 0.3);
+    }
+
+    .btn-heavy-model {
+      background: rgba(255, 204, 0, 0.08);
+      color: var(--neon-gold);
+      border: 1px solid var(--neon-gold);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-heavy-model:hover, .btn-heavy-model.active {
+      background: var(--neon-gold);
+      color: #000000;
+      box-shadow: 0 0 12px var(--neon-gold);
+      transform: scale(1.03);
+    }
+
+    .heavy-ticker {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #7a8b9e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* MAIN CONTAINER */
     .container {
       flex: 1;
       display: flex;
@@ -123,7 +201,7 @@
       overflow: hidden;
     }
 
-    /* BARRA SUPERIOR DEL PANEL RADAR */
+    /* PANEL HEADER */
     .panel-header {
       background: #03050d;
       padding: 8px 16px;
@@ -155,7 +233,7 @@
       box-shadow: 0 0 6px rgba(0, 255, 204, 0.3);
     }
 
-    /* BOTÓN PANTALLA COMPLETA ESTILO NEÓN */
+    /* FULLSCREEN BUTTON */
     .btn-fullscreen {
       background: var(--neon-green);
       color: #000000;
@@ -180,11 +258,7 @@
       transform: scale(1.04);
     }
 
-    .btn-fullscreen:active {
-      transform: scale(0.96);
-    }
-
-    /* IFRAME DEL MAPA */
+    /* MAP IFRAME */
     .panel iframe {
       flex: 1;
       width: 100%;
@@ -192,9 +266,11 @@
       border: none;
       background: #000000;
       min-height: 450px;
+      transform: translateZ(0);
+      will-change: transform;
     }
 
-    /* MODO PANTALLA COMPLETA */
+    /* FULLSCREEN MODE */
     .panel.fullscreen {
       position: fixed;
       top: 0;
@@ -206,12 +282,13 @@
     }
 
     body.fs-active header,
+    body.fs-active .heavy-selector-bar,
     body.fs-active footer,
     body.fs-active .btn-float-inicio {
       display: none;
     }
 
-    /* FOOTER TÁCTICO */
+    /* FOOTER */
     footer {
       background: #03050d;
       padding: 8px 16px;
@@ -221,22 +298,12 @@
       border-top: 1px solid rgba(0, 210, 255, 0.2);
     }
 
-    footer a {
-      color: var(--neon-cyan);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    /* BOTÓN FLOTANTE ATRÁS NEÓN */
+    /* FLOATING BACK BUTTON */
     .btn-float-inicio {
       position: fixed;
       bottom: calc(20px + env(safe-area-inset-bottom));
       right: max(20px, env(safe-area-inset-right));
       z-index: 99999;
-      max-width: calc(100vw - 32px);
       background: #0c102b;
       color: #00ffcc;
       border: 2px solid #00ffcc;
@@ -245,15 +312,14 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
       font-size: 0.8rem;
       font-weight: 700;
-      text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .btn-float-inicio:hover, .btn-float-inicio:active {
@@ -263,7 +329,7 @@
       transform: scale(1.08) translateY(-2px);
     }
 
-    /* ANIMACIONES */
+    /* ANIMATIONS */
     @keyframes spin-radar {
       100% { transform: rotate(360deg); }
     }
@@ -273,57 +339,76 @@
       50% { opacity: 0.5; }
     }
 
-    /* ADAPTACIÓN MÓVIL */
+    @keyframes rainbow-glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulse-heavy-text {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.04); }
+    }
+
     @media (max-width: 600px) {
-      header {
-        padding: 8px 12px;
-      }
-      header h1 {
-        font-size: 0.95rem;
-      }
-      .links a {
-        font-size: 0.75rem;
-        padding: 5px 10px;
-      }
-      .btn-fullscreen {
-        padding: 5px 10px;
-        font-size: 0.72rem;
-      }
-      .btn-float-inicio {
-        bottom: calc(12px + env(safe-area-inset-bottom));
-        right: 12px;
-        font-size: 0.72rem;
-        padding: 7px 12px;
-      }
+      header h1 { font-size: 0.95rem; }
+      .heavy-selector-bar { flex-direction: column; align-items: flex-start; }
+      .btn-fullscreen { font-size: 0.72rem; padding: 5px 10px; }
+      .btn-float-inicio { font-size: 0.72rem; padding: 7px 12px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ENCABEZADO PRINCIPAL -->
-  <header>
-    <h1>
-      <i class="fa-solid fa-crosshairs"></i> Spotters Spain
-      <span>LIVE</span>
+  <!-- FLOATING BACK BUTTON -->
+  <button class="btn-float-inicio" onclick="volverAtras()">
+    <i class="fa-solid fa-arrow-left"></i> Atrás
+  </button>
+
+  <!-- HEADER WITH DYNAMIC COLOR ANIMATION -->
+  <header id="main-header">
+    <h1 id="main-title">
+      <i class="fa-solid fa-crosshairs radar-icon"></i> Spotters Spain
+      <span class="live-badge" id="live-tag">LIVE</span>
     </h1>
 
     <div class="links">
-      <a href="https://www.flightradar24.com/41.39,2.17/11" target="_blank" rel="noopener">
+      <a href="https://www.flightradar24.com/41.30,2.08/11" target="_blank" rel="noopener">
         <i class="fa-solid fa-plane-departure"></i> Flightradar24
       </a>
     </div>
   </header>
 
-  <!-- CONTENEDOR DEL RADAR -->
+  <!-- HEAVY TRAFFIC SELECTOR BAR -->
+  <div class="heavy-selector-bar">
+    <div class="heavy-selector-group">
+      <div class="heavy-tag-title">
+        <i class="fa-solid fa-plane"></i> FILTRO:
+      </div>
+      <button class="btn-heavy-model active" id="btn-all" onclick="filterHeavyModel('ALL')">
+        <i class="fa-solid fa-globe"></i> Todo el Tráfico
+      </button>
+      <button class="btn-heavy-model" id="btn-heavy" onclick="filterHeavyModel('HEAVY_ALL')">
+        <i class="fa-solid fa-layer-group"></i> Todos los Heavies
+      </button>
+    </div>
+
+    <div class="heavy-ticker" id="heavy-ticker-info">
+      <i class="fa-solid fa-radar"></i>
+      <span id="scanner-text">Escaneando espacio aéreo España...</span>
+    </div>
+  </div>
+
+  <!-- RADAR CONTAINER -->
   <div class="container">
     <div class="panel" id="traffic-panel">
       
-      <!-- ENCABEZADO DEL PANEL -->
+      <!-- PANEL HEADER -->
       <div class="panel-header">
         <div class="left">
           <i class="fa-solid fa-location-dot"></i>
-          <span>TMA BARCELONA / LEBL</span>
-          <span class="badge">SENSORS ON</span>
+          <span>TMA BARCELONA / ESPAÑA</span>
+          <span class="badge" id="filter-badge">SATELLITE LIVE (BARCELONA)</span>
         </div>
 
         <button class="btn-fullscreen" id="btn-fs" onclick="toggleFullscreen()">
@@ -332,13 +417,14 @@
         </button>
       </div>
 
-      <!-- IFRAME ADS-B EXCHANGE -->
+      <!-- MAP IFRAME DEFAULT TO BARCELONA (lat=41.30&lon=2.08&zoom=11) -->
       <iframe
         id="traffic-iframe"
-        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=180&largeMode=1&hideSidebar&hideButtons"
-        title="Tráfico aéreo Barcelona - ADS-B Exchange"
+        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid"
+        title="Tráfico aéreo Barcelona Vista Satélite"
         allowfullscreen
-        loading="lazy">
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+        loading="eager">
       </iframe>
 
     </div>
@@ -346,16 +432,97 @@
 
   <!-- FOOTER -->
   <footer>
-    Telemetría en tiempo real: ADS-B Exchange · Spotters Spain
+    Cargado en Barcelona por defecto · Vista satélite activa · Toca en "Todos los Heavies" para ver únicamente aeronaves de gran tonelaje · Spotters Spain
   </footer>
 
-  <!-- BOTÓN FLOTANTE ATRÁS NEÓN -->
-  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
-    <i class="fa-solid fa-arrow-left"></i> Atrás
-  </a>
-
-  <!-- SCRIPT MEJORADO -->
   <script>
+    const baseUrl = "https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid";
+
+    // Prefijos de callsigns de aerolíneas que operan Heavies habitualmente en España
+    const heavyCallsignPrefixes = ['IBE', 'UAE', 'QTR', 'AAL', 'DAL', 'UAL', 'SIA', 'KAL', 'LVL', 'THY', 'ETH', 'SWR', 'AFR', 'BAW', 'LAN', 'TAM', 'ARG', 'AVA', 'AEA'];
+
+    function filterHeavyModel(modelKey) {
+      const iframe = document.getElementById('traffic-iframe');
+      const badge = document.getElementById('filter-badge');
+
+      document.querySelectorAll('.btn-heavy-model').forEach(btn => btn.classList.remove('active'));
+
+      const targetUrl = (modelKey === 'HEAVY_ALL') ? `${baseUrl}&filterCategory=A5` : baseUrl;
+
+      if (modelKey === 'HEAVY_ALL') {
+        document.getElementById('btn-heavy').classList.add('active');
+        badge.textContent = 'FILTRANDO: TODOS LOS HEAVIES (A5)';
+      } else {
+        document.getElementById('btn-all').classList.add('active');
+        badge.textContent = 'SATELLITE LIVE (BARCELONA)';
+      }
+
+      // Usamos location.replace para evitar que el iframe añada páginas extra al historial
+      try {
+        iframe.contentWindow.location.replace(targetUrl);
+      } catch (e) {
+        iframe.src = targetUrl;
+      }
+    }
+
+    // Escáner automático de aviones Heavy en España (OpenSky API)
+    async function scanSpainHeavyAircraft() {
+      try {
+        // Bounding box de España (35.5N - 43.8N, -9.5W - 4.3E)
+        const response = await fetch('https://opensky-network.org/api/states/all?lamin=35.50&lomin=-9.50&lamax=43.80&lomax=4.30');
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (!data || !data.states) return;
+
+        let heavyCount = 0;
+        let sampleCallsign = '';
+
+        for (let flight of data.states) {
+          const callsign = (flight[1] || '').trim();
+          const lat = flight[6];
+          const lon = flight[5];
+
+          const isHeavy = heavyCallsignPrefixes.some(prefix => callsign.startsWith(prefix));
+
+          if (isHeavy && lat && lon) {
+            heavyCount++;
+            if (!sampleCallsign) sampleCallsign = callsign;
+          }
+        }
+
+        const mainHeader = document.getElementById('main-header');
+        const liveTag = document.getElementById('live-tag');
+        const scannerText = document.getElementById('scanner-text');
+
+        if (heavyCount > 0) {
+          // Activa la animación del header neón multicolor
+          mainHeader.classList.add('heavy-detected');
+          if (liveTag) liveTag.textContent = 'HEAVY DETECTADO';
+          if (scannerText) scannerText.textContent = `${heavyCount} aeronave(s) Heavy activa(s) en España · Ej: ${sampleCallsign}`;
+        } else {
+          mainHeader.classList.remove('heavy-detected');
+          if (liveTag) liveTag.textContent = 'LIVE';
+          if (scannerText) scannerText.textContent = 'Escaneando espacio aéreo España...';
+        }
+
+      } catch (err) {
+        console.log('Error escaneando Heavies en España:', err);
+      }
+    }
+
+    // Navegación atrás garantizada a 1 solo toque
+    function volverAtras() {
+      if (document.referrer && document.referrer !== window.location.href) {
+        window.location.href = document.referrer;
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    // Pantalla completa
     function toggleFullscreen() {
       const panel = document.getElementById('traffic-panel');
       const btnText = document.getElementById('fs-text');
@@ -363,31 +530,27 @@
       const isFullscreen = panel.classList.contains('fullscreen');
 
       if (isFullscreen) {
-        // Salir del modo pantalla completa CSS
         panel.classList.remove('fullscreen');
         document.body.classList.remove('fs-active');
         btnText.textContent = 'Pantalla Completa';
         btnIcon.className = 'fa-solid fa-expand';
 
-        // Salir de Fullscreen nativo del navegador si estaba activo
         if (document.exitFullscreen && document.fullscreenElement) {
           document.exitFullscreen().catch(err => console.log(err));
         }
       } else {
-        // Entrar en modo pantalla completa CSS
         panel.classList.add('fullscreen');
         document.body.classList.add('fs-active');
         btnText.textContent = 'Salir';
         btnIcon.className = 'fa-solid fa-compress';
 
-        // Solicitar Fullscreen nativo en móviles para ocultar la barra del navegador
         if (panel.requestFullscreen) {
           panel.requestFullscreen().catch(err => console.log(err));
         }
       }
     }
 
-    // Escuchar tecla Escape para restaurar interfaz
+    // Escuchar la tecla ESC para salir de pantalla completa
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         const panel = document.getElementById('traffic-panel');
@@ -396,6 +559,10 @@
         }
       }
     });
+
+    // Iniciar escáner inicial y repetir cada 15 segundos
+    scanSpainHeavyAircraft();
+    setInterval(scanSpainHeavyAircraft, 15000);
   </script>
 </body>
 </html>

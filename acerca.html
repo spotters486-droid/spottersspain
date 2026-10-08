@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+```html
+<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Botón Flotante para volver a la página anterior -->
+<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+  <i class="fa-solid fa-arrow-left"></i> Atrás
+</a>
+```
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#030611" id="meta-theme-color">
@@ -616,21 +657,16 @@
       <!-- GRUPO DE BOTONES SUPERIORES DERECHOS -->
       <div class="top-buttons-group">
         <a href="colaboracion.html" class="btn-donate" title="Colaborar con el proyecto">
-          <i class="fa-solid fa-heart"></i> Donar
-        </a>
-      </div>
+          <i class="fa-solid fa-heart"></i> Donar        </a>      </div>
 
       <div class="relative z-10 flex items-center gap-3 pr-40">
         <div class="w-14 h-14 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-          <i class="fa-solid fa-circle-info text-2xl text-cyan-400"></i>
-        </div>
+          <i class="fa-solid fa-circle-info text-2xl text-cyan-400"></i>        </div>
         <div>
           <h1 class="text-base sm:text-xl font-extrabold text-white tracking-tight leading-tight">
-            Acerca de
-          </h1>
+            Acerca de          </h1>
           <p class="text-xs text-slate-300 font-medium">
-            Información técnica, autoría y marco legal
-          </p>
+            Información técnica, autoría y marco legal          </p>
         </div>
       </div>
     </header>
@@ -638,66 +674,52 @@
     <!-- BLOQUE 1: NOMBRE Y VERSIÓN -->
     <section class="info-card">
       <div class="card-header-title">
-        <i class="fa-solid fa-mobile-screen-button"></i> Aplicación
-      </div>
+        <i class="fa-solid fa-mobile-screen-button"></i> Aplicación      </div>
       <div class="info-row">
         <span class="info-label">Nombre de la app:</span>
-        <span class="info-value text-cyan-400">Spotters Spain</span>
-      </div>
+        <span class="info-value text-cyan-400">Spotters Spain</span>      </div>
       <div class="info-row">
         <span class="info-label">Versión actual:</span>
-        <span class="info-value text-emerald-400">1.0.1</span>
-      </div>
+        <span class="info-value text-emerald-400">1.0.1</span>      </div>
       <div class="info-row">
         <span class="info-label">Caché Persistente APK:</span>
-        <span class="info-value text-emerald-400"><i class="fa-solid fa-bolt mr-1"></i> Activada (Ahorro Ancho de Banda)</span>
-      </div>
+        <span class="info-value text-emerald-400"><i class="fa-solid fa-bolt mr-1"></i> Activada (Ahorro Ancho de Banda)</span>      </div>
       <div class="info-row">
         <span class="info-label">Estado del Sistema:</span>
-        <span class="info-value text-amber-400"><i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i> Operativo</span>
-      </div>
+        <span class="info-value text-amber-400"><i class="fa-solid fa-circle-check mr-1 text-emerald-400"></i> Operativo</span>      </div>
 
       <!-- BOTÓN SUGERENCIAS AGREGADO DEBAJO DE ESTADO DEL SISTEMA -->
       <button type="button" class="btn-suggestion-action" id="openSuggestionBtn">
-        <i class="fa-solid fa-lightbulb"></i> Sugerencias / Reportar Error
-      </button>
+        <i class="fa-solid fa-lightbulb"></i> Sugerencias / Reportar Error      </button>
     </section>
 
     <!-- BLOQUE 2: DESARROLLADOR Y EQUIPO -->
     <section class="info-card">
       <div class="card-header-title">
-        <i class="fa-solid fa-code"></i> Desarrollo y Colaboración
-      </div>
+        <i class="fa-solid fa-code"></i> Desarrollo y Colaboración      </div>
       <div class="info-row">
         <span class="info-label">Desarrollador Principal:</span>
-        <span class="info-value text-cyan-400 font-extrabold">Nelson Rosario García</span>
-      </div>
+        <span class="info-value text-cyan-400 font-extrabold">Nelson Rosario García</span>      </div>
       <div class="info-row">
         <span class="info-label">Contacto / Soporte:</span>
         <a href="mailto:spottersspain@gmail.com" class="info-value text-cyan-400 hover:text-emerald-400 transition-colors underline flex items-center gap-1.5">
-          <i class="fa-solid fa-envelope text-xs text-emerald-400"></i> spottersspain@gmail.com
-        </a>
-      </div>
+          <i class="fa-solid fa-envelope text-xs text-emerald-400"></i> spottersspain@gmail.com        </a>      </div>
       
       <div class="info-row vertical-layout mt-1">
         <span class="info-label">Colaboradores y Equipos Tester:</span>
         <div class="tester-list">
           <div class="tester-item">
             <i class="fa-solid fa-user-check"></i>
-            <span>Oscar Martínez Cortes</span>
-          </div>
+            <span>Oscar Martínez Cortes</span>          </div>
           <div class="tester-item">
             <i class="fa-solid fa-user-check"></i>
-            <span>Toni Pozo Piñero</span>
-          </div>
+            <span>Toni Pozo Piñero</span>          </div>
           <div class="tester-item">
             <i class="fa-solid fa-user-check"></i>
-            <span>Alex Caro Martínez</span>
-          </div>
+            <span>Alex Caro Martínez</span>          </div>
           <div class="tester-item">
             <i class="fa-solid fa-user-check"></i>
-            <span>Kevin González Leyva</span>
-          </div>
+            <span>Kevin González Leyva</span>          </div>
         </div>
       </div>
     </section>
@@ -705,8 +727,7 @@
     <!-- BLOQUE 3: FUNCIONALIDADES PRINCIPALES -->
     <section class="info-card">
       <div class="card-header-title">
-        <i class="fa-solid fa-plane-up"></i> Funcionalidades del Sistema
-      </div>
+        <i class="fa-solid fa-plane-up"></i> Funcionalidades del Sistema      </div>
       <div class="feature-list">
         <div class="feature-item">
           <i class="fa-solid fa-radar"></i>
@@ -734,21 +755,17 @@
     <!-- BLOQUE 4: POLÍTICA DE PRIVACIDAD AMPLIADA Y DETALLADA (RGPD & LOPDGDD) -->
     <section class="info-card">
       <div class="card-header-title">
-        <i class="fa-solid fa-shield-halved"></i> Política de Privacidad & Términos Legales
-      </div>
+        <i class="fa-solid fa-shield-halved"></i> Política de Privacidad & Términos Legales      </div>
       
       <div class="privacy-box">
         <p class="mb-3">
-          En <strong>Spotters Spain</strong> asumimos un compromiso transparente, estricto y absoluto con la protección de datos, la privacidad y la seguridad técnica de nuestros usuarios. Esta política detalla rigurosamente el tratamiento de la información de acuerdo con el <strong>Reglamento General de Protección de Datos (RGPD UE 2016/679)</strong>, la <strong>Ley Orgánica 3/2018 (LOPDGDD)</strong> y las directrices para aplicaciones móviles.
-        </p>
+          En <strong>Spotters Spain</strong> asumimos un compromiso transparente, estricto y absoluto con la protección de datos, la privacidad y la seguridad técnica de nuestros usuarios. Esta política detalla rigurosamente el tratamiento de la información de acuerdo con el <strong>Reglamento General de Protección de Datos (RGPD UE 2016/679)</strong>, la <strong>Ley Orgánica 3/2018 (LOPDGDD)</strong> y las directrices para aplicaciones móviles.        </p>
 
         <!-- PUNTO 1 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-user-slash text-xs"></i> 1. Principio de Privacidad por Defecto y Ausencia de Registro
-        </div>
+          <i class="fa-solid fa-user-slash text-xs"></i> 1. Principio de Privacidad por Defecto y Ausencia de Registro        </div>
         <p class="mb-2">
-          La arquitectura de <strong>Spotters Spain</strong> se ha diseñado bajo el estándar de <em>Privacy by Design</em> (Privacidad desde el diseño):
-        </p>
+          La arquitectura de <strong>Spotters Spain</strong> se ha diseñado bajo el estándar de <em>Privacy by Design</em> (Privacidad desde el diseño):        </p>
         <ul class="list-disc pl-4 space-y-1.5 text-slate-300 mb-3">
           <li><strong>Cero Datos Personales Directos:</strong> La aplicación no incluye formularios de registro, creación de perfiles ni solicitudes de nombre, apellidos, correo electrónico, documento de identidad ni número telefónico para su uso habitual.</li>
           <li><strong>Sin Pasarelas de Identificación:</strong> No utilizamos servicios de autenticación de terceros (como el inicio de sesión con Google, Facebook o Apple) que puedan vincular la actividad de la app a su identidad personal.</li>
@@ -757,11 +774,9 @@
 
         <!-- PUNTO 2 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-location-crosshairs text-xs"></i> 2. Tratamiento Exclusivamente Local de Geolocalización (GPS)
-        </div>
+          <i class="fa-solid fa-location-crosshairs text-xs"></i> 2. Tratamiento Exclusivamente Local de Geolocalización (GPS)        </div>
         <p class="mb-2">
-          La geolocalización es un permiso opcional en el dispositivo y su procesamiento cuenta con garantías strictly:
-        </p>
+          La geolocalización es un permiso opcional en el dispositivo y su procesamiento cuenta con garantías strictly:        </p>
         <ul class="list-disc pl-4 space-y-1.5 text-slate-300 mb-3">
           <li><strong>Procesamiento en Dispositivo (Client-Side):</strong> Cuando se concede el permiso de GPS, las coordenadas de latitud y longitud son leídas y procesadas <em>única y exclusivamente</em> en la memoria RAM de su teléfono.</li>
           <li><strong>Uso Operativo Específico:</strong> La ubicación solo se utiliza para centrar el mapa en su posición actual o calcular la distancia en kilómetros hacia el aeropuerto o punto de spotting más cercano.</li>
@@ -770,11 +785,9 @@
 
         <!-- PUNTO 3 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-microchip text-xs"></i> 3. Gestión de Caché, Service Worker y Almacenamiento Local (10 Días)
-        </div>
+          <i class="fa-solid fa-microchip text-xs"></i> 3. Gestión de Caché, Service Worker y Almacenamiento Local (10 Días)        </div>
         <p class="mb-2">
-          Para optimizar el rendimiento, permitir el funcionamiento en zonas con poca cobertura y reducir el gasto de datos móviles:
-        </p>
+          Para optimizar el rendimiento, permitir el funcionamiento en zonas con poca cobertura y reducir el gasto de datos móviles:        </p>
         <ul class="list-disc pl-4 space-y-1.5 text-slate-300 mb-3">
           <li><strong>Caché Estática de la Aplicación (Service Worker):</strong> Se almacenan en el almacenamiento del navegador/APK los archivos de código (HTML, CSS, JavaScript), fuentes tipográficas e iconos para lograr una velocidad de carga instantánea.</li>
           <li><strong>Almacenamiento Temporizado (<code>localStorage</code>):</strong> Los avisos oficiales y directivas de seguridad de <strong>EASA y FAA</strong> se guardan en la memoria local del dispositivo durante un <strong>plazo máximo de 10 días</strong>. Esto garantiza la lectura offline. Pasado dicho plazo, la memoria se purga y renueva automáticamente al conectar a la red.</li>
@@ -783,11 +796,9 @@
 
         <!-- PUNTO 4 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-network-wired text-xs"></i> 4. Interconexión con APIs Externas y Políticas 'No-Store'
-        </div>
+          <i class="fa-solid fa-network-wired text-xs"></i> 4. Interconexión con APIs Externas y Políticas 'No-Store'        </div>
         <p class="mb-2">
-          Para ofrecer métricas meteorológicas y de radar en tiempo real, la aplicación realiza conexiones con servicios especializados de terceros:
-        </p>
+          Para ofrecer métricas meteorológicas y de radar en tiempo real, la aplicación realiza conexiones con servicios especializados de terceros:        </p>
         <ul class="list-disc pl-4 space-y-1.5 text-slate-300 mb-3">
           <li><strong>Open-Meteo & Radar (Windy):</strong> Las consultas meteorológicas (temperatura, viento, lluvia) y marcos de radar ejecutan peticiones de red directas a sus servidores sin remitir identificadores personales.</li>
           <li><strong>Política <code>no-store</code>:</strong> Las peticiones de tráfico aéreo y meteorología incorporan cabeceras para evitar que la información sensible caducada quede archivada indebidamente en proxies o servidores intermedios.</li>
@@ -796,21 +807,16 @@
 
         <!-- PUNTO 5 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-file-contract text-xs"></i> 5. Ejercicio de Derechos ARCO / RGPD y Contacto Oficial
-        </div>
+          <i class="fa-solid fa-file-contract text-xs"></i> 5. Ejercicio de Derechos ARCO / RGPD y Contacto Oficial        </div>
         <p class="mb-2">
-          De acuerdo con el RGPD y la LOPDGDD, todo usuario ostenta los derechos de Acceso, Rectificación, Supresión, Limitación, Portabilidad y Oposición (ARCO):
-        </p>
+          De acuerdo con el RGPD y la LOPDGDD, todo usuario ostenta los derechos de Acceso, Rectificación, Supresión, Limitación, Portabilidad y Oposición (ARCO):        </p>
         <p class="mb-2">
-          Dado que <strong>Spotters Spain</strong> no recoge ni almacena ningún dato personal en servidores propios, no existen bases de datos con perfiles de usuarios a modificar o eliminar. Si desea desvincular completamente la app de su dispositivo, basta con borrar la memoria caché o desinstalar la APK.
-        </p>
+          Dado que <strong>Spotters Spain</strong> no recoge ni almacena ningún dato personal en servidores propios, no existen bases de datos con perfiles de usuarios a modificar o eliminar. Si desea desvincular completamente la app de su dispositivo, basta con borrar la memoria caché o desinstalar la APK.        </p>
         <p>
-          Para resolver cualquier duda legal, técnica o realizar consultas sobre el cumplimiento de la directiva de seguridad, puede contactar directamente con el desarrollador:
-        </p>
+          Para resolver cualquier duda legal, técnica o realizar consultas sobre el cumplimiento de la directiva de seguridad, puede contactar directamente con el desarrollador:        </p>
         <div class="mt-3 text-cyan-400 font-bold flex items-center gap-2 bg-slate-900/80 p-2.5 rounded-lg border border-cyan-500/30">
           <i class="fa-solid fa-envelope text-emerald-400 text-base"></i>
-          <span>spottersspain@gmail.com</span>
-        </div>
+          <span>spottersspain@gmail.com</span>        </div>
       </div>
     </section>
 
@@ -831,8 +837,7 @@
 
       <div class="modal-body">
         <p class="modal-subtitle">
-          ¿Tienes una idea, sugerencia o has detectado un error? Cuéntanoslo para seguir mejorando Spotters Spain.
-        </p>
+          ¿Tienes una idea, sugerencia o has detectado un error? Cuéntanoslo para seguir mejorando Spotters Spain.        </p>
 
         <form id="suggestionForm" action="https://formspree.io/f/mjyggwkz" method="POST">
           
@@ -852,8 +857,7 @@
           <!-- CORREO DEL USUARIO -->
           <div class="field">
             <label for="email">
-              Tu correo <span class="optional">(opcional)</span>
-            </label>
+              Tu correo <span class="optional">(opcional)</span>            </label>
             <input type="email" id="email" name="email" placeholder="tu@email.com" autocomplete="email">
           </div>
 
@@ -872,16 +876,14 @@
 
           <!-- BOTÓN DE ENVÍO -->
           <button type="submit" class="send-button" id="sendButton">
-            <i class="fa-solid fa-paper-plane mr-1"></i> Enviar sugerencia
-          </button>
+            <i class="fa-solid fa-paper-plane mr-1"></i> Enviar sugerencia          </button>
         </form>
 
         <!-- MENSAJE DE ESTADO DE ENVÍO -->
         <div id="statusMsg" class="status-msg" role="status" aria-live="polite"></div>
 
         <div class="modal-info-footer">
-          🔒 <strong>Privacidad:</strong> El mensaje se utilizará exclusivamente para gestionar sugerencias y errores en Spotters Spain. Si indicas tu correo te responderemos a la brevedad.
-        </div>
+          🔒 <strong>Privacidad:</strong> El mensaje se utilizará exclusivamente para gestionar sugerencias y errores en Spotters Spain. Si indicas tu correo te responderemos a la brevedad.        </div>
       </div>
     </div>
   </div>
@@ -998,11 +1000,5 @@
       });
     }
   </script>
-
-  <!-- Botón Flotante para volver a la página anterior -->
-  <a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
-    <i class="fa-solid fa-arrow-left"></i> Atrás
-  </a>
-
 </body>
 </html>
