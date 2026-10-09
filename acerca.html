@@ -601,7 +601,7 @@
       transform: scale(1.08) translateY(-2px);
     }
   </style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 
   <!-- COMPASS FONDO CARTA NÁUTICA -->
@@ -613,7 +613,7 @@
   </svg>
 
   <!-- BOTÓN FLOTANTE ATRÁS -->
-  <button class="btn-float-inicio" onclick="volverAtras()">
+  <button class="btn-float-inicio" onClick="volverAtras()">
     <i class="fa-solid fa-arrow-left"></i> Atrás
   </button>
 
@@ -712,23 +712,31 @@
       </div>
     </section>
 
-    <!-- BLOQUE 3: FUNCIONALIDADES PRINCIPALES -->
+    <!-- BLOQUE 3: FUNCIONALIDADES PRINCIPALES (SIN GEOLOCALIZACIÓN) -->
     <section class="info-card">
       <div class="card-header-title">
         <i class="fa-solid fa-plane-up"></i> Funcionalidades del Sistema
       </div>
       <div class="feature-list">
         <div class="feature-item">
+          <i class="fa-solid fa-binoculars"></i>
+          <div><strong>Registro y Módulo de Avistamientos:</strong> Sistema colaborativo para la comunidad de spotters con aviso contextual dinámico para difusión de redes sociales, panel de control y moderación de contenido en directo.</div>
+        </div>
+        <div class="feature-item">
           <i class="fa-solid fa-radar"></i>
-          <div><strong>Tráfico Aéreo en Tiempo Real:</strong> Seguimiento satelital de aeronaves en vivo dentro del espacio aéreo español e internacional.</div>
+          <div><strong>Tráfico Aéreo en Tiempo Real:</strong> Seguimiento satelital de aeronaves en vivo dentro del espacio aéreo español e internacional con información de vuelo.</div>
         </div>
         <div class="feature-item">
           <i class="fa-solid fa-cloud-sun"></i>
-          <div><strong>MeteoSpotter Live:</strong> Predicción meteorológica de alta precisión por aeropuerto, probabilidad de lluvia y sugerencias de ISO/Apertura fotográfica.</div>
+          <div><strong>MeteoSpotter Live:</strong> Predicción meteorológica de alta precisión por aeropuerto, probabilidad de lluvia y sugerencias de ISO/Apertura para fotografía aeronáutica.</div>
         </div>
         <div class="feature-item">
           <i class="fa-solid fa-building-shield"></i>
-          <div><strong>Avisos Oficiales EASA/FAA:</strong> Traducción automática y caché inteligente de Directivas de Aeronavegabilidad (AD) y alertas operacionales.</div>
+          <div><strong>Avisos Oficiales EASA/FAA:</strong> Traducción automática y caché inteligente de Directivas de Aeronavegabilidad (AD) y alertas operacionales de seguridad.</div>
+        </div>
+        <div class="feature-item">
+          <i class="fa-solid fa-heart font-bold text-amber-400"></i>
+          <div><strong>Apoyo a la Comunidad & Donaciones:</strong> Módulo de contribución mediante Bizum, PayPal y Transferencia IBAN con copia directa al portapapeles y caché PWA.</div>
         </div>
         <div class="feature-item">
           <i class="fa-solid fa-calendar-star"></i>
@@ -736,7 +744,7 @@
         </div>
         <div class="feature-item">
           <i class="fa-solid fa-gamepad"></i>
-          <div><strong>Aero Neon Trivia:</strong> Módulo didáctico interactivo sobre aeronáutica, cartografía y spotting.</div>
+          <div><strong>Aero Neon Trivia:</strong> Módulo didáctico interactivo sobre aeronáutica, cartografía, aeropuertos y spotting.</div>
         </div>
       </div>
     </section>
@@ -798,20 +806,7 @@
 
         <!-- PUNTO 2 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-location-crosshairs text-xs"></i> 2. Tratamiento Exclusivamente Local de Geolocalización (GPS)
-        </div>
-        <p class="mb-2">
-          La geolocalización es un permiso opcional en el dispositivo y su procesamiento cuenta con garantías estrictas:
-        </p>
-        <ul class="list-disc pl-4 space-y-1.5 text-slate-300 mb-3">
-          <li><strong>Procesamiento en Dispositivo (Client-Side):</strong> Cuando se concede el permiso de GPS, las coordenadas de latitud y longitud son leídas y procesadas <em>única y exclusivamente</em> en la memoria RAM de su teléfono.</li>
-          <li><strong>Uso Operativo Específico:</strong> La ubicación solo se utiliza para centrar el mapa en su posición actual o calcular la distancia en kilómetros hacia el aeropuerto o punto de spotting más cercano.</li>
-          <li><strong>Prohibición de Rastreo y Telemetría:</strong> Sus coordenadas geográficas <strong>nunca se envían, guardan ni comparten</strong> con nuestros servidores ni con terceros. No elaboramos mapas de calor, historiales de ruta ni patrones de desplazamiento.</li>
-        </ul>
-
-        <!-- PUNTO 3 -->
-        <div class="privacy-subtitle">
-          <i class="fa-solid fa-microchip text-xs"></i> 3. Gestión de Caché, Service Worker y Almacenamiento Local (10 Días)
+          <i class="fa-solid fa-microchip text-xs"></i> 2. Gestión de Caché, Service Worker y Almacenamiento Local (10 Días)
         </div>
         <p class="mb-2">
           Para optimizar el rendimiento, permitir el funcionamiento en zonas con poca cobertura y reducir el gasto de datos móviles:
@@ -822,9 +817,9 @@
           <li><strong>Preferencias del Usuario:</strong> Opciones como el último aeropuerto seleccionado o ajustes de interfaz se guardan localmente en su terminal y pueden ser borradas en cualquier momento limpiando los datos de la app.</li>
         </ul>
 
-        <!-- PUNTO 4 -->
+        <!-- PUNTO 3 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-network-wired text-xs"></i> 4. Interconexión con APIs Externas y Políticas 'No-Store'
+          <i class="fa-solid fa-network-wired text-xs"></i> 3. Interconexión con APIs Externas y Políticas 'No-Store'
         </div>
         <p class="mb-2">
           Para ofrecer métricas meteorológicas y de radar en tiempo real, la aplicación realiza conexiones con servicios especializados de terceros:
@@ -835,9 +830,9 @@
           <li><strong>Inexistencia de Cookies Rastreadoras:</strong> La aplicación no utiliza cookies publicitarias, de perfilado ni de redes de telefonía comercial para venta de datos.</li>
         </ul>
 
-        <!-- PUNTO 5 -->
+        <!-- PUNTO 4 -->
         <div class="privacy-subtitle">
-          <i class="fa-solid fa-file-contract text-xs"></i> 5. Ejercicio de Derechos ARCO / RGPD y Contacto Oficial
+          <i class="fa-solid fa-file-contract text-xs"></i> 4. Ejercicio de Derechos ARCO / RGPD y Contacto Oficial
         </div>
         <p class="mb-2">
           De acuerdo con el RGPD y la LOPDGDD, todo usuario ostenta los derechos de Acceso, Rectificación, Supresión, Limitación, Portabilidad y Oposición (ARCO):
