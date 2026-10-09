@@ -93,14 +93,14 @@
       position: relative;
       width: 100%;
       border-radius: 14px;
-      overflow: visible !important; /* PERMITE QUE EL DESPLEGABLE REBASE LA TARJETA */
+      overflow: visible !important;
       border: 1.2px solid rgba(0, 210, 255, 0.4);
       background: linear-gradient(135deg, rgba(12, 20, 45, 0.9) 0%, rgba(5, 10, 25, 0.95) 100%);
       box-shadow: 0 0 16px rgba(0, 210, 255, 0.15);
       padding: 10px 12px;
       margin-bottom: 12px;
       backdrop-filter: blur(8px);
-      z-index: 50; /* Z-INDEX ELEVADO PARA QUEDAR POR ENCIMA DE OTRAS SECCIONES */
+      z-index: 50;
     }
 
     .stripe-top-left {
@@ -651,7 +651,7 @@
       color: var(--neon-cyan);
     }
 
-    /* BOTÓN FLOTANTE ATRÁS */
+    /* BOTÓN FLOTANTE INICIO */
     .btn-float-inicio {
       position: fixed;
       bottom: 16px;
@@ -718,9 +718,9 @@
     <path d="M50,2 L54,42 L98,50 L54,58 L50,98 L46,58 L2,50 L46,42 Z" fill="none" stroke="#00d2ff" stroke-width="0.5"/>
   </svg>
 
-  <!-- BOTÓN FLOTANTE ATRÁS -->
+  <!-- BOTÓN FLOTANTE INICIO -->
   <button class="btn-float-inicio" onClick="volverAtras()">
-    <i class="fa-solid fa-arrow-left"></i> Atrás
+    <i class="fa-solid fa-house"></i> Inicio
   </button>
 
   <div class="app-wrapper">
@@ -950,14 +950,9 @@
       }
     }
 
+    /* REDIRECCIÓN AL INICIO */
     function volverAtras() {
-      if (document.referrer && document.referrer !== window.location.href) {
-        window.location.href = document.referrer;
-      } else if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = '/';
-      }
+      window.location.href = 'index.html';
     }
 
     function claveConfigurada() {

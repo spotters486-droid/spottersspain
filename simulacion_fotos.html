@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Botón Flotante para volver a la página anterior -->
+<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+  <i class="fa-solid fa-arrow-left"></i> Atrás
+</a>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Spotters Spain · Simulación de Fotografía</title>
+  <!-- Iconos FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* RESETEO & VARIABLES ESTILO SPOTTERS SPAIN */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-color: #050814;
+      --card-bg: linear-gradient(145deg, #0c102b, #070a1a);
+      --neon-cyan: #00d2ff;
+      --neon-green: #00ffcc;
+      --neon-gold: #ffcc00;
+      --neon-red: #ff0055;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: #ffffff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 12px 10px 75px 10px;
+    }
+
+    .app {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* CABECERA */
+    .header {
+      background: var(--card-bg);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 16px;
+      padding: 16px 14px;
+      text-align: center;
+      margin-bottom: 14px;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2), inset 0 0 15px rgba(0, 210, 255, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.35rem;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      color: var(--neon-cyan);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* FORMULARIO DE SIMULACIÓN */
+    .sim-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.15);
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--neon-green);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(5, 8, 20, 0.8);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 8px;
+      padding: 10px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+    }
+
+    /* BOTÓN EVALUAR */
+    .btn-eval {
+      width: 100%;
+      background: var(--neon-cyan);
+      color: #050814;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 0 14px var(--neon-cyan);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-eval:hover, .btn-eval:active {
+      background: var(--neon-green);
+      box-shadow: 0 0 20px var(--neon-green);
+      transform: scale(1.02);
+    }
+
+    /* RESULTADO DE EVALUACIÓN */
+    .result-card {
+      display: none;
+      background: var(--card-bg);
+      border: 2px solid var(--res-color, var(--neon-cyan));
+      border-radius: 16px;
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: 0 0 20px var(--res-glow, rgba(0, 210, 255, 0.3));
+      animation: fadeIn 0.4s ease;
+    }
+
+    .res-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--res-color, var(--neon-cyan));
+      text-shadow: 0 0 12px var(--res-color, var(--neon-cyan));
+      margin-bottom: 10px;
+    }
+
+    .res-reason {
+      font-size: 0.85rem;
+      color: #d1dbe8;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      text-align: left;
+      background: rgba(5, 8, 20, 0.6);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .res-list {
+      list-style: none;
+      text-align: left;
+      font-size: 0.78rem;
+      color: #a0b2ce;
+    }
+
+    .res-list li {
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .res-list li i {
+      font-size: 0.85rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      color: #556680;
+      font-size: 0.72rem;
+      margin-top: 10px;
+    }
+  </style>
+
+  <!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+  <style>
+    /* Botón Flotante Neón */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    /* Efecto al pasar el cursor / tocar */
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- CABECERA -->
+    <header class="header">
+      <h1><i class="fa-solid fa-camera-retro"></i> Simulación Fotográfica</h1>
+      <p class="subtitle">Evaluador de Calidad para Webs de Aviación</p>
+    </header>
+
+    <!-- FORMULARIO DE PARÁMETROS -->
+    <div class="sim-card">
+
+      <!-- PUNTO DE SPOTTING -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-location-dot"></i> Punto de Spotting (LEBL)</label>
+        <select class="form-control" id="spot">
+          <option value="cubic">Mirador Cúbic (Bancos de Piedra) · 24R</option>
+          <option value="valencia">Mirador Camí de València · 24R</option>
+          <option value="tuberia">Mirador Tubular (Playa) · 24L</option>
+          <option value="remolar">Mirador de L'Illa (Remolar) · 06R/25L</option>
+        </select>
+      </div>
+
+      <!-- FRANJA HORARIA Y SOL -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-sun"></i> Hora / Posición del Sol</label>
+        <select class="form-control" id="time">
+          <option value="morning">Mañana (08:00 - 12:00) · Sol de frente/lado</option>
+          <option value="noon">Mediodía (12:00 - 15:00) · Luz cenital/dura</option>
+          <option value="afternoon">Tarde (16:00 - 20:00) · Sol poniente</option>
+        </select>
+      </div>
+
+      <!-- FOCAL / LENTE -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-bullseye"></i> Distancia Focal (Objetivo)</label>
+        <select class="form-control" id="focal">
+          <option value="50">50 mm (Gran Angular / Muy cerca)</option>
+          <option value="100">100 mm (Encuadre Estándar)</option>
+          <option value="200" selected>200 mm (Teleobjetivo Estándar)</option>
+          <option value="400">400 mm (Teleobjetivo Largo)</option>
+        </select>
+      </div>
+
+      <!-- VELOCIDAD DE OBTURACIÓN -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-stopwatch"></i> Velocidad de Obturación</label>
+        <select class="form-control" id="shutter">
+          <option value="1/250">1/250s (Riesgo de Trepidación)</option>
+          <option value="1/800" selected>1/800s (Ideal Aviación Comercial)</option>
+          <option value="1/2000">1/2000s (Ultrarrápida / Congelado)</option>
+        </select>
+      </div>
+
+      <!-- APERTURA DIAFRAGMA -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-circle-dot"></i> Apertura (f/)</label>
+        <select class="form-control" id="aperture">
+          <option value="f2.8">f/2.8 (Muy Abierta / Poca profundidad de campo)</option>
+          <option value="f8" selected>f/8.0 (Sweet Spot / Punto dulce de nitidez)</option>
+          <option value="f22">f/22 (Muy Cerrada / Difracción óptica)</option>
+        </select>
+      </div>
+
+      <!-- SENSIBILIDAD ISO -->
+      <div class="form-group">
+        <label><i class="fa-solid fa-sliders"></i> Sensibilidad ISO</label>
+        <select class="form-control" id="iso">
+          <option value="100" selected>ISO 100 (Limpio de ruido)</option>
+          <option value="400">ISO 400 (Ligeras sombras)</option>
+          <option value="3200">ISO 3200 (Ruido/Grano elevado)</option>
+        </select>
+      </div>
+
+      <button class="btn-eval" onClick="simulatePhoto()"><i class="fa-solid fa-flask"></i> Simular y Evaluar Foto</button>
+
+    </div>
+
+    <!-- TARJETA DE RESULTADO -->
+    <div class="result-card" id="res-card">
+      <div class="res-badge" id="res-badge"></div>
+      <div class="res-reason" id="res-reason"></div>
+      <ul class="res-list" id="res-list"></ul>
+    </div>
+
+    <footer>Spotters Spain · Algoritmo de Evaluación Fotográfica LEBL</footer>
+
+  </div>
+  <script>
+    function simulatePhoto() {
+      const spot = document.getElementById('spot').value;
+      const time = document.getElementById('time').value;
+      const focal = parseInt(document.getElementById('focal').value);
+      const shutter = document.getElementById('shutter').value;
+      const aperture = document.getElementById('aperture').value;
+      const iso = parseInt(document.getElementById('iso').value);
+
+      const card = document.getElementById('res-card');
+      const badge = document.getElementById('res-badge');
+      const reason = document.getElementById('res-reason');
+      const list = document.getElementById('res-list');
+
+      let errors = [];
+      let warnings = [];
+      let passes = [];
+
+      // 1. EVALUACIÓN DE CONTRALUZ POR PUNTO Y HORA
+      if ((spot === 'cubic' || spot === 'valencia') && time === 'afternoon') {
+        errors.push("Contraluz acusado: Por la tarde el sol en la 24R queda detrás del avión provocando sombras oscuras en el fuselaje.");
+      } else if (spot === 'remolar' && time === 'morning') {
+        errors.push("Contraluz en el Remolar: En las mañanas el sol directo impide capturar el lateral limpio.");
+      } else {
+        passes.push("Iluminación correcta sin contraluz directo.");
+      }
+
+      // 2. LUZ DURA Y CALIMA AL MEDIODÍA
+      if (time === 'noon') {
+        warnings.push("Calima / Refracción térmica: Al mediodía el calor del asfalto produce distorsión de aire caliente (Heat Haze).");
+      }
+
+      // 3. DISTANCIA FOCAL SEGÚN EL PUNTO
+      if ((spot === 'cubic') && focal > 200) {
+        warnings.push("Encuadre apretado: En el Mirador Cúbic los aviones pasan muy cerca; con más de 200mm puedes cortar alas o cola (Crop rejection).");
+      } else if (spot === 'remolar' && focal < 150) {
+        errors.push("Avión demasiado lejano: Desde L'Illa del Remolar con menos de 150mm la aeronave ocupa muy poco encuadre.");
+      } else {
+        passes.push("Encuadre y distancia focal adecuados para el punto.");
+      }
+
+      // 4. VELOCIDAD Y MOVIELIDAD
+      if (shutter === '1/250') {
+        errors.push("Foto trepidada / Movida: 1/250s es insuficiente para congelar un avión comercial en aproximación o despegue.");
+      } else {
+        passes.push("Velocidad de obturación idónea para congelar la aeronave.");
+      }
+
+      // 5. APERTURA Y NITIDEZ
+      if (aperture === 'f22') {
+        errors.push("Pérdida de nitidez (Difracción): Cerrar a f/22 suaviza los detalles y resalta motas de polvo en el sensor.");
+      } else if (aperture === 'f2.8') {
+        warnings.push("Profundidad de campo muy reducida: A f/2.8 el morro o la cola pueden quedar ligeramente fuera de foco.");
+      } else {
+        passes.push("Apertura en la zona dulce de la lente (f/8.0). Nitidez de esquina a esquina.");
+      }
+
+      // 6. RUIDO ISO
+      if (iso >= 3200) {
+        errors.push("Exceso de ruido analógico/digital: ISO 3200 genera grano visible en la panza y el cielo (Grain rejection).");
+      } else {
+        passes.push("Nivel de ISO bajo y limpio de ruido.");
+      }
+
+      // DETERMINAR RESULTADO FINAL
+      card.style.display = "block";
+      list.innerHTML = "";
+
+      if (errors.length > 0) {
+        // RECHAZADO
+        card.style.setProperty('--res-color', '#ff0055');
+        card.style.setProperty('--res-glow', 'rgba(255, 0, 85, 0.4)');
+        badge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> FOTO RECHAZADA`;
+        reason.innerHTML = `<strong>Motivo del rechazo:</strong> Tu foto no superaría los filtros de calidad en galerías de aviación por los siguientes fallos críticos:`;
+
+        errors.forEach(err => {
+          list.innerHTML += `<li style="color: #ff5577;"><i class="fa-solid fa-xmark"></i> ${err}</li>`;
+        });
+        warnings.forEach(warn => {
+          list.innerHTML += `<li style="color: #ffcc00;"><i class="fa-solid fa-triangle-exclamation"></i> ${warn}</li>`;
+        });
+
+      } else {
+        // ACEPTADO
+        card.style.setProperty('--res-color', '#00ffcc');
+        card.style.setProperty('--res-glow', 'rgba(0, 255, 204, 0.5)');
+        badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> FOTO ACEPTADA`;
+        reason.innerHTML = `<strong>¡Excelente Toma!</strong> Los parámetros seleccionados garantizan una fotografía nítida, bien expuesta y libre de rechazos técnicos.`;
+
+        passes.forEach(p => {
+          list.innerHTML += `<li style="color: #00ffcc;"><i class="fa-solid fa-check"></i> ${p}</li>`;
+        });
+        warnings.forEach(warn => {
+          list.innerHTML += `<li style="color: #ffcc00;"><i class="fa-solid fa-triangle-exclamation"></i> Nota: ${warn}</li>`;
+        });
+      }
+
+      // Desplazar suavemente hasta el resultado
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
+</html>
