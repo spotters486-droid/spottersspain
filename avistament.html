@@ -309,6 +309,28 @@
       outline: none;
     }
 
+    .admin-pending-badge {
+      display: none;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      background: #ef233c;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 0 0 2px rgba(3, 6, 17, .95), 0 0 10px rgba(239, 35, 60, .55);
+      flex-shrink: 0;
+    }
+
+    .admin-pending-badge.visible {
+      display: inline-flex;
+    }
+
     .btn-admin-discrete:hover,
     .btn-admin-discrete:focus,
     .dropdown-container.active .btn-admin-discrete {
@@ -445,28 +467,7 @@
       justify-content: space-between;
       gap: 5px;
     }
-
-    .btn-gps-detect {
-      background: rgba(0, 210, 255, 0.1);
-      color: var(--neon-cyan);
-      border: 1px solid rgba(0, 210, 255, 0.3);
-      border-radius: 4px;
-      padding: 1px 5px;
-      font-size: 0.6rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .btn-gps-detect:hover {
-      background: rgba(0, 255, 204, 0.2);
-      color: var(--neon-green);
-      border-color: var(--neon-green);
-    }
-
-    .campo input,
+.campo input,
     .campo select,
     .campo textarea {
       width: 100%;
@@ -588,6 +589,7 @@
     .btn-secondary-neon:hover:not(:disabled), .btn-secondary-neon:active:not(:disabled) {
       background: rgba(0, 210, 255, 0.16);
       border-color: var(--neon-cyan);
+
       box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
     }
 
@@ -623,6 +625,57 @@
       color: #ff80a6;
     }
 
+    /* NAVEGACIÓN ENTRE REGISTRO Y CONSULTA */
+    .selector-vista {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+    .selector-vista button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 0;
+      padding: 13px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: #cbd5e1;
+      background: rgba(0, 210, 255, 0.06);
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .selector-vista button.activo {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      background: rgba(0, 210, 255, 0.14);
+      box-shadow: 0 0 14px rgba(0, 210, 255, 0.08);
+    }
+    .panel-vista[hidden] { display: none !important; }
+    .estadisticas-cabecera { margin: 6px 0 12px; }
+    .estadisticas-cabecera h2 { color: var(--neon-cyan); font-size: .95rem; font-weight: 900; margin-bottom: 4px; }
+    .estadisticas-cabecera p { color: #94a3b8; font-size: .7rem; line-height: 1.5; }
+    .estadisticas-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin: 12px 0; }
+    .estadistica-kpi { min-width: 0; padding: 12px 10px; border: 1px solid rgba(0,210,255,.18); border-radius: 10px; background: rgba(0,0,0,.28); }
+    .estadistica-kpi .kpi-label { display:block; color:#94a3b8; font-size:.62rem; line-height:1.35; margin-bottom:7px; }
+    .estadistica-kpi strong { display:block; color:#fff; font-size:1.25rem; overflow-wrap:anywhere; }
+    .estadistica-kpi small { display:block; color:var(--neon-green); font-size:.62rem; margin-top:4px; }
+    .graficos-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin: 10px 0 16px; }
+    .grafico-card { min-width:0; padding:12px; border:1px solid rgba(0,210,255,.16); border-radius:10px; background:rgba(0,0,0,.25); }
+    .grafico-card h3 { color:#e2e8f0; font-size:.75rem; font-weight:800; margin-bottom:10px; }
+    .barras-grafico { display:flex; flex-direction:column; gap:9px; }
+    .barra-fila { display:grid; grid-template-columns:minmax(70px, 1fr) minmax(50px, 1.5fr) 28px; align-items:center; gap:7px; min-width:0; }
+    .barra-etiqueta { color:#cbd5e1; font-size:.62rem; overflow-wrap:anywhere; }
+    .barra-fondo { height:9px; background:rgba(148,163,184,.14); border-radius:99px; overflow:hidden; min-width:0; }
+    .barra-valor { height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,#00d2ff,#00ffcc); }
+    .barra-numero { text-align:right; color:#fff; font-size:.65rem; font-weight:800; }
+    .estadisticas-pie { color:#64748b; font-size:.62rem; line-height:1.5; margin-top:8px; }
+    @media (max-width: 720px) { .estadisticas-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .graficos-grid { grid-template-columns:minmax(0,1fr); } }
+    @media (max-width: 360px) { .selector-vista button { font-size:.68rem; padding:11px 6px; } .estadistica-kpi strong { font-size:1.05rem; } .barra-fila { grid-template-columns:minmax(62px,1fr) minmax(40px,1.3fr) 24px; gap:5px; } }
+
     /* LISTADO Y FEED COMPACTOS */
     .cabecera-listado {
       display: flex;
@@ -641,23 +694,154 @@
       margin-bottom: 0;
     }
 
+
+    /* FILTROS DEL LISTADO DE AVISTAMIENTOS */
+    .filtros-avistamientos {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto;
+      gap: 8px;
+      align-items: end;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(3, 6, 17, 0.45);
+      min-width: 0;
+    }
+
+    .filtro-campo {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .filtro-campo label {
+      color: #cbd5e1;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .filtro-campo select,
+    .filtro-campo input {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 7px;
+      background: #060918;
+      color: #fff;
+      padding: 9px 10px;
+      font: inherit;
+      font-size: 0.75rem;
+      outline: none;
+    }
+
+    .filtro-campo select:focus,
+    .filtro-campo input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
+    }
+
+    .btn-filtro {
+      min-height: 36px;
+      padding: 8px 11px;
+      border: 1px solid rgba(0, 210, 255, 0.35);
+      border-radius: 7px;
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--neon-cyan);
+      font: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-filtro:hover {
+      background: rgba(0, 210, 255, 0.18);
+    }
+
+    @media (max-width: 600px) {
+      .filtros-avistamientos {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        padding: 9px;
+      }
+      .filtros-avistamientos .btn-filtro {
+        width: 100%;
+      }
+    }
+
     .feed {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 10px;
     }
 
+    /* Registros publicados/verificados: neón verde para aeronaves no militares */
     .avistamiento {
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(0, 210, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(115deg, rgba(57, 255, 20, 0.10), rgba(0, 0, 0, 0.58) 52%, rgba(0, 255, 120, 0.055));
+      border: 1px solid rgba(57, 255, 20, 0.78);
+      border-left: 4px solid var(--neon-green, #39ff14);
       border-radius: 10px;
-      padding: 10px 12px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      padding: 11px 12px;
+      box-shadow: 0 0 8px rgba(57, 255, 20, 0.19), inset 0 0 12px rgba(57, 255, 20, 0.055);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .avistamiento::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #39ff14, #00ff9d, transparent);
+      opacity: 0.95;
+      pointer-events: none;
     }
 
     .avistamiento:hover {
-      border-color: rgba(0, 210, 255, 0.35);
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.08);
+      border-color: #7dff5c;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.32), inset 0 0 16px rgba(57, 255, 20, 0.085);
+      transform: translateY(-1px);
+    }
+
+    /* Las aeronaves militares llevan una identidad visual especial */
+    .avistamiento.avistamiento-militar {
+      background: linear-gradient(120deg, rgba(255, 0, 85, 0.14), rgba(18, 12, 28, 0.94) 48%, rgba(255, 204, 0, 0.10));
+      border-color: rgba(255, 204, 0, 0.88);
+      border-left: 4px solid var(--accent-red);
+      box-shadow: 0 0 9px rgba(255, 0, 85, 0.2), 0 0 14px rgba(255, 204, 0, 0.10), inset 0 0 15px rgba(255, 0, 85, 0.055);
+    }
+
+    .avistamiento.avistamiento-militar::before {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-red), var(--gold-yellow), transparent);
+    }
+
+    .avistamiento.avistamiento-militar:hover {
+      border-color: var(--gold-yellow);
+      box-shadow: 0 0 16px rgba(255, 0, 85, 0.28), 0 0 18px rgba(255, 204, 0, 0.18);
+    }
+
+    .distintivo-militar {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 4px 8px;
+      border: 1px solid rgba(255, 204, 0, 0.7);
+      border-radius: 5px;
+      background: rgba(255, 0, 85, 0.14);
+      color: #ffe27a;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-shadow: 0 0 7px rgba(255, 204, 0, 0.3);
     }
 
     .avistamiento-cabecera {
@@ -906,16 +1090,14 @@
         <div class="radar-crosshair-h"></div>
         <div class="radar-blip radar-blip-1"></div>
         <div class="radar-blip radar-blip-2"></div>
-        <i class="fa-solid fa-plane-up radar-center-plane"></i>
-      </div>
+        <i class="fa-solid fa-plane-up radar-center-plane"></i>      </div>
 
       <h2 class="modal-title">Normas de la Comunidad</h2>
       <div class="modal-body">
         <p>✈️ Sé responsable al registrar un avistamiento. Publica únicamente información real y verificada. No registres avistamientos falsos ni datos inventados. La honestidad y la precisión son fundamentales para mantener la confianza de nuestra comunidad.</p>
       </div>
       <button type="button" id="btnAceptarNormas" class="btn-action btn-primary-neon w-full">
-        <i class="fa-solid fa-check-double"></i> Aceptar
-      </button>
+        <i class="fa-solid fa-check-double"></i> Aceptar      </button>
     </div>
   </div>
 
@@ -929,8 +1111,7 @@
 
   <!-- BOTÓN FLOTANTE INICIO -->
   <button class="btn-float-inicio" onClick="volverAtras()">
-    <i class="fa-solid fa-house"></i> Inicio
-  </button>
+    <i class="fa-solid fa-house"></i> Inicio  </button>
 
   <div class="app-wrapper">
 
@@ -942,52 +1123,49 @@
       <div class="top-buttons-group">
         <div class="dropdown-container" id="adminDropdown">
           <button type="button" class="btn-admin-discrete" id="btnAdminMenu" aria-expanded="false" title="Menú de Administración">
-            <i class="fa-solid fa-user-gear"></i> Administrador <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
+            <i class="fa-solid fa-user-gear"></i> Administrador
+            <span id="adminPendingBadge" class="admin-pending-badge" aria-label="Registros pendientes de aprobación" title="Registros pendientes de aprobación" aria-live="polite">0</span>
+            <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
           </button>
           
           <div class="dropdown-menu" id="dropdownAdminMenu">
             <a href="admin_avistamientos.html" class="dropdown-item">
-              <i class="fa-solid fa-shield-halved"></i> Acceso moderar
-            </a>
+              <i class="fa-solid fa-shield-halved"></i> Acceso moderar            </a>
             <div class="dropdown-divider"></div>
             <a href="admin_usuarios.html" class="dropdown-item">
-              <i class="fa-solid fa-users-gear"></i> Admin moderación
-            </a>
-          </div>
+              <i class="fa-solid fa-users-gear"></i> Admin moderación            </a>          </div>
         </div>
       </div>
 
       <div class="relative z-10 flex items-center gap-2.5 pr-2">
         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
-          <i class="fa-solid fa-plane-arrival text-lg sm:text-xl text-cyan-400"></i>
-        </div>
+          <i class="fa-solid fa-plane-arrival text-lg sm:text-xl text-cyan-400"></i>        </div>
         <div>
           <h1 class="text-sm sm:text-lg font-extrabold text-white tracking-tight leading-tight">
-            Avistamientos
-          </h1>
+            Avistamientos          </h1>
           <p class="text-[0.68rem] sm:text-xs text-slate-300 font-medium">
-            Comparte y consulta avistamientos en España
-          </p>
+            Comparte y consulta avistamientos en España          </p>
         </div>
       </div>
     </header>
 
+    <!-- SELECTOR DE VISTA: POR DEFECTO SOLO SE MUESTRA EL FORMULARIO -->
+    <nav class="selector-vista" aria-label="Secciones de avistamientos">
+      <button type="button" id="mostrarFormularioBtn" class="activo" aria-controls="formSection" aria-pressed="true"><i class="fa-solid fa-circle-plus"></i> Registrar avistamiento</button>
+      <button type="button" id="mostrarRegistrosBtn" aria-controls="recordsSection" aria-pressed="false"><i class="fa-solid fa-list-check"></i> Ver registros</button>
+    </nav>
+
     <!-- FORMULARIO DE ENVÍO -->
-    <section class="info-card">
+    <section class="info-card panel-vista" id="formSection">
       <div class="card-header-title">
-        <i class="fa-solid fa-radar"></i> Enviar un avistamiento
-      </div>
+        <i class="fa-solid fa-radar"></i> Enviar un avistamiento      </div>
       <p class="descripcion-seccion">
-        Completa los datos. Antes de publicarse, será revisado por moderación.
-      </p>
+        Completa los datos. Antes de publicarse, será revisado por moderación.      </p>
 
       <form id="formularioAvistamiento" class="formulario">
         <div class="campo">
           <label for="aeropuerto">
             <span><i class="fa-solid fa-location-dot text-emerald-400"></i> Aeropuerto *</span>
-            <button type="button" id="btnGpsAeropuerto" class="btn-gps-detect" title="Detectar aeropuerto más cercano por GPS">
-              <i class="fa-solid fa-crosshairs"></i> GPS
-            </button>
           </label>
           <select id="aeropuerto" name="aeropuerto" required>
             <option value="">Selecciona un aeropuerto</option>
@@ -1010,8 +1188,7 @@
           <label for="fechaAvistamiento"><i class="fa-solid fa-clock text-emerald-400"></i> Fecha y hora *</label>
           <div class="datetime-wrapper">
             <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required onClick="abrirSelectorFecha(this)">
-            <i class="fa-solid fa-calendar-days calendar-icon" onClick="abrirSelectorFecha(this)"></i>
-          </div>
+            <i class="fa-solid fa-calendar-days calendar-icon" onClick="abrirSelectorFecha(this)"></i>          </div>
         </div>
 
         <div class="campo">
@@ -1047,52 +1224,86 @@
         <div class="campo campo-completo">
           <label for="descripcion"><i class="fa-solid fa-align-left text-emerald-400"></i> Descripción del avistamiento *</label>
           <textarea id="descripcion" name="descripcion" maxlength="1500" required placeholder="Cuéntanos los detalles del avistamiento..."></textarea>
-          <span class="ayuda">🔒 No incluyas datos personales ni información privada.</span>
-        </div>
+          <span class="ayuda">🔒 No incluyas datos personales ni información privada.</span>        </div>
       </form>
 
       <div class="botones">
         <button type="submit" form="formularioAvistamiento" id="enviarButton" class="btn-action btn-primary-neon">
-          <i class="fa-solid fa-paper-plane"></i> Enviar
-        </button>
+          <i class="fa-solid fa-paper-plane"></i> Enviar        </button>
         <button type="reset" form="formularioAvistamiento" class="btn-action btn-secondary-neon">
-          <i class="fa-solid fa-rotate-left"></i> Limpiar
-        </button>
+          <i class="fa-solid fa-rotate-left"></i> Limpiar        </button>
       </div>
 
       <div id="mensajeFormulario" class="mensaje" role="status" aria-live="polite"></div>
     </section>
 
-    <!-- LISTADO PÚBLICO -->
-    <section class="info-card">
+    <!-- REGISTROS, FILTROS Y ESTADÍSTICAS: OCULTOS AL CARGAR -->
+    <section class="info-card panel-vista" id="recordsSection" hidden>
+      <div class="estadisticas-cabecera">
+        <h2><i class="fa-solid fa-chart-line"></i> Estadísticas de avistamientos</h2>
+        <p>Datos calculados a partir de los avistamientos verificados. Las coincidencias indican matrículas que aparecen en más de un registro; no implican necesariamente un error.</p>
+      </div>
+      <div id="estadisticasEstado" class="empty-state">Abre esta sección para cargar las estadísticas…</div>
+      <div id="estadisticasContenido" hidden>
+        <div class="estadisticas-grid">
+          <div class="estadistica-kpi"><span class="kpi-label">Avistamientos verificados</span><strong id="kpiTotal">—</strong></div>
+          <div class="estadistica-kpi"><span class="kpi-label">Matrículas registradas</span><strong id="kpiMatriculas">—</strong></div>
+          <div class="estadistica-kpi"><span class="kpi-label">Matrículas repetidas</span><strong id="kpiRepetidas">—</strong></div>
+          <div class="estadistica-kpi"><span class="kpi-label">Tasa de coincidencia</span><strong id="kpiTasa">—</strong><small>Registros con matrícula repetida</small></div>
+        </div>
+        <div class="graficos-grid">
+          <div class="grafico-card"><h3><i class="fa-solid fa-plane-departure"></i> Registros por aeropuerto</h3><div id="graficoAeropuertos" class="barras-grafico"></div></div>
+          <div class="grafico-card"><h3><i class="fa-regular fa-clock"></i> Horas con más avistamientos</h3><div id="graficoHoras" class="barras-grafico"></div></div>
+          <div class="grafico-card"><h3><i class="fa-solid fa-layer-group"></i> Registros por categoría</h3><div id="graficoCategorias" class="barras-grafico"></div></div>
+          <div class="grafico-card"><h3><i class="fa-solid fa-id-card"></i> Matrículas con más coincidencias</h3><div id="graficoMatriculas" class="barras-grafico"></div></div>
+        </div>
+        <p id="estadisticasPie" class="estadisticas-pie"></p>
+      </div>
+
+      <!-- LISTADO PÚBLICO -->
       <div class="cabecera-listado">
         <div class="card-header-title">
-          <i class="fa-solid fa-square-check"></i> Avistamientos verificados
-        </div>
+          <i class="fa-solid fa-square-check"></i> Avistamientos verificados        </div>
         <button type="button" id="refreshButton" class="btn-action btn-secondary-neon" style="min-width:auto; padding:4px 10px; font-size:0.65rem;">
-          <i class="fa-solid fa-rotate"></i> Actualizar
-        </button>
+          <i class="fa-solid fa-rotate"></i> Actualizar        </button>
       </div>
 
       <p class="descripcion-seccion">
-        Consulta los avistamientos aprobados por la comunidad.
-      </p>
+        Consulta los avistamientos aprobados por la comunidad.      </p>
+
+      <div class="filtros-avistamientos" role="search" aria-label="Filtrar avistamientos">
+        <div class="filtro-campo">
+          <label for="filtroAeropuerto"><i class="fa-solid fa-location-dot"></i> Aeropuerto</label>
+          <select id="filtroAeropuerto">
+            <option value="">Todos los aeropuertos</option>
+          </select>
+        </div>
+        <div class="filtro-campo">
+          <label for="filtroModelo"><i class="fa-solid fa-plane"></i> Modelo de avión</label>
+          <input type="search" id="filtroModelo" maxlength="100" placeholder="Ej. A350, Boeing 737…" autocomplete="off">
+        </div>
+        <div class="filtro-campo">
+          <label for="filtroCategoria"><i class="fa-solid fa-layer-group"></i> Categoría</label>
+          <select id="filtroCategoria">
+            <option value="">Todas las categorías</option>
+          </select>
+        </div>
+        <button type="button" id="aplicarFiltros" class="btn-filtro"><i class="fa-solid fa-filter"></i> Filtrar</button>
+        <button type="button" id="limpiarFiltros" class="btn-filtro"><i class="fa-solid fa-rotate-left"></i> Limpiar</button>
+      </div>
 
       <div id="feed" class="feed">
         <div class="empty-state">
-          <i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando avistamientos...
-        </div>
+          <i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando avistamientos...        </div>
       </div>
 
       <!-- PAGINACIÓN -->
       <div id="paginacion" class="paginacion" style="display: none;">
         <button type="button" id="anteriorButton" disabled>
-          <i class="fa-solid fa-arrow-left"></i> Anteriores
-        </button>
+          <i class="fa-solid fa-arrow-left"></i> Anteriores        </button>
         <span id="paginaInfo">Página 1</span>
         <button type="button" id="siguienteButton" disabled>
-          Siguientes <i class="fa-solid fa-arrow-right"></i>
-        </button>
+          Siguientes <i class="fa-solid fa-arrow-right"></i>        </button>
       </div>
     </section>
 
@@ -1101,9 +1312,7 @@
       <p class="footer-text">Spotters Spain · Todos los derechos reservados 2026</p>
       <div>
         <a href="admin_avistamientos.html" class="link-footer-admin">
-          <i class="fa-solid fa-lock"></i> Acceso Administrador
-        </a>
-      </div>
+          <i class="fa-solid fa-lock"></i> Acceso Administrador        </a>      </div>
     </footer>
   </div>
 
@@ -1111,83 +1320,6 @@
   <script>
     "use strict";
 
-    /* COORDENADAS GPS DE LOS AEROPUERTOS */
-    const AEROPUERTOS_GPS = [
-      { codigo: "LEBL", nombre: "Barcelona-El Prat", lat: 41.2974, lon: 2.0833 },
-      { codigo: "LEMD", nombre: "Madrid-Barajas", lat: 40.4839, lon: -3.5680 },
-      { codigo: "LEPA", nombre: "Palma de Mallorca", lat: 39.5517, lon: 2.7388 },
-      { codigo: "LEVC", nombre: "Valencia", lat: 39.4893, lon: -0.4816 },
-      { codigo: "LEAL", nombre: "Alicante-Elche", lat: 38.2822, lon: -0.5582 },
-      { codigo: "LEMG", nombre: "Málaga-Costa del Sol", lat: 36.6749, lon: -4.4991 },
-      { codigo: "LEZL", nombre: "Sevilla", lat: 37.4180, lon: -5.8931 },
-      { codigo: "LEBB", nombre: "Bilbao", lat: 43.3011, lon: -2.9106 },
-      { codigo: "LEST", nombre: "Santiago de Compostela", lat: 42.8963, lon: -8.4151 },
-      { codigo: "GCLP", nombre: "Gran Canaria", lat: 27.9319, lon: -15.3866 },
-      { codigo: "GCTS", nombre: "Tenerife Sur", lat: 28.0445, lon: -16.5725 }
-    ];
-
-    /* FÓRMULA HAVERSINE PARA DISTANCIA ENTRE DOS PUNTOS GEOGRÁFICOS (KM) */
-    function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Radio de la Tierra en km
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = 
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    }
-
-    /* AUTO-SELECCIONAR EL AEROPUERTO MÁS CERCANO */
-    function autodetectarAeropuertoCercano(notificarSilencioso) {
-      if (!("geolocation" in navigator)) {
-        console.warn("Geolocalización no soportada por el navegador.");
-        return;
-      }
-
-      const btnGps = document.getElementById("btnGpsAeropuerto");
-      if (btnGps) {
-        btnGps.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GPS';
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        function(posicion) {
-          const userLat = posicion.coords.latitude;
-          const userLon = posicion.coords.longitude;
-
-          let aeropuertoMasCercano = null;
-          let menorDistancia = Infinity;
-
-          AEROPUERTOS_GPS.forEach(function(aero) {
-            const dist = calcularDistanciaKm(userLat, userLon, aero.lat, aero.lon);
-            if (dist < menorDistancia) {
-              menorDistancia = dist;
-              aeropuertoMasCercano = aero;
-            }
-          });
-
-          if (aeropuertoMasCercano) {
-            const selectAeropuerto = document.getElementById("aeropuerto");
-            selectAeropuerto.value = aeropuertoMasCercano.codigo;
-
-            if (btnGps) {
-              btnGps.innerHTML = '<i class="fa-solid fa-location-crosshairs text-emerald-400"></i> GPS';
-              btnGps.title = "Aeropuerto detectado: " + aeropuertoMasCercano.nombre + " (~" + Math.round(menorDistancia) + " km)";
-            }
-
-            console.log("Aeropuerto más cercano detectado:", aeropuertoMasCercano.nombre, "(" + Math.round(menorDistancia) + " km)");
-          }
-        },
-        function(error) {
-          console.warn("Error o permiso denegado en geolocalización:", error.message);
-          if (btnGps) {
-            btnGps.innerHTML = '<i class="fa-solid fa-crosshairs"></i> GPS';
-          }
-        },
-        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
-      );
-    }
 
     /* CONTROL DEL CARTEL MODAL UNA SOLA VEZ CON LOCALSTORAGE */
     document.addEventListener("DOMContentLoaded", function() {
@@ -1203,18 +1335,7 @@
         modal.classList.remove("active");
         localStorage.setItem(KEY_ACEPTADO, "true");
       });
-
-      /* BOTÓN PARA RE-ESCANEAR GPS DE FORMA MANUAL */
-      const btnGps = document.getElementById("btnGpsAeropuerto");
-      if (btnGps) {
-        btnGps.addEventListener("click", function() {
-          autodetectarAeropuertoCercano(false);
-        });
-      }
-
-      /* DETECTAR AUTOMÁTICAMENTE AL CARGAR LA PÁGINA */
-      autodetectarAeropuertoCercano(true);
-    });
+});
 
     /* CONFIGURACIÓN DE SUPABASE */
     const SUPABASE_URL = "https://oxqgceyugjahicnqgtsq.supabase.co";
@@ -1231,6 +1352,252 @@
     const siguienteButton = document.getElementById("siguienteButton");
     const paginaInfo = document.getElementById("paginaInfo");
     const paginacion = document.getElementById("paginacion");
+    const filtroAeropuerto = document.getElementById("filtroAeropuerto");
+    const filtroModelo = document.getElementById("filtroModelo");
+    const filtroCategoria = document.getElementById("filtroCategoria");
+    const aplicarFiltros = document.getElementById("aplicarFiltros");
+    const limpiarFiltros = document.getElementById("limpiarFiltros");
+    const formSection = document.getElementById("formSection");
+    const recordsSection = document.getElementById("recordsSection");
+    const mostrarFormularioBtn = document.getElementById("mostrarFormularioBtn");
+    const mostrarRegistrosBtn = document.getElementById("mostrarRegistrosBtn");
+    const estadisticasEstado = document.getElementById("estadisticasEstado");
+    const estadisticasContenido = document.getElementById("estadisticasContenido");
+    let estadisticasCargadas = false;
+    let cargandoEstadisticas = false;
+
+    /* RELLENAR EL FILTRO CON LOS AEROPUERTOS DISPONIBLES EN EL FORMULARIO */
+    (function prepararFiltroAeropuertos() {
+      const selectorOrigen = document.getElementById("aeropuerto");
+      Array.from(selectorOrigen.options).forEach(function(opcion) {
+        if (!opcion.value) return;
+        const copia = document.createElement("option");
+        copia.value = opcion.value;
+        copia.textContent = opcion.textContent.trim();
+        filtroAeropuerto.appendChild(copia);
+      });
+    })();
+
+    /* RELLENAR EL FILTRO CON LAS CATEGORÍAS DISPONIBLES EN EL FORMULARIO */
+    (function prepararFiltroCategorias() {
+      const selectorOrigen = document.getElementById("categoria");
+      Array.from(selectorOrigen.options).forEach(function(opcion) {
+        if (!opcion.value) return;
+        const copia = document.createElement("option");
+        copia.value = opcion.value;
+        copia.textContent = opcion.textContent.trim();
+        filtroCategoria.appendChild(copia);
+      });
+    })();
+
+    function hayFiltrosActivos() {
+      return Boolean(filtroAeropuerto.value || filtroModelo.value.trim() || filtroCategoria.value);
+    }
+
+    function aplicarFiltrosListado() {
+      paginaActual = 0;
+      cargarAvistamientos();
+    }
+
+    aplicarFiltros.addEventListener("click", aplicarFiltrosListado);
+    limpiarFiltros.addEventListener("click", function() {
+      filtroAeropuerto.value = "";
+      filtroModelo.value = "";
+      filtroCategoria.value = "";
+      aplicarFiltrosListado();
+    });
+    filtroModelo.addEventListener("keydown", function(evento) {
+      if (evento.key === "Enter") {
+        evento.preventDefault();
+        aplicarFiltrosListado();
+      }
+    });
+    filtroAeropuerto.addEventListener("change", aplicarFiltrosListado);
+    filtroCategoria.addEventListener("change", aplicarFiltrosListado);
+
+    /* CAMBIAR ENTRE REGISTRAR Y VER REGISTROS */
+    function cambiarVista(vista) {
+      const verRegistros = vista === "registros";
+      formSection.hidden = verRegistros;
+      recordsSection.hidden = !verRegistros;
+      mostrarFormularioBtn.classList.toggle("activo", !verRegistros);
+      mostrarRegistrosBtn.classList.toggle("activo", verRegistros);
+      mostrarFormularioBtn.setAttribute("aria-pressed", String(!verRegistros));
+      mostrarRegistrosBtn.setAttribute("aria-pressed", String(verRegistros));
+      if (verRegistros) {
+        if (!registrosInicializados) {
+          registrosInicializados = true;
+          paginaActual = 0;
+          cargarAvistamientos();
+        }
+        if (!estadisticasCargadas && !cargandoEstadisticas) cargarEstadisticas();
+        recordsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+    let registrosInicializados = false;
+    mostrarFormularioBtn.addEventListener("click", () => cambiarVista("formulario"));
+    mostrarRegistrosBtn.addEventListener("click", () => cambiarVista("registros"));
+
+    function dibujarBarras(id, entradas, limite = 6) {
+      const contenedor = document.getElementById(id);
+      contenedor.replaceChildren();
+      const lista = entradas.slice(0, limite);
+      if (!lista.length) {
+        contenedor.appendChild(crearElemento("div", "empty-state", "Sin datos suficientes."));
+        return;
+      }
+      const maximo = Math.max(1, ...lista.map(item => item.valor));
+      lista.forEach(item => {
+        const fila = crearElemento("div", "barra-fila");
+        const etiqueta = crearElemento("span", "barra-etiqueta", item.etiqueta);
+        const fondo = crearElemento("div", "barra-fondo");
+        const barra = crearElemento("div", "barra-valor");
+        barra.style.width = Math.max(item.valor > 0 ? 2 : 0, (item.valor / maximo) * 100) + "%";
+        barra.setAttribute("aria-label", item.etiqueta + ": " + item.valor);
+        fondo.appendChild(barra);
+        const numero = crearElemento("span", "barra-numero", item.valor);
+        fila.append(etiqueta, fondo, numero);
+        contenedor.appendChild(fila);
+      });
+    }
+
+    async function cargarEstadisticas() {
+      if (!claveConfigurada()) {
+        estadisticasEstado.textContent = "Revisa la configuración de Supabase para consultar las estadísticas.";
+        return;
+      }
+      cargandoEstadisticas = true;
+      estadisticasEstado.hidden = false;
+      estadisticasEstado.textContent = "Calculando estadísticas de los registros verificados…";
+      try {
+        // Se descargan por bloques para no limitar el cálculo a los cuatro registros visibles.
+        const todos = [];
+        const tamanoBloque = 500;
+        let offsetEstadisticas = 0;
+        while (true) {
+          const params = new URLSearchParams({
+            select: "aeropuerto,fecha_avistamiento,aeronave,matricula,categoria",
+            estado: "eq.verificado",
+            order: "fecha_avistamiento.desc",
+            limit: String(tamanoBloque),
+            offset: String(offsetEstadisticas)
+          });
+          const respuesta = await fetch(SUPABASE_REST_URL + "/avistamientos?" + params.toString(), {
+            method: "GET", headers: { ...crearCabeceras(), "Range-Unit": "items", "Range": offsetEstadisticas + "-" + (offsetEstadisticas + tamanoBloque - 1) }
+          });
+          if (!respuesta.ok) throw new Error("No se pudieron consultar los datos estadísticos.");
+          const bloque = await respuesta.json();
+          todos.push(...bloque);
+          if (bloque.length < tamanoBloque) break;
+          offsetEstadisticas += bloque.length;
+          if (offsetEstadisticas > 50000) break; // protección para no mantener una petición indefinida
+        }
+
+        const conMatricula = todos.map(r => (r.matricula || "").trim().toUpperCase()).filter(Boolean);
+        const frecuenciaMatriculas = {};
+        conMatricula.forEach(m => frecuenciaMatriculas[m] = (frecuenciaMatriculas[m] || 0) + 1);
+        const matriculasRepetidas = Object.entries(frecuenciaMatriculas).filter(([, cantidad]) => cantidad > 1);
+        const registrosConMatriculaRepetida = conMatricula.filter(m => frecuenciaMatriculas[m] > 1).length;
+        const tasa = conMatricula.length ? (registrosConMatriculaRepetida / conMatricula.length) * 100 : 0;
+
+        document.getElementById("kpiTotal").textContent = todos.length.toLocaleString("es-ES");
+        document.getElementById("kpiMatriculas").textContent = new Set(conMatricula).size.toLocaleString("es-ES");
+        document.getElementById("kpiRepetidas").textContent = matriculasRepetidas.length.toLocaleString("es-ES");
+        document.getElementById("kpiTasa").textContent = conMatricula.length ? tasa.toLocaleString("es-ES", { maximumFractionDigits: 1 }) + "%" : "0%";
+
+        const contar = (campo, vacio = "No especificado") => {
+          const resultado = {};
+          todos.forEach(r => {
+            const valor = (r[campo] || vacio).toString().trim() || vacio;
+            resultado[valor] = (resultado[valor] || 0) + 1;
+          });
+          return Object.entries(resultado).map(([etiqueta, valor]) => ({ etiqueta, valor })).sort((a,b) => b.valor-a.valor);
+        };
+        const porHora = Array.from({length:24}, (_, hora) => ({
+          etiqueta: String(hora).padStart(2,"0") + " h",
+          valor: todos.filter(r => { const d = new Date(r.fecha_avistamiento); return !Number.isNaN(d.getTime()) && d.getHours() === hora; }).length
+        })).filter(item => item.valor > 0).sort((a,b) => b.valor-a.valor);
+
+        dibujarBarras("graficoAeropuertos", contar("aeropuerto"), 8);
+        dibujarBarras("graficoHoras", porHora, 8);
+        dibujarBarras("graficoCategorias", contar("categoria"), 8);
+        dibujarBarras("graficoMatriculas", matriculasRepetidas.map(([etiqueta, valor]) => ({etiqueta, valor})).sort((a,b) => b.valor-a.valor), 8);
+        document.getElementById("estadisticasPie").textContent = "Cálculo sobre " + todos.length.toLocaleString("es-ES") + " avistamientos verificados. La tasa se calcula como el porcentaje de registros que tienen una matrícula repetida entre todos los registros que incluyen matrícula. Las horas se muestran según la hora local del dispositivo.";
+        estadisticasEstado.hidden = true;
+        estadisticasContenido.hidden = false;
+        estadisticasCargadas = true;
+      } catch (error) {
+        console.error(error);
+        estadisticasEstado.hidden = false;
+        estadisticasEstado.textContent = "No se pudieron cargar las estadísticas. Comprueba la conexión y pulsa Ver registros de nuevo.";
+      } finally {
+        cargandoEstadisticas = false;
+      }
+    }
+
+    /* AVISO DE REGISTROS PENDIENTES DE MODERACIÓN
+       La cifra se obtiene mediante una función RPC de Supabase que devuelve SOLO el total,
+       sin exponer al público los datos de los avistamientos pendientes. */
+    const adminPendingBadge = document.getElementById("adminPendingBadge");
+    let pendingBadgeTimer = null;
+
+    async function actualizarAvisoPendientes() {
+      if (!adminPendingBadge) return;
+      try {
+        const respuesta = await fetch(
+          SUPABASE_REST_URL + "/rpc/contar_avistamientos_pendientes",
+          {
+            method: "POST",
+            headers: {
+              ...crearCabeceras(),
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "Cache-Control": "no-cache"
+            },
+            body: "{}",
+            cache: "no-store"
+          }
+        );
+
+        if (!respuesta.ok) {
+          const detalle = await respuesta.text().catch(() => "");
+          throw new Error("RPC contar_avistamientos_pendientes: HTTP " + respuesta.status + " " + detalle);
+        }
+
+        const resultado = await respuesta.json();
+        const cantidad = Number(resultado);
+        if (!Number.isFinite(cantidad) || cantidad < 0) {
+          throw new Error("Supabase devolvió una cantidad de pendientes no válida.");
+        }
+
+        if (cantidad > 0) {
+          adminPendingBadge.textContent = cantidad > 99 ? "99+" : String(cantidad);
+          adminPendingBadge.classList.add("visible");
+          adminPendingBadge.setAttribute("aria-label", cantidad + (cantidad === 1 ? " registro pendiente de aprobación" : " registros pendientes de aprobación"));
+          adminPendingBadge.title = cantidad + (cantidad === 1 ? " registro pendiente de aprobación" : " registros pendientes de aprobación");
+        } else {
+          adminPendingBadge.textContent = "";
+          adminPendingBadge.classList.remove("visible");
+          adminPendingBadge.setAttribute("aria-label", "No hay registros pendientes de aprobación");
+          adminPendingBadge.title = "No hay registros pendientes de aprobación";
+        }
+      } catch (error) {
+        // No inventar cifras si la función RPC aún no existe o Supabase no permite ejecutarla.
+        adminPendingBadge.classList.remove("visible");
+        adminPendingBadge.textContent = "";
+        adminPendingBadge.title = "No se pudo consultar el contador. Comprueba la función RPC de Supabase.";
+        console.error("Aviso de moderación:", error);
+      }
+    }
+
+    actualizarAvisoPendientes();
+    pendingBadgeTimer = window.setInterval(actualizarAvisoPendientes, 60000);
+    document.addEventListener("visibilitychange", function() {
+      if (!document.hidden) actualizarAvisoPendientes();
+    });
+    window.addEventListener("focus", actualizarAvisoPendientes);
 
     /* CONTROL DEL MENÚ DESPLEGABLE ADMIN */
     const adminDropdown = document.getElementById("adminDropdown");
@@ -1394,7 +1761,9 @@
         mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
         formulario.reset();
         configurarFechaActual();
-        autodetectarAeropuertoCercano(true);
+        // La nueva entrada queda pendiente de moderación y no aparecerá en estadísticas públicas hasta verificarse.
+        estadisticasCargadas = false;
+        registrosInicializados = false;
 
       } catch (error) {
         console.error(error);
@@ -1423,10 +1792,22 @@
         const parametros = new URLSearchParams({
           select: ["id","aeropuerto","fecha_avistamiento","aeronave","matricula","compania","categoria","descripcion","creado_en"].join(","),
           estado: "eq.verificado",
-          order: "fecha_avistamiento.desc,id.desc",
+          order: "creado_en.desc,id.desc",
           limit: String(REGISTROS_POR_PAGINA),
           offset: String(inicio)
         });
+
+        // Los filtros se aplican en Supabase antes de paginar, para buscar en todos los registros verificados.
+        if (filtroAeropuerto.value) {
+          parametros.set("aeropuerto", "eq." + filtroAeropuerto.value);
+        }
+        const modeloBuscado = filtroModelo.value.trim();
+        if (modeloBuscado) {
+          parametros.set("aeronave", "ilike.*" + modeloBuscado + "*");
+        }
+        if (filtroCategoria.value) {
+          parametros.set("categoria", "eq." + filtroCategoria.value);
+        }
 
         const respuesta = await fetch(SUPABASE_REST_URL + "/avistamientos?" + parametros.toString(), {
           method: "GET",
@@ -1465,15 +1846,20 @@
       feed.replaceChildren();
 
       if (!registros || registros.length === 0) {
-        const mensaje = paginaActual === 0
-          ? "Todavía no hay avistamientos verificados. ¡Sé el primero en compartir uno!"
-          : "No hay más avistamientos en esta página.";
+        const mensaje = hayFiltrosActivos()
+          ? "No se han encontrado avistamientos que coincidan con esos filtros. Prueba con otro aeropuerto, modelo o categoría."
+          : (paginaActual === 0
+              ? "Todavía no hay avistamientos verificados. ¡Sé el primero en compartir uno!"
+              : "No hay más avistamientos en esta página.");
         feed.appendChild(crearElemento("div", "empty-state", mensaje));
         return;
       }
 
       registros.forEach(function(registro) {
-        const tarjeta = crearElemento("article", "avistamiento");
+        const categoriaNormalizada = String(registro.categoria || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const datosNormalizados = [registro.aeronave, registro.compania, registro.descripcion].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const esMilitar = categoriaNormalizada.includes("militar") || /\b(militar|air force|navy|armed forces|fuerza aerea|ejercito|armada|usaf|raf|luftwaffe|f-16|f-18|f-35|eurofighter|typhoon|tornado|c-130|a400m|p-3 orion|p-8 poseidon|chinook|apache|black hawk)\b/.test(datosNormalizados);
+        const tarjeta = crearElemento("article", esMilitar ? "avistamiento avistamiento-militar" : "avistamiento");
 
         /* CABECERA TARJETA */
         const cabecera = crearElemento("div", "avistamiento-cabecera");
@@ -1481,8 +1867,14 @@
         const titulo = crearElemento("h3", "avistamiento-aeropuerto", escaparValor(registro.aeropuerto));
         const fecha = crearElemento("div", "avistamiento-fecha", formatearFecha(registro.fecha_avistamiento));
 
+
         grupoTitulo.appendChild(titulo);
         grupoTitulo.appendChild(fecha);
+        if (esMilitar) {
+          const distintivoMilitar = crearElemento("div", "distintivo-militar");
+          distintivoMilitar.innerHTML = '<i class="fa-solid fa-shield-halved"></i> AVISTAMIENTO MILITAR';
+          grupoTitulo.appendChild(distintivoMilitar);
+        }
 
         const verificado = crearElemento("span", "estado-verificado");
         verificado.innerHTML = '<i class="fa-solid fa-circle-check"></i> VERIFICADO';
@@ -1559,14 +1951,16 @@
       }
     });
 
-    refreshButton.addEventListener("click", function() {
+    refreshButton.addEventListener("click", async function() {
       paginaActual = 0;
-      cargarAvistamientos();
+      await cargarAvistamientos();
+      estadisticasCargadas = false;
+      estadisticasContenido.hidden = true;
+      await cargarEstadisticas();
     });
 
     /* INICIALIZACIÓN */
     configurarFechaActual();
-    cargarAvistamientos();
   </script>
 
   <!-- MOTOR SERVICE WORKER -->
