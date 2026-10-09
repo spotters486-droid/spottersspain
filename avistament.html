@@ -127,36 +127,6 @@
       z-index: 30;
     }
 
-    .btn-donate {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--gold-yellow);
-      background: rgba(255, 204, 0, 0.12);
-      border: 1px solid var(--gold-yellow);
-      border-radius: 8px;
-      padding: 4px 10px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.25s ease;
-      box-shadow: 0 0 10px rgba(255, 204, 0, 0.25);
-      animation: pulseDonate 2.5s infinite alternate;
-    }
-
-    @keyframes pulseDonate {
-      0% { box-shadow: 0 0 6px rgba(255, 204, 0, 0.2); }
-      100% { box-shadow: 0 0 14px rgba(255, 204, 0, 0.6); }
-    }
-
-    .btn-donate:hover, .btn-donate:active {
-      background: var(--gold-yellow);
-      color: #030611;
-      transform: scale(1.06);
-      box-shadow: 0 0 18px rgba(255, 204, 0, 0.9);
-    }
-
     /* BOTÓN DISCRETO DE ADMINISTRADOR */
     .btn-admin-discrete {
       font-family: 'Orbitron', sans-serif;
@@ -260,11 +230,51 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
+    /* CLASE PARA OBLIGAR MAYÚSCULAS VISUALMENTE */
+    .input-uppercase {
+      text-transform: uppercase;
+    }
+
     .campo input:focus,
     .campo select:focus,
     .campo textarea:focus {
       border-color: var(--neon-cyan);
       box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    }
+
+    /* ESTILOS ESPECÍFICOS PARA EL CONTENEDOR DE FECHA Y HORA CON ICONO DE CALENDARIO */
+    .datetime-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .datetime-wrapper input[type="datetime-local"] {
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .datetime-wrapper .calendar-icon {
+      position: absolute;
+      right: 12px;
+      color: var(--neon-green);
+      font-size: 1rem;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      z-index: 2;
+    }
+
+    .datetime-wrapper:hover .calendar-icon {
+      color: var(--neon-cyan);
+      transform: scale(1.1);
+    }
+
+    /* PERSONALIZACIÓN DEL ICONO NATIVO DEL SELECTOR DE FECHA/HORA (Navegadores WebKit) */
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(78%) sepia(82%) saturate(395%) hue-rotate(108deg) brightness(102%) contrast(105%);
+      cursor: pointer;
     }
 
     .campo select option {
@@ -638,7 +648,7 @@
   </svg>
 
   <!-- BOTÓN FLOTANTE ATRÁS -->
-  <button class="btn-float-inicio" onclick="volverAtras()">
+  <button class="btn-float-inicio" onClick="volverAtras()">
     <i class="fa-solid fa-arrow-left"></i> Atrás
   </button>
 
@@ -652,8 +662,6 @@
       <div class="top-buttons-group">
         <a href="admin_avistamientos.html" class="btn-admin-discrete" title="Panel de Administración">
           <i class="fa-solid fa-user-gear"></i> Administrador
-        </a>
-        
         </a>
       </div>
 
@@ -703,7 +711,10 @@
 
         <div class="campo">
           <label for="fechaAvistamiento"><i class="fa-solid fa-clock text-emerald-400"></i> Fecha y hora *</label>
-          <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required>
+          <div class="datetime-wrapper">
+            <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required onclick="abrirSelectorFecha(this)">
+            <i class="fa-solid fa-calendar-days calendar-icon" onclick="abrirSelectorFecha(this)"></i>
+          </div>
         </div>
 
         <div class="campo">
@@ -723,17 +734,17 @@
 
         <div class="campo">
           <label for="aeronave"><i class="fa-solid fa-plane text-emerald-400"></i> Modelo de aeronave</label>
-          <input type="text" id="aeronave" name="aeronave" maxlength="100" placeholder="Ej. Airbus A350-900">
+          <input type="text" id="aeronave" name="aeronave" class="input-uppercase" oninput="this.value = this.value.toUpperCase()" maxlength="100" placeholder="EJ. AIRBUS A350-900">
         </div>
 
         <div class="campo">
           <label for="matricula"><i class="fa-solid fa-id-card text-emerald-400"></i> Matrícula</label>
-          <input type="text" id="matricula" name="matricula" maxlength="30" placeholder="Ej. EC-XXX">
+          <input type="text" id="matricula" name="matricula" class="input-uppercase" oninput="this.value = this.value.toUpperCase()" maxlength="30" placeholder="EJ. EC-XXX">
         </div>
 
         <div class="campo">
           <label for="compania"><i class="fa-solid fa-building text-emerald-400"></i> Compañía aérea</label>
-          <input type="text" id="compania" name="compania" maxlength="100" placeholder="Ej. Vueling">
+          <input type="text" id="compania" name="compania" class="input-uppercase" oninput="this.value = this.value.toUpperCase()" maxlength="100" placeholder="EJ. VUELING">
         </div>
 
         <div class="campo campo-completo">
@@ -825,6 +836,19 @@
     let totalRegistros = null;
     let cantidadPaginaActual = 0;
 
+    function abrirSelectorFecha(elemento) {
+      const input = elemento.tagName === 'INPUT' ? elemento : document.getElementById('fechaAvistamiento');
+      if (input && typeof input.showPicker === 'function') {
+        try {
+          input.showPicker();
+        } catch (e) {
+          input.focus();
+        }
+      } else if (input) {
+        input.focus();
+      }
+    }
+
     function volverAtras() {
       if (document.referrer && document.referrer !== window.location.href) {
         window.location.href = document.referrer;
@@ -907,9 +931,9 @@
       const aeropuerto = document.getElementById("aeropuerto").value.trim();
       const fechaIntroducida = document.getElementById("fechaAvistamiento").value;
       const categoria = document.getElementById("categoria").value.trim();
-      const aeronave = document.getElementById("aeronave").value.trim();
-      const matricula = document.getElementById("matricula").value.trim();
-      const compania = document.getElementById("compania").value.trim();
+      const aeronave = document.getElementById("aeronave").value.trim().toUpperCase();
+      const matricula = document.getElementById("matricula").value.trim().toUpperCase();
+      const compania = document.getElementById("compania").value.trim().toUpperCase();
       const descripcion = document.getElementById("descripcion").value.trim();
 
       if (!aeropuerto || !fechaIntroducida || !categoria || !descripcion) {
