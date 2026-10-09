@@ -442,7 +442,28 @@
       font-weight: 700;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 5px;
+    }
+
+    .btn-gps-detect {
+      background: rgba(0, 210, 255, 0.1);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.6rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-gps-detect:hover {
+      background: rgba(0, 255, 204, 0.2);
+      color: var(--neon-green);
+      border-color: var(--neon-green);
     }
 
     .campo input,
@@ -962,7 +983,12 @@
 
       <form id="formularioAvistamiento" class="formulario">
         <div class="campo">
-          <label for="aeropuerto"><i class="fa-solid fa-location-dot text-emerald-400"></i> Aeropuerto *</label>
+          <label for="aeropuerto">
+            <span><i class="fa-solid fa-location-dot text-emerald-400"></i> Aeropuerto *</span>
+            <button type="button" id="btnGpsAeropuerto" class="btn-gps-detect" title="Detectar aeropuerto más cercano por GPS">
+              <i class="fa-solid fa-crosshairs"></i> GPS
+            </button>
+          </label>
           <select id="aeropuerto" name="aeropuerto" required>
             <option value="">Selecciona un aeropuerto</option>
             <option value="LEBL">Barcelona-El Prat (LEBL)</option>
@@ -1085,6 +1111,84 @@
   <script>
     "use strict";
 
+    /* COORDENADAS GPS DE LOS AEROPUERTOS */
+    const AEROPUERTOS_GPS = [
+      { codigo: "LEBL", nombre: "Barcelona-El Prat", lat: 41.2974, lon: 2.0833 },
+      { codigo: "LEMD", nombre: "Madrid-Barajas", lat: 40.4839, lon: -3.5680 },
+      { codigo: "LEPA", nombre: "Palma de Mallorca", lat: 39.5517, lon: 2.7388 },
+      { codigo: "LEVC", nombre: "Valencia", lat: 39.4893, lon: -0.4816 },
+      { codigo: "LEAL", nombre: "Alicante-Elche", lat: 38.2822, lon: -0.5582 },
+      { codigo: "LEMG", nombre: "Málaga-Costa del Sol", lat: 36.6749, lon: -4.4991 },
+      { codigo: "LEZL", nombre: "Sevilla", lat: 37.4180, lon: -5.8931 },
+      { codigo: "LEBB", nombre: "Bilbao", lat: 43.3011, lon: -2.9106 },
+      { codigo: "LEST", nombre: "Santiago de Compostela", lat: 42.8963, lon: -8.4151 },
+      { codigo: "GCLP", nombre: "Gran Canaria", lat: 27.9319, lon: -15.3866 },
+      { codigo: "GCTS", nombre: "Tenerife Sur", lat: 28.0445, lon: -16.5725 }
+    ];
+
+    /* FÓRMULA HAVERSINE PARA DISTANCIA ENTRE DOS PUNTOS GEOGRÁFICOS (KM) */
+    function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radio de la Tierra en km
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = 
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    /* AUTO-SELECCIONAR EL AEROPUERTO MÁS CERCANO */
+    function autodetectarAeropuertoCercano(notificarSilencioso) {
+      if (!("geolocation" in navigator)) {
+        console.warn("Geolocalización no soportada por el navegador.");
+        return;
+      }
+
+      const btnGps = document.getElementById("btnGpsAeropuerto");
+      if (btnGps) {
+        btnGps.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> GPS';
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        function(posicion) {
+          const userLat = posicion.coords.latitude;
+          const userLon = posicion.coords.longitude;
+
+          let aeropuertoMasCercano = null;
+          let menorDistancia = Infinity;
+
+          AEROPUERTOS_GPS.forEach(function(aero) {
+            const dist = calcularDistanciaKm(userLat, userLon, aero.lat, aero.lon);
+            if (dist < menorDistancia) {
+              menorDistancia = dist;
+              aeropuertoMasCercano = aero;
+            }
+          });
+
+          if (aeropuertoMasCercano) {
+            const selectAeropuerto = document.getElementById("aeropuerto");
+            selectAeropuerto.value = aeropuertoMasCercano.codigo;
+
+            if (btnGps) {
+              btnGps.innerHTML = '<i class="fa-solid fa-location-crosshairs text-emerald-400"></i> GPS';
+              btnGps.title = "Aeropuerto detectado: " + aeropuertoMasCercano.nombre + " (~" + Math.round(menorDistancia) + " km)";
+            }
+
+            console.log("Aeropuerto más cercano detectado:", aeropuertoMasCercano.nombre, "(" + Math.round(menorDistancia) + " km)");
+          }
+        },
+        function(error) {
+          console.warn("Error o permiso denegado en geolocalización:", error.message);
+          if (btnGps) {
+            btnGps.innerHTML = '<i class="fa-solid fa-crosshairs"></i> GPS';
+          }
+        },
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+      );
+    }
+
     /* CONTROL DEL CARTEL MODAL UNA SOLA VEZ CON LOCALSTORAGE */
     document.addEventListener("DOMContentLoaded", function() {
       const modal = document.getElementById("modalAdvertencia");
@@ -1099,6 +1203,17 @@
         modal.classList.remove("active");
         localStorage.setItem(KEY_ACEPTADO, "true");
       });
+
+      /* BOTÓN PARA RE-ESCANEAR GPS DE FORMA MANUAL */
+      const btnGps = document.getElementById("btnGpsAeropuerto");
+      if (btnGps) {
+        btnGps.addEventListener("click", function() {
+          autodetectarAeropuertoCercano(false);
+        });
+      }
+
+      /* DETECTAR AUTOMÁTICAMENTE AL CARGAR LA PÁGINA */
+      autodetectarAeropuertoCercano(true);
     });
 
     /* CONFIGURACIÓN DE SUPABASE */
@@ -1279,6 +1394,7 @@
         mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
         formulario.reset();
         configurarFechaActual();
+        autodetectarAeropuertoCercano(true);
 
       } catch (error) {
         console.error(error);
