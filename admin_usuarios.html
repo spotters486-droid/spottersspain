@@ -602,8 +602,7 @@
 
   <!-- BOTÓN FLOTANTE ATRÁS -->
   <button class="btn-float-inicio" onClick="volverAtras()">
-    <i class="fa-solid fa-arrow-left"></i> Atrás
-  </button>
+    <i class="fa-solid fa-arrow-left"></i> Atrás  </button>
 
   <div class="app-wrapper">
 
@@ -615,32 +614,25 @@
       <div class="top-buttons-group">
         <div class="dropdown-container" id="adminDropdown">
           <button type="button" class="btn-admin-discrete" id="btnAdminMenu" aria-expanded="false" title="Menú de Administración">
-            <i class="fa-solid fa-user-gear"></i> Administrador <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
-          </button>
+            <i class="fa-solid fa-user-gear"></i> Administrador <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>          </button>
           
           <div class="dropdown-menu" id="dropdownAdminMenu">
             <a href="admin_avistamientos.html" class="dropdown-item">
-              <i class="fa-solid fa-shield-halved"></i> Acceso moderar
-            </a>
+              <i class="fa-solid fa-shield-halved"></i> Acceso moderar            </a>
             <div class="dropdown-divider"></div>
             <a href="admin_usuarios.html" class="dropdown-item">
-              <i class="fa-solid fa-users-gear"></i> Admin moderación
-            </a>
-          </div>
+              <i class="fa-solid fa-users-gear"></i> Admin moderación            </a>          </div>
         </div>
       </div>
 
       <div class="relative z-10 flex items-center gap-2.5 pr-2">
         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
-          <i class="fa-solid fa-users-gear text-lg sm:text-xl text-cyan-400"></i>
-        </div>
+          <i class="fa-solid fa-users-gear text-lg sm:text-xl text-cyan-400"></i>        </div>
         <div>
           <h1 class="text-sm sm:text-lg font-extrabold text-white tracking-tight leading-tight">
-            Spotters Spain
-          </h1>
+            Spotters Spain          </h1>
           <p class="text-[0.68rem] sm:text-xs text-slate-300 font-medium">
-            Panel privado de administración de usuarios
-          </p>
+            Panel privado de administración de usuarios          </p>
         </div>
       </div>
     </header>
@@ -648,12 +640,10 @@
     <!-- INICIO DE SESIÓN -->
     <section id="seccionLogin" class="info-card login-card">
       <div class="card-header-title">
-        <i class="fa-solid fa-lock"></i> Acceso de administrador
-      </div>
+        <i class="fa-solid fa-lock"></i> Acceso de administrador      </div>
 
       <p class="descripcion-seccion">
-        Inicia sesión con tu cuenta de administrador de Spotters Spain.
-      </p>
+        Inicia sesión con tu cuenta de administrador de Spotters Spain.      </p>
 
       <div id="mensajeLogin" class="mensaje" role="status" aria-live="polite"></div>
 
@@ -669,8 +659,7 @@
         </div>
 
         <button id="btnLogin" class="btn-action btn-primary-neon w-full mt-2" type="submit">
-          <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
-        </button>
+          <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión        </button>
       </form>
     </section>
 
@@ -681,18 +670,15 @@
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 class="font-bold text-sm text-cyan-400 font-mono flex items-center gap-2">
-              <i class="fa-solid fa-circle-user text-emerald-400"></i> Panel General
-            </h2>
+              <i class="fa-solid fa-circle-user text-emerald-400"></i> Panel General            </h2>
             <p id="sesionActual" class="text-xs text-slate-300 mt-0.5 font-medium"></p>
           </div>
 
           <div class="botones">
             <button id="btnActualizar" class="btn-action btn-secondary-neon" type="button" style="padding: 6px 10px; font-size: 0.68rem;">
-              <i class="fa-solid fa-rotate"></i> Actualizar
-            </button>
+              <i class="fa-solid fa-rotate"></i> Actualizar            </button>
             <button id="btnCerrarSesion" class="btn-action btn-danger-neon" type="button" style="padding: 6px 10px; font-size: 0.68rem;">
-              <i class="fa-solid fa-power-off"></i> Salir
-            </button>
+              <i class="fa-solid fa-power-off"></i> Salir            </button>
           </div>
         </div>
       </div>
@@ -702,18 +688,15 @@
       <section class="resumen">
         <div class="estadistica">
           <strong id="totalUsuarios">—</strong>
-          <span>Usuarios</span>
-        </div>
+          <span>Usuarios</span>        </div>
 
         <div class="estadistica">
           <strong id="totalModeradores">—</strong>
-          <span>Moderadores</span>
-        </div>
+          <span>Moderadores</span>        </div>
 
         <div class="estadistica">
           <strong id="totalAdministradores">—</strong>
-          <span>Admins</span>
-        </div>
+          <span>Admins</span>        </div>
       </section>
 
       <div class="rejilla">
@@ -721,12 +704,10 @@
         <!-- CREAR MODERADOR -->
         <section class="info-card">
           <div class="card-header-title">
-            <i class="fa-solid fa-user-plus"></i> Crear moderador
-          </div>
+            <i class="fa-solid fa-user-plus"></i> Crear moderador          </div>
 
           <p class="descripcion-seccion">
-            Crea una cuenta nueva con rol automático de moderador.
-          </p>
+            Crea una cuenta nueva con rol automático de moderador.          </p>
 
           <div id="mensajeCrear" class="mensaje" role="status" aria-live="polite"></div>
 
@@ -745,8 +726,7 @@
             <div class="campo">
               <label for="password"><i class="fa-solid fa-lock text-emerald-400"></i> Contraseña elegida</label>
               <input id="password" type="password" minlength="8" maxlength="128" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required>
-              <span class="ayuda">Contraseña facilitada en privado por el usuario.</span>
-            </div>
+              <span class="ayuda">Contraseña facilitada en privado por el usuario.</span>            </div>
 
             <div class="campo">
               <label for="passwordConfirm"><i class="fa-solid fa-check-double text-emerald-400"></i> Repetir contraseña</label>
@@ -754,26 +734,21 @@
             </div>
 
             <button id="btnCrear" class="btn-action btn-primary-neon w-full mt-2" type="submit">
-              <i class="fa-solid fa-user-shield"></i> Crear moderador
-            </button>
-
+              <i class="fa-solid fa-user-shield"></i> Crear moderador            </button>
           </form>
 
           <div class="aviso">
             <i class="fa-solid fa-triangle-exclamation mr-1"></i>
-            <strong>Nota:</strong> La cuenta se marca como confirmada directamente.
-          </div>
+            <strong>Nota:</strong> La cuenta se marca como confirmada directamente.          </div>
         </section>
 
         <!-- LISTA DE USUARIOS -->
         <section class="info-card">
           <div class="card-header-title">
-            <i class="fa-solid fa-users"></i> Cuentas registradas
-          </div>
+            <i class="fa-solid fa-users"></i> Cuentas registradas          </div>
 
           <p class="descripcion-seccion">
-            Consulta los usuarios y sus roles asignados.
-          </p>
+            Consulta los usuarios y sus roles asignados.          </p>
 
           <div id="mensajeLista" class="mensaje" role="status" aria-live="polite"></div>
 
@@ -796,10 +771,8 @@
           </div>
 
           <p class="ayuda mt-2">
-            Muestra los usuarios de Authentication y la tabla <code>user_roles</code>.
-          </p>
+            Muestra los usuarios de Authentication y la tabla <code>user_roles</code>.          </p>
         </section>
-
       </div>
     </main>
 
@@ -807,7 +780,6 @@
     <footer class="footer-neon">
       <p class="footer-text">Spotters Spain · Panel de administración privado</p>
     </footer>
-
   </div>
 
   <script type="module">
