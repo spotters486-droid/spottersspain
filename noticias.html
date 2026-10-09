@@ -1,48 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
-<style>
-  /* Botón Flotante Neón */
-  .btn-float-inicio {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99999;
-    background: #0c102b;
-    color: #00ffcc;
-    border: 2px solid #00ffcc;
-    border-radius: 50px;
-    padding: 8px 16px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease;
-  }
-
-  /* Efecto al pasar el cursor / tocar */
-  .btn-float-inicio:hover, .btn-float-inicio:active {
-    background: #00ffcc;
-    color: #050814;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
-    transform: scale(1.08) translateY(-2px);
-  }
-</style>
-
-<!-- Botón Flotante para volver a la página anterior -->
-<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
-  <i class="fa-solid fa-arrow-left"></i> Atrás
-</a>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Spotters Spain · Noticias de Aviación en Castellano</title>
   <!-- Iconos de FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -68,7 +28,7 @@
       background-color: var(--bg-color);
       color: #ffffff;
       min-height: 100vh;
-      padding: 12px max(10px, env(safe-area-inset-right)) calc(70px + env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+      padding: 12px 10px 70px 10px;
     }
 
     .container {
@@ -326,19 +286,17 @@
       line-height: 1.4;
     }
 
-    /* BOTÓN FLOTANTE ATRÁS NEÓN */
+    /* BOTÓN FLOTANTE INICIO NEÓN */
     .btn-float-inicio {
       position: fixed;
-      bottom: calc(16px + env(safe-area-inset-bottom));
-      right: max(16px, env(safe-area-inset-right));
+      bottom: 16px;
+      right: 16px;
       z-index: 99999;
-      max-width: calc(100vw - 32px);
       background: #0c102b;
-      color: #00ffcc;
-      border: 2px solid #00ffcc;
+      color: var(--neon-green);
+      border: 2px solid var(--neon-green);
       border-radius: 50px;
       padding: 8px 16px;
-      font-family: 'Segoe UI', system-ui, sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
       text-decoration: none;
@@ -347,31 +305,19 @@
       box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
       transition: all 0.3s ease;
     }
 
     .btn-float-inicio:hover, .btn-float-inicio:active {
-      background: #00ffcc;
+      background: var(--neon-green);
       color: #050814;
       box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
       transform: scale(1.08) translateY(-2px);
     }
-
-    @media (max-width: 420px) {
-      .btn-float-inicio {
-        right: 10px;
-        bottom: calc(12px + env(safe-area-inset-bottom));
-        font-size: 0.7rem;
-        padding: 7px 12px;
-      }
-    }
   </style>
 </head>
 <body>
-
-
 
   <div class="container">
     <!-- ENCABEZADO -->
@@ -385,6 +331,7 @@
           <label for="source-filter"><i class="fa-solid fa-industry"></i> Fuente:</label>
           <select id="source-filter" class="date-select" onChange="changeSource()">
             <option value="preferente" selected>Preferente (Aerolíneas)</option>
+            <option value="aena">Aena (Notas de Prensa)</option>
             <option value="airbus">Airbus (Oficial)</option>
             <option value="boeing">Boeing (Oficial)</option>
           </select>
@@ -418,6 +365,11 @@
     </footer>
   </div>
 
+  <!-- BOTÓN FLOTANTE PARA REGRESAR A INDEX.HTML -->
+  <a href="index.html" class="btn-float-inicio">
+    <i class="fa-solid fa-house"></i> Inicio
+  </a>
+
   <script>
     const CACHE_BASE_KEY = 'aviation_news_10days_cache_v1_';
     const CACHE_DAYS = 10; // PERSISTENCIA ESTRICTA DE 10 DÍAS
@@ -433,6 +385,17 @@
           summaryText: "Las principales compañías aéreas que operan en Europa registran altos niveles de ocupación y amplían sus frecuencias en rutas intercontinentales...",
           fullText: "<p>Las aerolíneas españolas e internacionales incrementan notablemente su oferta de asientos impulsadas por la fuerte demanda turística y la incorporación de nuevos aviones de última generación a sus flotas comerciales.</p>",
           image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      aena: [
+        {
+          title: "Aena gestiona con éxito el incremento de operaciones en la red de aeropuertos españoles",
+          link: "https://www.aena.es",
+          source: "Aena Oficial",
+          date: new Date(),
+          summaryText: "La red de aeropuertos de Aena registra cifras elevadas de tráfico de pasajeros y operaciones comerciales, optimizando sus infraestructuras...",
+          fullText: "<p>Aena continúa mejorando la eficiencia operativa y los servicios aeroportuarios en toda su red en España, manteniendo altos estándares de seguridad y sostenibilidad en el transporte aéreo nacional e internacional.</p>",
+          image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=800&q=80"
         }
       ],
       airbus: [
@@ -465,6 +428,12 @@
         subtitle: 'Preferente · Noticias de Aerolíneas (Castellano)',
         footer: 'Fuente: Preferente.com · Sección Aerolíneas',
         url: 'https://www.preferente.com/noticias-de-transportes/noticias-de-aerolineas/feed'
+      },
+      aena: {
+        name: 'Aena Oficial',
+        subtitle: 'Aena · Notas de Prensa Oficiales (Castellano)',
+        footer: 'Fuente Oficial: Aena.es · Sala de Prensa',
+        url: 'https://www.aena.es/es/prensa/rss.xml'
       },
       airbus: {
         name: 'Airbus Oficial',
@@ -631,7 +600,8 @@
               let fullBodyFormatted = formatFullArticle(rawBody);
               let title = (item.title || '').trim();
 
-              if (currentSourceKey !== 'preferente') {
+              // Solo traducimos si la fuente no está en español originalmente
+              if (currentSourceKey !== 'preferente' && currentSourceKey !== 'aena') {
                 title = await translateToCastellano(title);
                 summary = await translateToCastellano(summary);
                 fullBodyFormatted = `<p>${await translateToCastellano(cleanText(rawBody).substring(0, 600))}</p>`;
@@ -765,7 +735,7 @@
 
       // 2. SI HA PASADO MÁS DE 10 DÍAS O SE APRIETA REFRESCAR, DESCARGAR Y TRADUCIR DE NUEVO
       status.textContent = `Actualizando fuentes de ${config.name}...`;
-      list.innerHTML = '<li class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Obteniendo y traduciendo noticias al castellano...</li>';
+      list.innerHTML = '<li class="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Obteniendo noticias...</li>';
       
       let items = await fetchFeed(config);
       

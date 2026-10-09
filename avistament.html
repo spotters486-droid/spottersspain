@@ -66,9 +66,9 @@
       position: fixed;
       top: 15%;
       right: -100px;
-      width: 380px;
-      height: 380px;
-      opacity: 0.07;
+      width: 320px;
+      height: 320px;
+      opacity: 0.06;
       pointer-events: none;
       z-index: 0;
       animation: slowRotate 120s linear infinite;
@@ -84,97 +84,165 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
-      padding: 10px 10px 24px 10px;
-      max-width: 680px;
+      padding: 8px 8px 20px 8px;
+      max-width: 620px;
       margin: 0 auto;
     }
 
     .hero-banner {
       position: relative;
       width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1.5px solid rgba(0, 210, 255, 0.5);
+      border-radius: 14px;
+      overflow: visible !important; /* PERMITE QUE EL DESPLEGABLE REBASE LA TARJETA */
+      border: 1.2px solid rgba(0, 210, 255, 0.4);
       background: linear-gradient(135deg, rgba(12, 20, 45, 0.9) 0%, rgba(5, 10, 25, 0.95) 100%);
-      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-      padding: 12px 14px;
-      margin-bottom: 16px;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.15);
+      padding: 10px 12px;
+      margin-bottom: 12px;
       backdrop-filter: blur(8px);
+      z-index: 50; /* Z-INDEX ELEVADO PARA QUEDAR POR ENCIMA DE OTRAS SECCIONES */
     }
 
     .stripe-top-left {
       position: absolute;
-      top: -22px;
-      left: -22px;
-      width: 58px;
-      height: 58px;
-      border-bottom: 4px solid var(--neon-cyan);
-      border-right: 4px solid var(--neon-cyan);
+      top: -18px;
+      left: -18px;
+      width: 48px;
+      height: 48px;
+      border-bottom: 3px solid var(--neon-cyan);
+      border-right: 3px solid var(--neon-cyan);
       transform: rotate(45deg);
-      box-shadow: 0 0 10px var(--neon-cyan);
+      box-shadow: 0 0 8px var(--neon-cyan);
       z-index: 5;
       pointer-events: none;
     }
 
-    /* GRUPO DE BOTONES SUPERIORES DERECHOS */
+    /* GRUPO DE BOTONES Y MENÚ DESPLEGABLE DE ADMINISTRACIÓN */
     .top-buttons-group {
       position: absolute;
-      top: 10px;
-      right: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      z-index: 30;
+      top: 8px;
+      right: 10px;
+      z-index: 100;
     }
 
-    /* BOTÓN DISCRETO DE ADMINISTRADOR */
+    .dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+
     .btn-admin-discrete {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.45);
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(3, 6, 17, 0.9);
+      border: 1px solid rgba(0, 210, 255, 0.4);
       border-radius: 8px;
-      padding: 4px 8px;
-      text-decoration: none;
+      padding: 5px 9px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
+      outline: none;
     }
 
-    .btn-admin-discrete:hover, .btn-admin-discrete:active {
+    .btn-admin-discrete:hover,
+    .btn-admin-discrete:focus,
+    .dropdown-container.active .btn-admin-discrete {
       color: var(--neon-cyan);
-      border-color: rgba(0, 210, 255, 0.5);
-      background: rgba(0, 210, 255, 0.1);
-      box-shadow: 0 0 8px rgba(0, 210, 255, 0.25);
+      border-color: rgba(0, 210, 255, 0.8);
+      background: rgba(0, 210, 255, 0.15);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      width: 180px;
+      background: #060a1c;
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 14px rgba(0, 210, 255, 0.3);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      overflow: hidden;
+      padding: 4px 0;
+    }
+
+    .dropdown-container.active .dropdown-menu {
+      display: block;
+      animation: dropdownFade 0.2s ease-out;
+    }
+
+    @keyframes dropdownFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .dropdown-item i {
+      color: var(--neon-cyan);
+      font-size: 0.8rem;
+      width: 16px;
+      text-align: center;
+    }
+
+    .dropdown-item:hover, .dropdown-item:active {
+      background: rgba(0, 210, 255, 0.2);
+      color: var(--neon-green);
+    }
+
+    .dropdown-item:hover i {
+      color: var(--neon-green);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(0, 210, 255, 0.2);
+      margin: 2px 0;
     }
 
     /* SECCIONES ESTILO TARJETA NEÓN */
     .info-card {
       background: linear-gradient(145deg, var(--card-bg-start), var(--card-bg-end));
-      border: 1.5px solid var(--neon-cyan);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 0 14px rgba(0, 210, 255, 0.15);
+      border: 1.2px solid rgba(0, 210, 255, 0.4);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.1);
       backdrop-filter: blur(8px);
       position: relative;
+      z-index: 1;
     }
 
     .card-header-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.82rem;
       font-weight: 800;
       color: var(--neon-cyan);
-      text-shadow: 0 0 8px var(--neon-cyan);
+      text-shadow: 0 0 6px var(--neon-cyan);
       display: flex;
       align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-      padding-bottom: 8px;
-      margin-bottom: 12px;
+      gap: 8px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
     }
 
     .card-header-title i {
@@ -182,17 +250,17 @@
     }
 
     .descripcion-seccion {
-      margin: -4px 0 16px 0;
-      color: #cbd5e1;
-      font-size: 0.78rem;
-      line-height: 1.4;
+      margin: -2px 0 12px 0;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      line-height: 1.35;
     }
 
-    /* FORMULARIO Y CAMPOS CON ESTILO NEÓN */
+    /* FORMULARIO Y CAMPOS CON ESTILO NEÓN COMPACTO */
     .formulario {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      gap: 10px;
     }
 
     .campo {
@@ -206,13 +274,13 @@
     }
 
     .campo label {
-      margin-bottom: 6px;
-      color: #e2e8f0;
-      font-size: 0.8rem;
+      margin-bottom: 4px;
+      color: #cbd5e1;
+      font-size: 0.73rem;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .campo input,
@@ -220,17 +288,16 @@
     .campo textarea {
       width: 100%;
       border: 1px solid rgba(0, 210, 255, 0.25);
-      border-radius: 10px;
-      background: rgba(3, 6, 17, 0.7);
+      border-radius: 8px;
+      background: rgba(3, 6, 17, 0.75);
       color: #ffffff;
-      padding: 10px 12px;
-      font-size: 0.85rem;
+      padding: 7px 10px;
+      font-size: 0.78rem;
       font-family: 'Montserrat', sans-serif;
       outline: none;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* CLASE PARA OBLIGAR MAYÚSCULAS VISUALMENTE */
     .input-uppercase {
       text-transform: uppercase;
     }
@@ -239,10 +306,9 @@
     .campo select:focus,
     .campo textarea:focus {
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.25);
     }
 
-    /* ESTILOS ESPECÍFICOS PARA EL CONTENEDOR DE FECHA Y HORA CON ICONO DE CALENDARIO */
     .datetime-wrapper {
       position: relative;
       display: flex;
@@ -251,15 +317,15 @@
     }
 
     .datetime-wrapper input[type="datetime-local"] {
-      padding-right: 40px;
+      padding-right: 34px;
       cursor: pointer;
     }
 
     .datetime-wrapper .calendar-icon {
       position: absolute;
-      right: 12px;
+      right: 10px;
       color: var(--neon-green);
-      font-size: 1rem;
+      font-size: 0.88rem;
       pointer-events: auto;
       cursor: pointer;
       transition: color 0.2s ease, transform 0.2s ease;
@@ -271,7 +337,6 @@
       transform: scale(1.1);
     }
 
-    /* PERSONALIZACIÓN DEL ICONO NATIVO DEL SELECTOR DE FECHA/HORA (Navegadores WebKit) */
     ::-webkit-calendar-picker-indicator {
       filter: invert(78%) sepia(82%) saturate(395%) hue-rotate(108deg) brightness(102%) contrast(105%);
       cursor: pointer;
@@ -283,52 +348,52 @@
     }
 
     .campo textarea {
-      min-height: 110px;
+      min-height: 85px;
       resize: vertical;
     }
 
     .ayuda {
-      margin-top: 5px;
-      color: #718096;
-      font-size: 0.72rem;
+      margin-top: 4px;
+      color: #64748b;
+      font-size: 0.68rem;
     }
 
-    /* BOTONES ACCIÓN NEÓN */
+    /* BOTONES ACCIÓN NEÓN COMPACTOS */
     .botones {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 8px;
+      margin-top: 12px;
     }
 
     .btn-action {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.73rem;
       font-weight: 800;
-      border-radius: 10px;
-      padding: 11px 16px;
+      border-radius: 8px;
+      padding: 9px 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       flex: 1;
-      min-width: 140px;
+      min-width: 120px;
     }
 
     .btn-primary-neon {
       background: linear-gradient(90deg, #00d2ff, #00ffcc);
       color: #030611;
       border: none;
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     }
 
     .btn-primary-neon:hover:not(:disabled), .btn-primary-neon:active:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 0 18px rgba(0, 255, 204, 0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 0 14px rgba(0, 255, 204, 0.6);
     }
 
     .btn-secondary-neon {
@@ -338,9 +403,9 @@
     }
 
     .btn-secondary-neon:hover:not(:disabled), .btn-secondary-neon:active:not(:disabled) {
-      background: rgba(0, 210, 255, 0.18);
+      background: rgba(0, 210, 255, 0.16);
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
     }
 
     .btn-action:disabled {
@@ -352,39 +417,39 @@
 
     .mensaje {
       display: none;
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      line-height: 1.4;
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      line-height: 1.35;
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 700;
     }
 
     .mensaje.exito {
       display: block;
-      background: rgba(0, 255, 204, 0.12);
+      background: rgba(0, 255, 204, 0.1);
       border: 1px solid var(--neon-green);
       color: var(--neon-green);
     }
 
     .mensaje.error {
       display: block;
-      background: rgba(255, 0, 85, 0.12);
+      background: rgba(255, 0, 85, 0.1);
       border: 1px solid var(--accent-red);
       color: #ff80a6;
     }
 
-    /* LISTADO Y FEED */
+    /* LISTADO Y FEED COMPACTOS */
     .cabecera-listado {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-      padding-bottom: 8px;
-      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
     }
 
     .cabecera-listado .card-header-title {
@@ -396,20 +461,20 @@
     .feed {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
 
     .avistamiento {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(0, 210, 255, 0.18);
-      border-radius: 12px;
-      padding: 14px;
-      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 12px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .avistamiento:hover {
-      border-color: rgba(0, 210, 255, 0.4);
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.1);
+      border-color: rgba(0, 210, 255, 0.35);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.08);
     }
 
     .avistamiento-cabecera {
@@ -417,87 +482,87 @@
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
 
     .avistamiento-aeropuerto {
       margin: 0;
       color: var(--neon-cyan);
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 800;
     }
 
     .avistamiento-fecha {
       color: #94a3b8;
-      font-size: 0.72rem;
-      margin-top: 2px;
+      font-size: 0.68rem;
+      margin-top: 1px;
     }
 
     .estado-verificado {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      background: rgba(0, 255, 204, 0.1);
+      gap: 3px;
+      padding: 3px 8px;
+      background: rgba(0, 255, 204, 0.08);
       color: var(--neon-green);
-      border: 1px solid rgba(0, 255, 204, 0.3);
-      border-radius: 20px;
-      font-size: 0.68rem;
+      border: 1px solid rgba(0, 255, 204, 0.25);
+      border-radius: 14px;
+      font-size: 0.62rem;
       font-family: 'Orbitron', sans-serif;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .datos-aeronave {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
 
     .dato {
-      background: rgba(0, 210, 255, 0.04);
-      border: 1px solid rgba(0, 210, 255, 0.1);
-      border-radius: 8px;
-      padding: 6px 10px;
+      background: rgba(0, 210, 255, 0.03);
+      border: 1px solid rgba(0, 210, 255, 0.08);
+      border-radius: 6px;
+      padding: 4px 8px;
     }
 
     .dato-etiqueta {
       display: block;
-      color: #718096;
-      font-size: 0.65rem;
+      color: #64748b;
+      font-size: 0.6rem;
       text-transform: uppercase;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .dato-valor {
       display: block;
       color: #ffffff;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 700;
     }
 
     .avistamiento-descripcion {
       color: #cbd5e1;
-      font-size: 0.78rem;
-      line-height: 1.5;
-      background: rgba(3, 6, 17, 0.5);
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.72rem;
+      line-height: 1.4;
+      background: rgba(3, 6, 17, 0.6);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
       white-space: pre-wrap;
     }
 
     .empty-state {
-      padding: 20px 14px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px dashed rgba(0, 210, 255, 0.2);
-      border-radius: 12px;
-      color: #a0aec0;
-      font-size: 0.78rem;
+      padding: 16px 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed rgba(0, 210, 255, 0.18);
+      border-radius: 10px;
+      color: #94a3b8;
+      font-size: 0.72rem;
       text-align: center;
     }
 
@@ -507,26 +572,25 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 8px;
+      margin-top: 12px;
     }
 
     .paginacion button {
       background: rgba(0, 210, 255, 0.08);
       color: var(--neon-cyan);
       border: 1px solid rgba(0, 210, 255, 0.25);
-      border-radius: 8px;
-      padding: 8px 14px;
+      border-radius: 6px;
+      padding: 6px 10px;
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: 700;
       transition: all 0.2s ease;
     }
 
     .paginacion button:hover:not(:disabled) {
-      background: rgba(0, 210, 255, 0.2);
+      background: rgba(0, 210, 255, 0.18);
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     }
 
     .paginacion button:disabled {
@@ -536,19 +600,19 @@
 
     #paginaInfo {
       color: #cbd5e1;
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 700;
       font-family: 'Orbitron', sans-serif;
     }
 
     .footer-neon {
-      margin-top: 10px;
-      padding-top: 16px;
+      margin-top: 6px;
+      padding-top: 12px;
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       text-align: center;
     }
 
@@ -558,25 +622,24 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 1.5px;
       background: linear-gradient(90deg, transparent 0%, var(--neon-cyan) 30%, var(--neon-green) 70%, transparent 100%);
-      box-shadow: 0 0 12px var(--neon-cyan), 0 0 8px var(--neon-green);
+      box-shadow: 0 0 8px var(--neon-cyan);
     }
 
     .footer-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     }
 
     .link-footer-admin {
       color: rgba(255, 255, 255, 0.35);
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       text-decoration: none;
       transition: color 0.25s ease;
       display: inline-flex;
@@ -588,42 +651,43 @@
       color: var(--neon-cyan);
     }
 
-    /* Botón Flotante Neón */
+    /* BOTÓN FLOTANTE ATRÁS */
     .btn-float-inicio {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 99999;
-      background: #0c102b;
+      bottom: 16px;
+      right: 16px;
+      z-index: 9999;
+      background: rgba(12, 16, 43, 0.9);
       color: #00ffcc;
-      border: 2px solid #00ffcc;
-      border-radius: 50px;
-      padding: 8px 16px;
+      border: 1.5px solid #00ffcc;
+      border-radius: 40px;
+      padding: 6px 12px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      letter-spacing: 0.4px;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.3s ease;
+      gap: 5px;
+      transition: all 0.25s ease;
       cursor: pointer;
+      backdrop-filter: blur(6px);
     }
 
     .btn-float-inicio:hover, .btn-float-inicio:active {
       background: #00ffcc;
       color: #050814;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
-      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 0 16px rgba(0, 255, 204, 0.8);
+      transform: scale(1.05);
     }
 
     @media (max-width: 600px) {
       .formulario {
         grid-template-columns: minmax(0, 1fr);
-        gap: 12px;
+        gap: 8px;
       }
       .datos-aeronave {
         grid-template-columns: minmax(0, 1fr);
@@ -634,9 +698,16 @@
       .btn-action {
         width: 100%;
       }
+      .hero-banner {
+        padding-top: 36px;
+      }
+      .top-buttons-group {
+        top: 6px;
+        right: 8px;
+      }
     }
   </style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 
   <!-- COMPASS FONDO CARTA NÁUTICA -->
@@ -658,22 +729,34 @@
     <header class="hero-banner">
       <div class="stripe-top-left"></div>
       
-      <!-- GRUPO DE BOTONES SUPERIORES DERECHOS -->
+      <!-- MENÚ DESPLEGABLE DE ADMINISTRADOR -->
       <div class="top-buttons-group">
-        <a href="admin_avistamientos.html" class="btn-admin-discrete" title="Panel de Administración">
-          <i class="fa-solid fa-user-gear"></i> Administrador
-        </a>
+        <div class="dropdown-container" id="adminDropdown">
+          <button type="button" class="btn-admin-discrete" id="btnAdminMenu" aria-expanded="false" title="Menú de Administración">
+            <i class="fa-solid fa-user-gear"></i> Administrador <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
+          </button>
+          
+          <div class="dropdown-menu" id="dropdownAdminMenu">
+            <a href="admin_avistamientos.html" class="dropdown-item">
+              <i class="fa-solid fa-shield-halved"></i> Acceso moderar
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="admin_usuarios.html" class="dropdown-item">
+              <i class="fa-solid fa-users-gear"></i> Admin moderación
+            </a>
+          </div>
+        </div>
       </div>
 
-      <div class="relative z-10 flex items-center gap-3 pr-40">
-        <div class="w-14 h-14 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-          <i class="fa-solid fa-plane-arrival text-2xl text-cyan-400"></i>
+      <div class="relative z-10 flex items-center gap-2.5 pr-2">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
+          <i class="fa-solid fa-plane-arrival text-lg sm:text-xl text-cyan-400"></i>
         </div>
         <div>
-          <h1 class="text-base sm:text-xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 class="text-sm sm:text-lg font-extrabold text-white tracking-tight leading-tight">
             Avistamientos
           </h1>
-          <p class="text-xs text-slate-300 font-medium">
+          <p class="text-[0.68rem] sm:text-xs text-slate-300 font-medium">
             Comparte y consulta avistamientos en España
           </p>
         </div>
@@ -686,7 +769,7 @@
         <i class="fa-solid fa-radar"></i> Enviar un avistamiento
       </div>
       <p class="descripcion-seccion">
-        Completa los datos del avistamiento. Antes de publicarse, deberá ser revisado por moderación.
+        Completa los datos. Antes de publicarse, será revisado por moderación.
       </p>
 
       <form id="formularioAvistamiento" class="formulario">
@@ -712,8 +795,8 @@
         <div class="campo">
           <label for="fechaAvistamiento"><i class="fa-solid fa-clock text-emerald-400"></i> Fecha y hora *</label>
           <div class="datetime-wrapper">
-            <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required onclick="abrirSelectorFecha(this)">
-            <i class="fa-solid fa-calendar-days calendar-icon" onclick="abrirSelectorFecha(this)"></i>
+            <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required onClick="abrirSelectorFecha(this)">
+            <i class="fa-solid fa-calendar-days calendar-icon" onClick="abrirSelectorFecha(this)"></i>
           </div>
         </div>
 
@@ -756,7 +839,7 @@
 
       <div class="botones">
         <button type="submit" form="formularioAvistamiento" id="enviarButton" class="btn-action btn-primary-neon">
-          <i class="fa-solid fa-paper-plane"></i> Enviar avistamiento
+          <i class="fa-solid fa-paper-plane"></i> Enviar
         </button>
         <button type="reset" form="formularioAvistamiento" class="btn-action btn-secondary-neon">
           <i class="fa-solid fa-rotate-left"></i> Limpiar
@@ -772,13 +855,13 @@
         <div class="card-header-title">
           <i class="fa-solid fa-square-check"></i> Avistamientos verificados
         </div>
-        <button type="button" id="refreshButton" class="btn-action btn-secondary-neon" style="min-width:auto; padding:6px 12px; font-size:0.72rem;">
+        <button type="button" id="refreshButton" class="btn-action btn-secondary-neon" style="min-width:auto; padding:4px 10px; font-size:0.65rem;">
           <i class="fa-solid fa-rotate"></i> Actualizar
         </button>
       </div>
 
       <p class="descripcion-seccion">
-        Consulta los avistamientos aprobados por la comunidad y administración.
+        Consulta los avistamientos aprobados por la comunidad.
       </p>
 
       <div id="feed" class="feed">
@@ -829,6 +912,24 @@
     const siguienteButton = document.getElementById("siguienteButton");
     const paginaInfo = document.getElementById("paginaInfo");
     const paginacion = document.getElementById("paginacion");
+
+    /* CONTROL DEL MENÚ DESPLEGABLE ADMIN */
+    const adminDropdown = document.getElementById("adminDropdown");
+    const btnAdminMenu = document.getElementById("btnAdminMenu");
+
+    btnAdminMenu.addEventListener("click", function(e) {
+      e.stopPropagation();
+      const isActive = adminDropdown.classList.contains("active");
+      adminDropdown.classList.toggle("active");
+      btnAdminMenu.setAttribute("aria-expanded", !isActive);
+    });
+
+    document.addEventListener("click", function(e) {
+      if (!adminDropdown.contains(e.target)) {
+        adminDropdown.classList.remove("active");
+        btnAdminMenu.setAttribute("aria-expanded", "false");
+      }
+    });
 
     /* PAGINACIÓN */
     const REGISTROS_POR_PAGINA = 4;
@@ -976,16 +1077,16 @@
           throw new Error("No se ha podido enviar el avistamiento.");
         }
 
-        mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión y se publicará tras su aprobación.", "exito");
+        mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
         formulario.reset();
         configurarFechaActual();
 
       } catch (error) {
         console.error(error);
-        mostrarMensaje("No ha sido posible enviar el avistamiento. Comprueba tu conexión e inténtalo de nuevo.", "error");
+        mostrarMensaje("No ha sido posible enviar el avistamiento. Comprueba tu conexión.", "error");
       } finally {
         enviarButton.disabled = false;
-        enviarButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar avistamiento';
+        enviarButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar';
       }
     });
 
