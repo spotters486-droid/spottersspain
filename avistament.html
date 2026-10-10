@@ -286,38 +286,40 @@
       display: inline-block;
     }
 
+    /* BOTÓN ADMINISTRADOR ENMASCARADO Y DISCRETO */
     .btn-admin-discrete {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(3, 6, 17, 0.9);
-      border: 1px solid rgba(0, 210, 255, 0.4);
-      border-radius: 8px;
-      padding: 5px 9px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.4);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 4px 8px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       transition: all 0.2s ease;
       outline: none;
+      opacity: 0.6;
     }
 
     .admin-pending-badge {
       display: none;
-      min-width: 18px;
-      height: 18px;
-      padding: 0 5px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
       border-radius: 999px;
       align-items: center;
       justify-content: center;
       background: #ef233c;
       color: #fff;
       font-family: Arial, sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       line-height: 1;
-      box-shadow: 0 0 0 2px rgba(3, 6, 17, .95), 0 0 10px rgba(239, 35, 60, .55);
+      box-shadow: 0 0 0 2px rgba(3, 6, 17, .95);
       flex-shrink: 0;
     }
 
@@ -328,10 +330,9 @@
     .btn-admin-discrete:hover,
     .btn-admin-discrete:focus,
     .dropdown-container.active .btn-admin-discrete {
-      color: var(--neon-cyan);
-      border-color: rgba(0, 210, 255, 0.8);
-      background: rgba(0, 210, 255, 0.15);
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.05);
+      opacity: 1;
     }
 
     .dropdown-menu {
@@ -612,34 +613,49 @@
       color: #ff80a6;
     }
 
+    /* BOTONES PRINCIPALES HIGHLIGHTED / DESTACADOS */
     .selector-vista {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin: 14px 0 18px;
     }
+    
     .selector-vista button {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       min-width: 0;
-      padding: 13px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 210, 255, 0.3);
-      color: #cbd5e1;
-      background: rgba(0, 210, 255, 0.06);
-      font: inherit;
-      font-size: 0.78rem;
+      padding: 13px 12px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(0, 210, 255, 0.5);
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.25) 0%, rgba(0, 255, 204, 0.12) 100%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
       font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .selector-vista button:hover {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.4) 0%, rgba(0, 255, 204, 0.25) 100%);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+      transform: translateY(-2px);
+    }
+
     .selector-vista button.activo {
-      color: var(--neon-cyan);
-      border-color: var(--neon-cyan);
-      background: rgba(0, 210, 255, 0.14);
-      box-shadow: 0 0 14px rgba(0, 210, 255, 0.08);
+      color: #030611;
+      border-color: #00ffcc;
+      background: linear-gradient(90deg, #00d2ff 0%, #00ffcc 100%);
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.5);
     }
+
     .panel-vista[hidden] { display: none !important; }
 
     .contenedor-estadisticas {
@@ -1134,10 +1150,10 @@
       .hero-banner { border-radius: 12px; padding: 10px; }
       .hero-banner > .relative { padding-right: 0 !important; }
       .top-buttons-group { position: relative !important; top: auto !important; right: auto !important; display: flex; justify-content: flex-end; width: 100%; margin-bottom: 10px; }
-      .btn-admin-discrete { max-width: 100%; font-size: .68rem; padding: 7px 9px; }
+      .btn-admin-discrete { max-width: 100%; font-size: .65rem; padding: 5px 7px; }
       .hero-banner h1 { font-size: clamp(.9rem, 4.3vw, 1.1rem) !important; overflow-wrap: anywhere; }
       .hero-banner p { font-size: .68rem !important; line-height: 1.35; }
-      .selector-vista button { gap: 5px; padding: 11px 6px; font-size: clamp(.65rem, 2.8vw, .76rem); }
+      .selector-vista button { gap: 5px; padding: 11px 6px; font-size: clamp(.68rem, 2.8vw, .76rem); }
       .card-header-title { font-size: clamp(.72rem, 3.2vw, .82rem); }
       .formulario { grid-template-columns: minmax(0, 1fr); gap: 10px; }
       .campo-completo { grid-column: auto; }
@@ -1202,6 +1218,36 @@
       <button type="button" id="btnAceptarNormas" class="btn-action btn-primary-neon w-full">
         <i class="fa-solid fa-check-double"></i> Entiendo y me comprometo
       </button>
+    </div>
+  </div>
+
+  <!-- CARTEL MODAL DE DETECCIÓN DE COINCIDENCIAS / REGISTRO DUPLICADO -->
+  <div class="modal-overlay" id="modalCoincidencia" role="dialog" aria-modal="true">
+    <div class="modal-content" style="border-color: #ffcc00; box-shadow: 0 0 25px rgba(255, 204, 0, 0.35);">
+      <div class="radar-logo-container" style="border-color: #ffcc00;" aria-hidden="true">
+        <div class="radar-sweep"></div>
+        <i class="fa-solid fa-triangle-exclamation radar-center-plane" style="color: #ffcc00;"></i>
+      </div>
+
+      <h2 class="modal-title" style="color: #ffcc00; text-shadow: 0 0 8px #ffcc00;">⚠️ Avistamiento muy similar detectado</h2>
+      <div class="modal-body">
+        <p>Hemos encontrado un avistamiento muy parecido que ya está guardado en el sistema:</p>
+        <div id="detalleCoincidencia" style="margin: 10px 0; padding: 10px; background: rgba(255, 204, 0, 0.08); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 8px; font-size: 0.75rem;">
+          <!-- Se rellena dinámicamente -->
+        </div>
+        <p style="text-align:center; color: #ffffff; font-weight: 700; margin-top: 10px;">
+          ¿Estás seguro de que deseas registrar este nuevo avistamiento de todos modos?
+        </p>
+      </div>
+      
+      <div class="flex gap-2">
+        <button type="button" id="btnCancelarCoincidencia" class="btn-action btn-secondary-neon flex-1" style="font-size: 0.68rem;">
+          <i class="fa-solid fa-pen-to-square"></i> Revisar datos
+        </button>
+        <button type="button" id="btnAceptarCoincidencia" class="btn-action btn-primary-neon flex-1" style="font-size: 0.68rem; background: linear-gradient(90deg, #ffcc00, #ff9900); color: #030611;">
+          <i class="fa-solid fa-check"></i> Aceptar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1324,13 +1370,12 @@
     <header class="hero-banner">
       <div class="stripe-top-left"></div>
       
-      <!-- MENÚ DESPLEGABLE DE ADMINISTRADOR -->
+      <!-- MENÚ DESPLEGABLE DE ADMINISTRADOR DISCRETO / ENMASCARADO -->
       <div class="top-buttons-group">
         <div class="dropdown-container" id="adminDropdown">
-          <button type="button" class="btn-admin-discrete" id="btnAdminMenu" aria-expanded="false" title="Menú de Administración">
-            <i class="fa-solid fa-user-gear"></i> Administrador
+          <button type="button" class="btn-admin-discrete" id="btnAdminMenu" aria-expanded="false" title="Acceso de Gestión">
+            <i class="fa-solid fa-lock text-[10px]"></i> Admin
             <span id="adminPendingBadge" class="admin-pending-badge" aria-label="Registros pendientes de aprobación" title="Registros pendientes de aprobación" aria-live="polite">0</span>
-            <i class="fa-solid fa-chevron-down text-[9px] ml-0.5 opacity-70"></i>
           </button>
           
           <div class="dropdown-menu" id="dropdownAdminMenu">
@@ -1360,10 +1405,14 @@
       </div>
     </header>
 
-    <!-- SELECTOR DE VISTA -->
+    <!-- SELECTOR DE VISTA (BOTONES DESTACADOS) -->
     <nav class="selector-vista" aria-label="Secciones de avistamientos">
-      <button type="button" id="mostrarFormularioBtn" class="activo" aria-controls="formSection" aria-pressed="true"><i class="fa-solid fa-circle-plus"></i> Registrar avistamiento</button>
-      <button type="button" id="mostrarRegistrosBtn" aria-controls="recordsSection" aria-pressed="false"><i class="fa-solid fa-list-check"></i> Ver registros</button>
+      <button type="button" id="mostrarFormularioBtn" class="activo" aria-controls="formSection" aria-pressed="true">
+        <i class="fa-solid fa-circle-plus"></i> Registrar avistamiento
+      </button>
+      <button type="button" id="mostrarRegistrosBtn" aria-controls="recordsSection" aria-pressed="false">
+        <i class="fa-solid fa-list-check"></i> Ver registros
+      </button>
     </nav>
 
     <!-- FORMULARIO DE ENVÍO -->
@@ -1613,6 +1662,13 @@
     const detCampoId = document.getElementById("detCampoId");
     const detRadarEstado = document.getElementById("detRadarEstado");
     const detRadarResultado = document.getElementById("detRadarResultado");
+
+    /* ELEMENTOS DEL MODAL DE COINCIDENCIAS */
+    const modalCoincidencia = document.getElementById("modalCoincidencia");
+    const detalleCoincidencia = document.getElementById("detalleCoincidencia");
+    const btnAceptarCoincidencia = document.getElementById("btnAceptarCoincidencia");
+    const btnCancelarCoincidencia = document.getElementById("btnCancelarCoincidencia");
+    let datosPendientesParaEnviar = null;
 
     let registroSeleccionadoActual = null;
 
@@ -2167,7 +2223,82 @@ Descripción: ${escaparValor(registroSeleccionadoActual.descripcion)}`;
       campoFecha.value = fechaLocal.toISOString().slice(0, 16);
     }
 
-    /* ENVIAR AVISTAMIENTO */
+    /* COMPROBAR COINCIDENCIAS / DUPLICADOS ANTES DE PUBLICAR */
+    async function buscarCoincidenciasSimilares(datos) {
+      try {
+        const params = new URLSearchParams({
+          select: "aeropuerto,fecha_avistamiento,aeronave,matricula,compania",
+          aeropuerto: "eq." + datos.aeropuerto,
+          limit: "30",
+          order: "fecha_avistamiento.desc"
+        });
+
+        const resp = await fetch(SUPABASE_REST_URL + "/avistamientos?" + params.toString(), {
+          method: "GET",
+          headers: crearCabeceras()
+        });
+
+        if (!resp.ok) return null;
+        const lista = await resp.json();
+
+        // Criterios de búsqueda de coincidencia
+        const coincidencia = lista.find(item => {
+          const mismaMatricula = datos.matricula && item.matricula && (item.matricula.trim().toUpperCase() === datos.matricula.trim().toUpperCase());
+          
+          const mismoModelo = datos.aeronave && item.aeronave && (item.aeronave.trim().toUpperCase() === datos.aeronave.trim().toUpperCase());
+          const mismaCompania = datos.compania && item.compania && (item.compania.trim().toUpperCase() === datos.compania.trim().toUpperCase());
+          
+          // Mismo día
+          const fechaA = new Date(datos.fecha_avistamiento).toDateString();
+          const fechaB = new Date(item.fecha_avistamiento).toDateString();
+          const mismoDia = fechaA === fechaB;
+
+          return mismaMatricula || (mismoModelo && mismaCompania && mismoDia);
+        });
+
+        return coincidencia || null;
+      } catch (err) {
+        console.warn("Fallo al verificar coincidencias:", err);
+        return null;
+      }
+    }
+
+    /* ENVIAR DEFINITIVAMENTE A SUPABASE */
+    async function enviarAvistamientoFinal(datos) {
+      enviarButton.disabled = true;
+      enviarButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+
+      try {
+        const respuesta = await fetch(SUPABASE_REST_URL + "/avistamientos", {
+          method: "POST",
+          headers: {
+            ...crearCabeceras(),
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(datos)
+        });
+
+        if (!respuesta.ok) {
+          throw new Error("No se ha podido enviar el avistamiento.");
+        }
+
+        mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
+        formulario.reset();
+        configurarFechaActual();
+        estadisticasCargadas = false;
+        registrosInicializados = false;
+
+      } catch (error) {
+        console.error(error);
+        mostrarMensaje("No ha sido posible enviar el avistamiento. Comprueba tu conexión.", "error");
+      } finally {
+        enviarButton.disabled = false;
+        enviarButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar';
+      }
+    }
+
+    /* ENVIAR AVISTAMIENTO CON COMPROBACIÓN PREVIA */
     formulario.addEventListener("submit", async function(evento) {
       evento.preventDefault();
       ocultarMensaje();
@@ -2208,36 +2339,42 @@ Descripción: ${escaparValor(registroSeleccionadoActual.descripcion)}`;
       };
 
       enviarButton.disabled = true;
-      enviarButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+      enviarButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verificando...';
 
-      try {
-        const respuesta = await fetch(SUPABASE_REST_URL + "/avistamientos", {
-          method: "POST",
-          headers: {
-            ...crearCabeceras(),
-            "Content-Type": "application/json",
-            "Prefer": "return=minimal"
-          },
-          body: JSON.stringify(datos)
-        });
+      // 1. Comprobar si existen registros idénticos o muy parecidos
+      const coincidencia = await buscarCoincidenciasSimilares(datos);
 
-        if (!respuesta.ok) {
-          throw new Error("No se ha podido enviar el avistamiento.");
-        }
-
-        mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
-        formulario.reset();
-        configurarFechaActual();
-        estadisticasCargadas = false;
-        registrosInicializados = false;
-
-      } catch (error) {
-        console.error(error);
-        mostrarMensaje("No ha sido posible enviar el avistamiento. Comprueba tu conexión.", "error");
-      } finally {
+      if (coincidencia) {
+        datosPendientesParaEnviar = datos;
+        detalleCoincidencia.innerHTML = `
+          <div>📍 <strong>Aeropuerto:</strong> ${escaparValor(coincidencia.aeropuerto)}</div>
+          <div>✈️ <strong>Modelo:</strong> ${escaparValor(coincidencia.aeronave)}</div>
+          <div>🆔 <strong>Matrícula/Vuelo:</strong> <span class="text-yellow-400 font-bold">${escaparValor(coincidencia.matricula)}</span></div>
+          <div>🏢 <strong>Compañía:</strong> ${escaparValor(coincidencia.compania)}</div>
+          <div>📅 <strong>Fecha:</strong> ${formatearFecha(coincidencia.fecha_avistamiento)}</div>
+        `;
+        modalCoincidencia.classList.add("active");
         enviarButton.disabled = false;
         enviarButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar';
+        return;
       }
+
+      // 2. Si no hay coincidencias, enviar directamente
+      await enviarAvistamientoFinal(datos);
+    });
+
+    /* EVENTOS BOTONES MODAL DE COINCIDENCIA */
+    btnAceptarCoincidencia.addEventListener("click", async function() {
+      modalCoincidencia.classList.remove("active");
+      if (datosPendientesParaEnviar) {
+        await enviarAvistamientoFinal(datosPendientesParaEnviar);
+        datosPendientesParaEnviar = null;
+      }
+    });
+
+    btnCancelarCoincidencia.addEventListener("click", function() {
+      modalCoincidencia.classList.remove("active");
+      datosPendientesParaEnviar = null;
     });
 
     /* CARGAR AVISTAMIENTOS VERIFICADOS */
