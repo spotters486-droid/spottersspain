@@ -137,6 +137,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .heavy-tag-title {
@@ -172,6 +173,33 @@
       color: #000000;
       box-shadow: 0 0 12px var(--neon-gold);
       transform: scale(1.03);
+    }
+
+    /* Estilo para el desplegable de filtro de altitud */
+    .select-heavy-model {
+      background: #070a1a;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 0 6px rgba(0, 210, 255, 0.2);
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .select-heavy-model:hover, .select-heavy-model:focus, .select-heavy-model.active {
+      background: rgba(0, 210, 255, 0.15);
+      box-shadow: 0 0 12px var(--neon-cyan);
+    }
+
+    .select-heavy-model option {
+      background-color: #070a1a;
+      color: #ffffff;
+      font-weight: 600;
     }
 
     .heavy-ticker {
@@ -361,7 +389,7 @@
 <body>
 
   <!-- FLOATING BACK BUTTON -->
-  <button class="btn-float-inicio" onclick="volverAtras()">
+  <button class="btn-float-inicio" onClick="volverAtras()">
     <i class="fa-solid fa-arrow-left"></i> Atrás
   </button>
 
@@ -385,12 +413,22 @@
       <div class="heavy-tag-title">
         <i class="fa-solid fa-plane"></i> FILTRO:
       </div>
-      <button class="btn-heavy-model active" id="btn-all" onclick="filterHeavyModel('ALL')">
+      <button class="btn-heavy-model active" id="btn-all" onClick="filterHeavyModel('ALL')">
         <i class="fa-solid fa-globe"></i> Todo el Tráfico
       </button>
-      <button class="btn-heavy-model" id="btn-heavy" onclick="filterHeavyModel('HEAVY_ALL')">
+      <button class="btn-heavy-model" id="btn-heavy" onClick="filterHeavyModel('HEAVY_ALL')">
         <i class="fa-solid fa-layer-group"></i> Todos los Heavies
       </button>
+
+      <!-- DESPLEGABLE DE ALTITUD -->
+      <select class="select-heavy-model" id="select-alt-filter" onChange="filterHeavyModel('ALT_FILTER')">
+        <option value="ALL_ALT">✈️ Altitud: Todas</option>
+        <option value="3000">🛬 Muy Baja Altura (≤ 3.000 ft)</option>
+        <option value="6000">🛬 Baja Altura (≤ 6.000 ft)</option>
+        <option value="9000" selected>🛫 Aproximación/Salida (≤ 9.000 ft)</option>
+        <option value="15000">✈️ Media Altura (≤ 15.000 ft)</option>
+        <option value="HIGH_ALT">☁️ Gran Altitud (≥ 20.000 ft)</option>
+      </select>
     </div>
 
     <div class="heavy-ticker" id="heavy-ticker-info">
@@ -411,7 +449,7 @@
           <span class="badge" id="filter-badge">SATELLITE LIVE (BARCELONA)</span>
         </div>
 
-        <button class="btn-fullscreen" id="btn-fs" onclick="toggleFullscreen()">
+        <button class="btn-fullscreen" id="btn-fs" onClick="toggleFullscreen()">
           <i class="fa-solid fa-expand" id="fs-icon"></i>
           <span id="fs-text">Pantalla Completa</span>
         </button>
@@ -432,7 +470,7 @@
 
   <!-- FOOTER -->
   <footer>
-    Cargado en Barcelona por defecto · Vista satélite activa · Toca en "Todos los Heavies" para ver únicamente aeronaves de gran tonelaje · Spotters Spain
+    Cargado en Barcelona por defecto · Vista satélite activa · Filtra por Heavies o Altitud personalizada · Spotters Spain
   </footer>
 
   <script>
@@ -444,17 +482,35 @@
     function filterHeavyModel(modelKey) {
       const iframe = document.getElementById('traffic-iframe');
       const badge = document.getElementById('filter-badge');
+      const altSelect = document.getElementById('select-alt-filter');
 
       document.querySelectorAll('.btn-heavy-model').forEach(btn => btn.classList.remove('active'));
+      altSelect.classList.remove('active');
 
-      const targetUrl = (modelKey === 'HEAVY_ALL') ? `${baseUrl}&filterCategory=A5` : baseUrl;
+      let targetUrl = baseUrl;
 
       if (modelKey === 'HEAVY_ALL') {
         document.getElementById('btn-heavy').classList.add('active');
         badge.textContent = 'FILTRANDO: TODOS LOS HEAVIES (A5)';
+        targetUrl = `${baseUrl}&filterCategory=A5`;
+      } else if (modelKey === 'ALT_FILTER') {
+        altSelect.classList.add('active');
+        const altVal = altSelect.value;
+
+        if (altVal === 'ALL_ALT') {
+          badge.textContent = 'SATELLITE LIVE (BARCELONA)';
+          targetUrl = baseUrl;
+        } else if (altVal === 'HIGH_ALT') {
+          badge.textContent = 'FILTRANDO: GRAN ALTITUD (≥ 20.000 FT)';
+          targetUrl = "https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=10&filterAltMin=20000&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid";
+        } else {
+          badge.textContent = `FILTRANDO: ALTITUD HASTA ${altVal} FT`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=10&filterAltMax=${altVal}&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid`;
+        }
       } else {
         document.getElementById('btn-all').classList.add('active');
         badge.textContent = 'SATELLITE LIVE (BARCELONA)';
+        targetUrl = baseUrl;
       }
 
       // Usamos location.replace para evitar que el iframe añada páginas extra al historial
