@@ -467,7 +467,8 @@
       justify-content: space-between;
       gap: 5px;
     }
-.campo input,
+
+    .campo input,
     .campo select,
     .campo textarea {
       width: 100%;
@@ -654,9 +655,18 @@
       box-shadow: 0 0 14px rgba(0, 210, 255, 0.08);
     }
     .panel-vista[hidden] { display: none !important; }
-    .estadisticas-cabecera { margin: 6px 0 12px; }
-    .estadisticas-cabecera h2 { color: var(--neon-cyan); font-size: .95rem; font-weight: 900; margin-bottom: 4px; }
-    .estadisticas-cabecera p { color: #94a3b8; font-size: .7rem; line-height: 1.5; }
+    
+    /* ESTILOS DE ESTADÍSTICAS */
+    .contenedor-estadisticas {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: rgba(3, 6, 17, 0.6);
+      border: 1px dashed rgba(0, 210, 255, 0.25);
+      border-radius: 10px;
+    }
+    .estadisticas-cabecera { margin: 2px 0 10px; }
+    .estadisticas-cabecera h2 { color: var(--neon-cyan); font-size: .88rem; font-weight: 900; margin-bottom: 4px; }
+    .estadisticas-cabecera p { color: #94a3b8; font-size: .68rem; line-height: 1.45; }
     .estadisticas-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin: 12px 0; }
     .estadistica-kpi { min-width: 0; padding: 12px 10px; border: 1px solid rgba(0,210,255,.18); border-radius: 10px; background: rgba(0,0,0,.28); }
     .estadistica-kpi .kpi-label { display:block; color:#94a3b8; font-size:.62rem; line-height:1.35; margin-bottom:7px; }
@@ -692,7 +702,6 @@
       padding-bottom: 0;
       margin-bottom: 0;
     }
-
 
     /* FILTROS DEL LISTADO DE AVISTAMIENTOS */
     .filtros-avistamientos {
@@ -1073,11 +1082,7 @@
       }
     }
 
-
-    /* =========================================================
-       AJUSTE RESPONSIVE GLOBAL — MÓVILES PEQUEÑOS, GRANDES Y TABLET
-       Evita desbordamientos horizontales y conserva la funcionalidad.
-    ========================================================= */
+    /* AJUSTE RESPONSIVE GLOBAL */
     *, *::before, *::after { box-sizing: border-box; }
     html { width: 100%; max-width: 100%; min-width: 0; overflow-x: clip; -webkit-text-size-adjust: 100%; }
     body { width: 100%; max-width: 100%; min-width: 0; margin: 0; overflow-x: clip; }
@@ -1171,7 +1176,6 @@
     @supports not (overflow: clip) {
       html, body { overflow-x: hidden; }
     }
-
   </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
@@ -1179,8 +1183,6 @@
   <!-- CARTEL MODAL DE BIENVENIDA / AVISO CON RADAR TÁCTICO -->
   <div class="modal-overlay" id="modalAdvertencia" role="dialog" aria-modal="true">
     <div class="modal-content">
-      
-      <!-- LOGO RADAR DINÁMICO IMPRESIONANTE -->
       <div class="radar-logo-container" aria-hidden="true">
         <div class="radar-sweep"></div>
         <div class="radar-ring radar-ring-1"></div>
@@ -1189,7 +1191,8 @@
         <div class="radar-crosshair-h"></div>
         <div class="radar-blip radar-blip-1"></div>
         <div class="radar-blip radar-blip-2"></div>
-        <i class="fa-solid fa-plane-up radar-center-plane"></i>      </div>
+        <i class="fa-solid fa-plane-up radar-center-plane"></i>
+      </div>
 
       <h2 class="modal-title">⚠️ Antes de registrar un avistamiento</h2>
       <div class="modal-body">
@@ -1205,7 +1208,7 @@
     </div>
   </div>
 
-  <!-- CARTEL INFORMATIVO DE VER REGISTROS: SOLO UNA VEZ -->
+  <!-- CARTEL INFORMATIVO DE VER REGISTROS -->
   <div class="modal-overlay" id="modalInfoRegistros" role="dialog" aria-modal="true" aria-labelledby="tituloInfoRegistros" aria-describedby="textoInfoRegistros">
     <div class="modal-content">
       <div class="radar-logo-container" aria-hidden="true">
@@ -1222,7 +1225,7 @@
       <div class="modal-body" id="textoInfoRegistros">
         <p><i class="fa-solid fa-circle-check" style="color:#00ff88"></i> <strong>Avistamientos publicados:</strong> consulta los registros que han sido revisados y verificados por el equipo de moderación.</p>
         <p style="margin-top:9px"><i class="fa-solid fa-magnifying-glass" style="color:#00d2ff"></i> <strong>Información de las aeronaves:</strong> consulta los datos disponibles, como aeropuerto, modelo, matrícula, compañía y descripción.</p>
-        <p style="margin-top:9px"><i class="fa-solid fa-chart-column" style="color:#ffcc00"></i> <strong>Estadísticas:</strong> consulta los datos y gráficos disponibles sobre los avistamientos registrados.</p>
+        <p style="margin-top:9px"><i class="fa-solid fa-chart-column" style="color:#ffcc00"></i> <strong>Estadísticas:</strong> consulta los datos y gráficos disponibles pulsando el botón de estadísticas.</p>
         <p style="margin-top:9px"><i class="fa-solid fa-list-ol" style="color:#b58cff"></i> <strong>Navegación:</strong> explora los registros, utiliza los filtros y cambia de página para consultar más resultados.</p>
         <p style="margin-top:10px">Los avistamientos enviados recientemente no aparecerán aquí hasta que sean revisados y verificados. Esta sección no incluye fotografías.</p>
       </div>
@@ -1240,7 +1243,8 @@
 
   <!-- BOTÓN FLOTANTE INICIO -->
   <button class="btn-float-inicio" onClick="volverAtras()">
-    <i class="fa-solid fa-house"></i> Inicio  </button>
+    <i class="fa-solid fa-house"></i> Inicio
+  </button>
 
   <div class="app-wrapper">
 
@@ -1259,26 +1263,32 @@
           
           <div class="dropdown-menu" id="dropdownAdminMenu">
             <a href="admin_avistamientos.html" class="dropdown-item">
-              <i class="fa-solid fa-shield-halved"></i> Acceso moderar            </a>
+              <i class="fa-solid fa-shield-halved"></i> Acceso moderar
+            </a>
             <div class="dropdown-divider"></div>
             <a href="admin_usuarios.html" class="dropdown-item">
-              <i class="fa-solid fa-users-gear"></i> Admin moderación            </a>          </div>
+              <i class="fa-solid fa-users-gear"></i> Admin moderación
+            </a>
+          </div>
         </div>
       </div>
 
       <div class="relative z-10 flex items-center gap-2.5 pr-2">
         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-cyan-400 bg-black/60 flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
-          <i class="fa-solid fa-plane-arrival text-lg sm:text-xl text-cyan-400"></i>        </div>
+          <i class="fa-solid fa-plane-arrival text-lg sm:text-xl text-cyan-400"></i>
+        </div>
         <div>
           <h1 class="text-sm sm:text-lg font-extrabold text-white tracking-tight leading-tight">
-            Avistamientos          </h1>
+            Avistamientos
+          </h1>
           <p class="text-[0.68rem] sm:text-xs text-slate-300 font-medium">
-            Comparte y consulta avistamientos en España          </p>
+            Comparte y consulta avistamientos en España
+          </p>
         </div>
       </div>
     </header>
 
-    <!-- SELECTOR DE VISTA: POR DEFECTO SOLO SE MUESTRA EL FORMULARIO -->
+    <!-- SELECTOR DE VISTA -->
     <nav class="selector-vista" aria-label="Secciones de avistamientos">
       <button type="button" id="mostrarFormularioBtn" class="activo" aria-controls="formSection" aria-pressed="true"><i class="fa-solid fa-circle-plus"></i> Registrar avistamiento</button>
       <button type="button" id="mostrarRegistrosBtn" aria-controls="recordsSection" aria-pressed="false"><i class="fa-solid fa-list-check"></i> Ver registros</button>
@@ -1287,9 +1297,11 @@
     <!-- FORMULARIO DE ENVÍO -->
     <section class="info-card panel-vista" id="formSection">
       <div class="card-header-title">
-        <i class="fa-solid fa-radar"></i> Enviar un avistamiento      </div>
+        <i class="fa-solid fa-radar"></i> Enviar un avistamiento
+      </div>
       <p class="descripcion-seccion">
-        Completa los datos. Antes de publicarse, será revisado por moderación.      </p>
+        Completa los datos. Antes de publicarse, será revisado por moderación.
+      </p>
 
       <form id="formularioAvistamiento" class="formulario">
         <div class="campo">
@@ -1317,7 +1329,8 @@
           <label for="fechaAvistamiento"><i class="fa-solid fa-clock text-emerald-400"></i> Fecha y hora *</label>
           <div class="datetime-wrapper">
             <input type="datetime-local" id="fechaAvistamiento" name="fechaAvistamiento" required onClick="abrirSelectorFecha(this)">
-            <i class="fa-solid fa-calendar-days calendar-icon" onClick="abrirSelectorFecha(this)"></i>          </div>
+            <i class="fa-solid fa-calendar-days calendar-icon" onClick="abrirSelectorFecha(this)"></i>
+          </div>
         </div>
 
         <div class="campo">
@@ -1353,53 +1366,69 @@
         <div class="campo campo-completo">
           <label for="descripcion"><i class="fa-solid fa-align-left text-emerald-400"></i> Descripción del avistamiento *</label>
           <textarea id="descripcion" name="descripcion" maxlength="1500" required placeholder="Cuéntanos los detalles del avistamiento..."></textarea>
-          <span class="ayuda">🔒 No incluyas datos personales ni información privada.</span>        </div>
+          <span class="ayuda">🔒 No incluyas datos personales ni información privada.</span>
+        </div>
       </form>
 
       <div class="botones">
         <button type="submit" form="formularioAvistamiento" id="enviarButton" class="btn-action btn-primary-neon">
-          <i class="fa-solid fa-paper-plane"></i> Enviar        </button>
+          <i class="fa-solid fa-paper-plane"></i> Enviar
+        </button>
         <button type="reset" form="formularioAvistamiento" class="btn-action btn-secondary-neon">
-          <i class="fa-solid fa-rotate-left"></i> Limpiar        </button>
+          <i class="fa-solid fa-rotate-left"></i> Limpiar
+        </button>
       </div>
 
       <div id="mensajeFormulario" class="mensaje" role="status" aria-live="polite"></div>
     </section>
 
-    <!-- REGISTROS, FILTROS Y ESTADÍSTICAS: OCULTOS AL CARGAR -->
+    <!-- REGISTROS, FILTROS Y ESTADÍSTICAS (PANEL VER REGISTROS) -->
     <section class="info-card panel-vista" id="recordsSection" hidden>
-      <div class="estadisticas-cabecera">
-        <h2><i class="fa-solid fa-chart-line"></i> Estadísticas de avistamientos</h2>
-        <p>Datos calculados a partir de los avistamientos verificados. Las coincidencias indican matrículas que aparecen en más de un registro; no implican necesariamente un error.</p>
-      </div>
-      <div id="estadisticasEstado" class="empty-state">Abre esta sección para cargar las estadísticas…</div>
-      <div id="estadisticasContenido" hidden>
-        <div class="estadisticas-grid">
-          <div class="estadistica-kpi"><span class="kpi-label">Avistamientos verificados</span><strong id="kpiTotal">—</strong></div>
-          <div class="estadistica-kpi"><span class="kpi-label">Matrículas registradas</span><strong id="kpiMatriculas">—</strong></div>
-          <div class="estadistica-kpi"><span class="kpi-label">Matrículas repetidas</span><strong id="kpiRepetidas">—</strong></div>
-          <div class="estadistica-kpi"><span class="kpi-label">Tasa de coincidencia</span><strong id="kpiTasa">—</strong><small>Registros con matrícula repetida</small></div>
-        </div>
-        <div class="graficos-grid">
-          <div class="grafico-card"><h3><i class="fa-solid fa-plane-departure"></i> Registros por aeropuerto</h3><div id="graficoAeropuertos" class="barras-grafico"></div></div>
-          <div class="grafico-card"><h3><i class="fa-regular fa-clock"></i> Horas con más avistamientos</h3><div id="graficoHoras" class="barras-grafico"></div></div>
-          <div class="grafico-card"><h3><i class="fa-solid fa-layer-group"></i> Registros por categoría</h3><div id="graficoCategorias" class="barras-grafico"></div></div>
-          <div class="grafico-card"><h3><i class="fa-solid fa-id-card"></i> Matrículas con más coincidencias</h3><div id="graficoMatriculas" class="barras-grafico"></div></div>
-        </div>
-        <p id="estadisticasPie" class="estadisticas-pie"></p>
-      </div>
 
-      <!-- LISTADO PÚBLICO -->
+      <!-- CABECERA DEL LISTADO Y BOTÓN DE ESTADÍSTICAS -->
       <div class="cabecera-listado">
         <div class="card-header-title">
-          <i class="fa-solid fa-square-check"></i> Avistamientos verificados        </div>
-        <button type="button" id="refreshButton" class="btn-action btn-secondary-neon" style="min-width:auto; padding:4px 10px; font-size:0.65rem;">
-          <i class="fa-solid fa-rotate"></i> Actualizar        </button>
+          <i class="fa-solid fa-square-check"></i> Avistamientos verificados
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button type="button" id="toggleEstadisticasBtn" class="btn-action btn-secondary-neon" style="min-width:auto; padding:4px 10px; font-size:0.65rem;">
+            <i class="fa-solid fa-chart-line"></i> Ver estadísticas
+          </button>
+          <button type="button" id="refreshButton" class="btn-action btn-secondary-neon" style="min-width:auto; padding:4px 10px; font-size:0.65rem;">
+            <i class="fa-solid fa-rotate"></i> Actualizar
+          </button>
+        </div>
+      </div>
+
+      <!-- BLOQUE DE ESTADÍSTICAS DESPLEGABLE (OCULTO POR DEFECTO) -->
+      <div id="wrapperEstadisticas" class="contenedor-estadisticas" hidden>
+        <div class="estadisticas-cabecera">
+          <h2><i class="fa-solid fa-chart-line"></i> Estadísticas de avistamientos</h2>
+          <p>Datos calculados a partir de los avistamientos verificados. Las coincidencias indican matrículas que aparecen en más de un registro.</p>
+        </div>
+        <div id="estadisticasEstado" class="empty-state">Iniciando estadísticas…</div>
+        <div id="estadisticasContenido" hidden>
+          <div class="estadisticas-grid">
+            <div class="estadistica-kpi"><span class="kpi-label">Avistamientos verificados</span><strong id="kpiTotal">—</strong></div>
+            <div class="estadistica-kpi"><span class="kpi-label">Matrículas registradas</span><strong id="kpiMatriculas">—</strong></div>
+            <div class="estadistica-kpi"><span class="kpi-label">Matrículas repetidas</span><strong id="kpiRepetidas">—</strong></div>
+            <div class="estadistica-kpi"><span class="kpi-label">Tasa de coincidencia</span><strong id="kpiTasa">—</strong><small>Registros con matrícula repetida</small></div>
+          </div>
+          <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-plane-departure"></i> Registros por aeropuerto</h3><div id="graficoAeropuertos" class="barras-grafico"></div></div>
+            <div class="grafico-card"><h3><i class="fa-regular fa-clock"></i> Horas con más avistamientos</h3><div id="graficoHoras" class="barras-grafico"></div></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-layer-group"></i> Registros por categoría</h3><div id="graficoCategorias" class="barras-grafico"></div></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-id-card"></i> Matrículas con más coincidencias</h3><div id="graficoMatriculas" class="barras-grafico"></div></div>
+          </div>
+          <p id="estadisticasPie" class="estadisticas-pie"></p>
+        </div>
       </div>
 
       <p class="descripcion-seccion">
-        Consulta los avistamientos aprobados por la comunidad.      </p>
+        Consulta los avistamientos aprobados por la comunidad.
+      </p>
 
+      <!-- FILTROS -->
       <div class="filtros-avistamientos" role="search" aria-label="Filtrar avistamientos">
         <div class="filtro-campo">
           <label for="filtroAeropuerto"><i class="fa-solid fa-location-dot"></i> Aeropuerto</label>
@@ -1421,18 +1450,22 @@
         <button type="button" id="limpiarFiltros" class="btn-filtro"><i class="fa-solid fa-rotate-left"></i> Limpiar</button>
       </div>
 
+      <!-- FEED DE REGISTROS -->
       <div id="feed" class="feed">
         <div class="empty-state">
-          <i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando avistamientos...        </div>
+          <i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando avistamientos...
+        </div>
       </div>
 
       <!-- PAGINACIÓN -->
       <div id="paginacion" class="paginacion" style="display: none;">
         <button type="button" id="anteriorButton" disabled>
-          <i class="fa-solid fa-arrow-left"></i> Anteriores        </button>
+          <i class="fa-solid fa-arrow-left"></i> Anteriores
+        </button>
         <span id="paginaInfo">Página 1</span>
         <button type="button" id="siguienteButton" disabled>
-          Siguientes <i class="fa-solid fa-arrow-right"></i>        </button>
+          Siguientes <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
     </section>
 
@@ -1441,14 +1474,15 @@
       <p class="footer-text">Spotters Spain · Todos los derechos reservados 2026</p>
       <div>
         <a href="admin_avistamientos.html" class="link-footer-admin">
-          <i class="fa-solid fa-lock"></i> Acceso Administrador        </a>      </div>
+          <i class="fa-solid fa-lock"></i> Acceso Administrador
+        </a>
+      </div>
     </footer>
   </div>
 
   <!-- SUPABASE & SCRIPT LÓGICA -->
   <script>
     "use strict";
-
 
     /* CONTROL DEL CARTEL MODAL UNA SOLA VEZ CON LOCALSTORAGE */
     document.addEventListener("DOMContentLoaded", function() {
@@ -1464,7 +1498,7 @@
         modal.classList.remove("active");
         localStorage.setItem(KEY_ACEPTADO, "true");
       });
-});
+    });
 
     /* CONFIGURACIÓN DE SUPABASE */
     const SUPABASE_URL = "https://oxqgceyugjahicnqgtsq.supabase.co";
@@ -1490,6 +1524,10 @@
     const recordsSection = document.getElementById("recordsSection");
     const mostrarFormularioBtn = document.getElementById("mostrarFormularioBtn");
     const mostrarRegistrosBtn = document.getElementById("mostrarRegistrosBtn");
+    
+    /* ELEMENTOS Y ESTADO DE ESTADÍSTICAS */
+    const toggleEstadisticasBtn = document.getElementById("toggleEstadisticasBtn");
+    const wrapperEstadisticas = document.getElementById("wrapperEstadisticas");
     const estadisticasEstado = document.getElementById("estadisticasEstado");
     const estadisticasContenido = document.getElementById("estadisticasContenido");
     let estadisticasCargadas = false;
@@ -1544,6 +1582,21 @@
     filtroAeropuerto.addEventListener("change", aplicarFiltrosListado);
     filtroCategoria.addEventListener("change", aplicarFiltrosListado);
 
+    /* MOSTRAR / OCULTAR DESPLEGABLE DE ESTADÍSTICAS */
+    toggleEstadisticasBtn.addEventListener("click", function() {
+      const estaOculto = wrapperEstadisticas.hidden;
+      wrapperEstadisticas.hidden = !estaOculto;
+      
+      if (estaOculto) {
+        toggleEstadisticasBtn.innerHTML = '<i class="fa-solid fa-chart-line"></i> Ocultar estadísticas';
+        if (!estadisticasCargadas && !cargandoEstadisticas) {
+          cargarEstadisticas();
+        }
+      } else {
+        toggleEstadisticasBtn.innerHTML = '<i class="fa-solid fa-chart-line"></i> Ver estadísticas';
+      }
+    });
+
     /* CAMBIAR ENTRE REGISTRAR Y VER REGISTROS */
     function cambiarVista(vista) {
       const verRegistros = vista === "registros";
@@ -1559,7 +1612,6 @@
           paginaActual = 0;
           cargarAvistamientos();
         }
-        if (!estadisticasCargadas && !cargandoEstadisticas) cargarEstadisticas();
         recordsSection.scrollIntoView({ behavior: "smooth", block: "start" });
       } else {
         formSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1629,7 +1681,6 @@
       estadisticasEstado.hidden = false;
       estadisticasEstado.textContent = "Calculando estadísticas de los registros verificados…";
       try {
-        // Se descargan por bloques para no limitar el cálculo a los cuatro registros visibles.
         const todos = [];
         const tamanoBloque = 500;
         let offsetEstadisticas = 0;
@@ -1649,7 +1700,7 @@
           todos.push(...bloque);
           if (bloque.length < tamanoBloque) break;
           offsetEstadisticas += bloque.length;
-          if (offsetEstadisticas > 50000) break; // protección para no mantener una petición indefinida
+          if (offsetEstadisticas > 50000) break;
         }
 
         const conMatricula = todos.map(r => (r.matricula || "").trim().toUpperCase()).filter(Boolean);
@@ -1688,15 +1739,13 @@
       } catch (error) {
         console.error(error);
         estadisticasEstado.hidden = false;
-        estadisticasEstado.textContent = "No se pudieron cargar las estadísticas. Comprueba la conexión y pulsa Ver registros de nuevo.";
+        estadisticasEstado.textContent = "No se pudieron cargar las estadísticas. Comprueba la conexión y vuelve a intentarlo.";
       } finally {
         cargandoEstadisticas = false;
       }
     }
 
-    /* AVISO DE REGISTROS PENDIENTES DE MODERACIÓN
-       La cifra se obtiene mediante una función RPC de Supabase que devuelve SOLO el total,
-       sin exponer al público los datos de los avistamientos pendientes. */
+    /* AVISO DE REGISTROS PENDIENTES DE MODERACIÓN */
     const adminPendingBadge = document.getElementById("adminPendingBadge");
     let pendingBadgeTimer = null;
 
@@ -1741,7 +1790,6 @@
           adminPendingBadge.title = "No hay registros pendientes de aprobación";
         }
       } catch (error) {
-        // No inventar cifras si la función RPC aún no existe o Supabase no permite ejecutarla.
         adminPendingBadge.classList.remove("visible");
         adminPendingBadge.textContent = "";
         adminPendingBadge.title = "No se pudo consultar el contador. Comprueba la función RPC de Supabase.";
@@ -1918,7 +1966,6 @@
         mostrarMensaje("¡Avistamiento enviado correctamente! Quedará pendiente de revisión.", "exito");
         formulario.reset();
         configurarFechaActual();
-        // La nueva entrada queda pendiente de moderación y no aparecerá en estadísticas públicas hasta verificarse.
         estadisticasCargadas = false;
         registrosInicializados = false;
 
@@ -1954,7 +2001,6 @@
           offset: String(inicio)
         });
 
-        // Los filtros se aplican en Supabase antes de paginar, para buscar en todos los registros verificados.
         if (filtroAeropuerto.value) {
           parametros.set("aeropuerto", "eq." + filtroAeropuerto.value);
         }
@@ -2018,7 +2064,6 @@
         const esMilitar = categoriaNormalizada.includes("militar") || /\b(militar|air force|navy|armed forces|fuerza aerea|ejercito|armada|usaf|raf|luftwaffe|f-16|f-18|f-35|eurofighter|typhoon|tornado|c-130|a400m|p-3 orion|p-8 poseidon|chinook|apache|black hawk)\b/.test(datosNormalizados);
         const tarjeta = crearElemento("article", esMilitar ? "avistamiento avistamiento-militar" : "avistamiento");
 
-        /* CABECERA TARJETA */
         const cabecera = crearElemento("div", "avistamiento-cabecera");
         const grupoTitulo = crearElemento("div");
         const titulo = crearElemento("h3", "avistamiento-aeropuerto", escaparValor(registro.aeropuerto));
@@ -2038,7 +2083,6 @@
         cabecera.appendChild(grupoTitulo);
         cabecera.appendChild(verificado);
 
-        /* DATOS AERONAVE */
         const datosAeronave = crearElemento("div", "datos-aeronave");
         const datos = [
           { etiqueta: "Categoría", valor: registro.categoria },
@@ -2056,7 +2100,6 @@
           datosAeronave.appendChild(caja);
         });
 
-        /* DESCRIPCIÓN */
         const descripcion = crearElemento("p", "avistamiento-descripcion", escaparValor(registro.descripcion));
 
         tarjeta.appendChild(cabecera);
@@ -2110,9 +2153,11 @@
     refreshButton.addEventListener("click", async function() {
       paginaActual = 0;
       await cargarAvistamientos();
-      estadisticasCargadas = false;
-      estadisticasContenido.hidden = true;
-      await cargarEstadisticas();
+      if (!wrapperEstadisticas.hidden) {
+        estadisticasCargadas = false;
+        estadisticasContenido.hidden = true;
+        await cargarEstadisticas();
+      }
     });
 
     /* INICIALIZACIÓN */
