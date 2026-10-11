@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Documento sin t&iacute;tulo</title>
+<title>Spotters Spain - Aviación & Spotting</title>
 </head>
 <body>
 <!DOCTYPE html>
@@ -242,7 +242,6 @@
       transition: all 0.5s ease;
     }
 
-    /* Fondo de Carta Náutica para el banner */
     .hero-nautical-overlay {
       position: absolute;
       inset: 0;
@@ -256,7 +255,6 @@
       background-size: 100% 100%, 20px 20px, 20px 20px;
     }
 
-    /* Aviones Flotantes dentro del Banner */
     .banner-plane-layer {
       position: absolute;
       inset: 0;
@@ -416,7 +414,6 @@
       z-index: 3;
     }
 
-    /* CAMARA DENTRO DEL RADAR CON DESTELLO CADA 5 SEGUNDOS */
     .camera-icon-inside-radar {
       position: absolute;
       font-size: 0.9rem;
@@ -479,7 +476,6 @@
       line-height: 1;
     }
 
-    /* ESTILO TITULO NEON AZUL MEJORADO Y MÁS GRANDE */
     .neon-title-blue-large {
       font-family: 'Orbitron', sans-serif;
       font-size: 1.25rem;
@@ -576,7 +572,11 @@
       padding: 0 2px;
     }
 
+    /* =========================================================
+        ESTILOS METEOSPOTTER LIVE CON SOL / LUNA DINÁMICOS
+    ========================================================= */
     .meteo-section {
+      position: relative;
       background: linear-gradient(145deg, rgba(12, 18, 45, 0.9), rgba(6, 10, 26, 0.95));
       border: 1.5px solid var(--neon-cyan);
       border-radius: 16px;
@@ -584,6 +584,89 @@
       box-shadow: 0 0 16px rgba(0, 210, 255, 0.2);
       margin-bottom: 16px;
       backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .meteo-sky-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      transition: background 1s ease;
+    }
+
+    /* Gradiente diurno y nocturno tenue para el fondo meteo */
+    .meteo-sky-bg.day-sky {
+      background: radial-gradient(circle at 50% 120%, rgba(255, 200, 50, 0.12) 0%, rgba(0, 150, 255, 0.05) 50%, transparent 80%);
+    }
+
+    .meteo-sky-bg.night-sky {
+      background: radial-gradient(circle at 50% 120%, rgba(100, 150, 255, 0.08) 0%, rgba(10, 15, 35, 0.2) 60%, transparent 90%);
+    }
+
+    /* Estrellas tenues para la noche */
+    .meteo-stars {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background-image: 
+        radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.5px 1.5px at 35% 12%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 65% 25%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.2px 1.2px at 85% 15%, rgba(255,255,255,0.8), transparent);
+      transition: opacity 1s ease;
+    }
+    .meteo-sky-bg.night-sky .meteo-stars {
+      opacity: 0.6;
+    }
+
+    /* Astro contenedor (Sol/Luna) */
+    .astro-body {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      transition: all 0.5s ease-out;
+      z-index: 1;
+      filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
+    }
+
+    /* Apariencia del Sol */
+    .astro-body.sun {
+      background: radial-gradient(circle, #ffffff 0%, #ffea00 45%, #ff9800 100%);
+      box-shadow: 0 0 15px #ffea00, 0 0 30px rgba(255, 152, 0, 0.6), inset 0 0 8px #ffffff;
+      animation: sunGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes sunGlow {
+      0% { box-shadow: 0 0 12px #ffea00, 0 0 25px rgba(255, 152, 0, 0.5); }
+      100% { box-shadow: 0 0 20px #ffea00, 0 0 40px rgba(255, 152, 0, 0.8); }
+    }
+
+    /* Apariencia de la Luna */
+    .astro-body.moon {
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #dbeafe 50%, #94a3b8 100%);
+      box-shadow: 0 0 12px rgba(219, 234, 254, 0.9), 0 0 25px rgba(148, 163, 184, 0.5), inset -3px -3px 6px rgba(0,0,0,0.4);
+    }
+    .astro-body.moon::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 7px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(100, 116, 139, 0.3);
+      box-shadow: 8px 10px 0 -1px rgba(100, 116, 139, 0.25);
+    }
+
+    .meteo-content-relative {
+      position: relative;
+      z-index: 2;
     }
 
     .meteo-header {
@@ -631,6 +714,7 @@
       border-radius: 10px;
       padding: 8px 4px;
       text-align: center;
+      backdrop-filter: blur(4px);
     }
 
     .meteo-card-small i {
@@ -657,6 +741,7 @@
       border-radius: 12px;
       padding: 10px 12px;
       position: relative;
+      backdrop-filter: blur(4px);
     }
 
     .spotter-tips-title {
@@ -801,7 +886,6 @@
       text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     }
 
-    /* ESTILO BOTÓN FLOTANTE ACERCA DE (MUCHO MÁS PEQUEÑO - 30PX) */
     .floating-info-btn {
       position: fixed;
       bottom: 16px;
@@ -984,49 +1068,59 @@
 
     </main>
 
-    <section class="meteo-section">
-      <div class="meteo-header">
-        <div class="meteo-title">
-          <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotter Live
-        </div>
-        <select id="airport-select" class="airport-select">
-          <option value="LEBL">Barcelona (LEBL)</option>
-          <option value="LEMD">Madrid (LEMD)</option>
-          <option value="LEPA">Palma (LEPA)</option>
-          <option value="LEMG">Málaga (LEMG)</option>
-          <option value="LEZL">Sevilla (LEZL)</option>
-        </select>
+    <!-- METEOSPOTTER LIVE CON FONDO CELESTE DINÁMICO (SOL/LUNA) -->
+    <section class="meteo-section" id="meteo-section">
+      <!-- CAPA DE FONDO DEL CIELO -->
+      <div class="meteo-sky-bg" id="meteo-sky-bg">
+        <div class="meteo-stars"></div>
+        <div class="astro-body" id="astro-body"></div>
       </div>
 
-      <div class="meteo-grid" id="meteo-grid">
-        <div class="meteo-card-small">
-          <i class="fa-solid fa-temperature-half"></i>
-          <div class="val" id="m-temp">--°C</div>
-          <div class="lbl">Temp.</div>
+      <!-- CONTENIDO PRINCIPAL DE METEO (RELATIVE SOBRE EL FONDO) -->
+      <div class="meteo-content-relative">
+        <div class="meteo-header">
+          <div class="meteo-title">
+            <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotter Live
+          </div>
+          <select id="airport-select" class="airport-select">
+            <option value="LEBL">Barcelona (LEBL)</option>
+            <option value="LEMD">Madrid (LEMD)</option>
+            <option value="LEPA">Palma (LEPA)</option>
+            <option value="LEMG">Málaga (LEMG)</option>
+            <option value="LEZL">Sevilla (LEZL)</option>
+          </select>
         </div>
-        <div class="meteo-card-small">
-          <i class="fa-solid fa-wind"></i>
-          <div class="val" id="m-wind">-- kt</div>
-          <div class="lbl">Viento</div>
-        </div>
-        <div class="meteo-card-small">
-          <i class="fa-solid fa-eye"></i>
-          <div class="val" id="m-vis">-- km</div>
-          <div class="lbl">Visib.</div>
-        </div>
-        <div class="meteo-card-small">
-          <i class="fa-solid fa-cloud"></i>
-          <div class="val" id="m-cloud">--%</div>
-          <div class="lbl">Nubes</div>
-        </div>
-      </div>
 
-      <div class="spotter-tips-container">
-        <div class="spotter-tips-title">
-          <i class="fa-solid fa-camera"></i> Tip Spotter en tiempo real:
+        <div class="meteo-grid" id="meteo-grid">
+          <div class="meteo-card-small">
+            <i class="fa-solid fa-temperature-half"></i>
+            <div class="val" id="m-temp">--°C</div>
+            <div class="lbl">Temp.</div>
+          </div>
+          <div class="meteo-card-small">
+            <i class="fa-solid fa-wind"></i>
+            <div class="val" id="m-wind">-- kt</div>
+            <div class="lbl">Viento</div>
+          </div>
+          <div class="meteo-card-small">
+            <i class="fa-solid fa-eye"></i>
+            <div class="val" id="m-vis">-- km</div>
+            <div class="lbl">Visib.</div>
+          </div>
+          <div class="meteo-card-small">
+            <i class="fa-solid fa-cloud"></i>
+            <div class="val" id="m-cloud">--%</div>
+            <div class="lbl">Nubes</div>
+          </div>
         </div>
-        <div id="spotter-tips-list">
-          <div class="spotter-tip-item"><i class="fa-solid fa-spinner fa-spin"></i> Obteniendo condiciones de pista...</div>
+
+        <div class="spotter-tips-container">
+          <div class="spotter-tips-title">
+            <i class="fa-solid fa-camera"></i> Tip Spotter en tiempo real:
+          </div>
+          <div id="spotter-tips-list">
+            <div class="spotter-tip-item"><i class="fa-solid fa-spinner fa-spin"></i> Obteniendo condiciones de pista...</div>
+          </div>
         </div>
       </div>
     </section>
@@ -1097,184 +1191,48 @@
         MOTOR DE CELEBRACIONES DE ESPAÑA Y CATALUÑA
     ========================================================= */
     function calculateEaster(year) {
-
-  const a = year % 19;
-  const b = Math.floor(year / 100);
-  const c = year % 100;
-  const d = Math.floor(b / 4);
-  const e = b % 4;
-  const f = Math.floor((b + 8) / 25);
-  const g = Math.floor((b - f + 1) / 3);
-  const h =
-    (19 * a + b - d - g + 15) % 30;
-  const i = Math.floor(c / 4);
-  const k = c % 4;
-  const l =
-    (32 + 2 * e + 2 * i - h - k) % 7;
-  const m = Math.floor(
-    (a + 11 * h + 22 * l) / 451
-  );
-
-  const month =
-    Math.floor(
-      (h + l - 7 * m + 114) / 31
-    ) - 1;
-
-  const day =
-    ((h + l - 7 * m + 114) % 31) + 1;
-
-  return {
-    month,
-    day
-  };
-
-}
-    const ALL_HOLIDAYS = [
-
-  {
-    id: 'christmas',
-    name: '¡Feliz Navidad Spotter! 🎄',
-    match: (m, d) =>
-      (m === 11 && d >= 15) ||
-      (m === 0 && d === 1)
-  },
-
-  {
-    id: 'kings',
-    name: 'Noche y Día de Reyes Magos 👑',
-    match: (m, d) =>
-      m === 0 &&
-      d >= 5 &&
-      d <= 6
-  },
-
-  {
-    id: 'valentine',
-    name: 'Día del Amor por la Aviación ❤️',
-    match: (m, d) =>
-      m === 1 &&
-      d === 14
-  },
-
-  {
-    id: 'santjordi',
-    name: 'Diada de Sant Jordi 🌹📖',
-    match: (m, d) =>
-      m === 3 &&
-      d === 23
-  },
-
-  {
-    id: 'easter',
-    name: 'Especial Semana Santa y Pascua 🕊️',
-    match: (m, d) => {
-
-      const year =
-        new Date().getFullYear();
-
-      const easter =
-        calculateEaster(year);
-
-      const easterDate =
-        new Date(
-          year,
-          easter.month,
-          easter.day
-        );
-
-      const currentDate =
-        new Date(
-          year,
-          m,
-          d
-        );
-
-      /*
-       * Desde Domingo de Ramos
-       * hasta Lunes de Pascua.
-       */
-
-      const palmSunday =
-        new Date(easterDate);
-
-      palmSunday.setDate(
-        easterDate.getDate() - 7
-      );
-
-      const easterMonday =
-        new Date(easterDate);
-
-      easterMonday.setDate(
-        easterDate.getDate() + 1
-      );
-
-      return (
-        currentDate >= palmSunday &&
-        currentDate <= easterMonday &&
-        !(m === 3 && d === 23)
-      );
-
+      const a = year % 19;
+      const b = Math.floor(year / 100);
+      const c = year % 100;
+      const d = Math.floor(b / 4);
+      const e = b % 4;
+      const f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30;
+      const i = Math.floor(c / 4);
+      const k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7;
+      const m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const month = Math.floor((h + l - 7 * m + 114) / 31) - 1;
+      const day = ((h + l - 7 * m + 114) % 31) + 1;
+      return { month, day };
     }
-  },
 
-  {
-    id: 'labor',
-    name: 'Día Internacional del Trabajo 🛠️',
-    match: (m, d) =>
-      m === 4 &&
-      d === 1
-  },
-
-  {
-    id: 'sanjuan',
-    name: 'Nit de Sant Joan & Solsticio 🔥',
-    match: (m, d) =>
-      m === 5 &&
-      (d === 23 || d === 24)
-  },
-
-  {
-    id: 'diadacat',
-    name: 'Diada Nacional de Catalunya 🟡🔴',
-    match: (m, d) =>
-      m === 8 &&
-      d === 11
-  },
-
-  {
-    id: 'merce',
-    name: 'Festes de La Mercè (Barcelona) 🎆',
-    match: (m, d) =>
-      m === 8 &&
-      d >= 22 &&
-      d <= 25
-  },
-
-  {
-    id: 'spain',
-    name: 'Fiesta Nacional de España 🇪🇸',
-    match: (m, d) =>
-      m === 9 &&
-      d === 12
-  },
-
-  {
-    id: 'halloween',
-    name: 'Especial Todos los Santos / Castanyada 🎃',
-    match: (m, d) =>
-      (m === 9 && d === 31) ||
-      (m === 10 && d === 1)
-  },
-
-  {
-    id: 'constitution',
-    name: 'Día de la Constitución Española 🇪🇸',
-    match: (m, d) =>
-      m === 11 &&
-      (d === 6 || d === 8)
-  }
-
-];
+    const ALL_HOLIDAYS = [
+      { id: 'christmas', name: '¡Feliz Navidad Spotter! 🎄', match: (m, d) => (m === 11 && d >= 15) || (m === 0 && d === 1) },
+      { id: 'kings', name: 'Noche y Día de Reyes Magos 👑', match: (m, d) => m === 0 && d >= 5 && d <= 6 },
+      { id: 'valentine', name: 'Día del Amor por la Aviación ❤️', match: (m, d) => m === 1 && d === 14 },
+      { id: 'santjordi', name: 'Diada de Sant Jordi 🌹📖', match: (m, d) => m === 3 && d === 23 },
+      { id: 'easter', name: 'Especial Semana Santa y Pascua 🕊️', match: (m, d) => {
+          const year = new Date().getFullYear();
+          const easter = calculateEaster(year);
+          const easterDate = new Date(year, easter.month, easter.day);
+          const currentDate = new Date(year, m, d);
+          const palmSunday = new Date(easterDate);
+          palmSunday.setDate(easterDate.getDate() - 7);
+          const easterMonday = new Date(easterDate);
+          easterMonday.setDate(easterDate.getDate() + 1);
+          return (currentDate >= palmSunday && currentDate <= easterMonday && !(m === 3 && d === 23));
+        }
+      },
+      { id: 'labor', name: 'Día Internacional del Trabajo 🛠️', match: (m, d) => m === 4 && d === 1 },
+      { id: 'sanjuan', name: 'Nit de Sant Joan & Solsticio 🔥', match: (m, d) => m === 5 && (d === 23 || d === 24) },
+      { id: 'diadacat', name: 'Diada Nacional de Catalunya 🟡🔴', match: (m, d) => m === 8 && d === 11 },
+      { id: 'merce', name: 'Festes de La Mercè (Barcelona) 🎆', match: (m, d) => m === 8 && d >= 22 && d <= 25 },
+      { id: 'spain', name: 'Fiesta Nacional de España 🇪🇸', match: (m, d) => m === 9 && d === 12 },
+      { id: 'halloween', name: 'Especial Todos los Santos / Castanyada 🎃', match: (m, d) => (m === 9 && d === 31) || (m === 10 && d === 1) },
+      { id: 'constitution', name: 'Día de la Constitución Española 🇪🇸', match: (m, d) => m === 11 && (d === 6 || d === 8) }
+    ];
 
     let activeEffectAnimation = null;
 
@@ -1352,7 +1310,56 @@
 
     applyAutomaticHolidayTheme();
 
+    /* =========================================================
+        NUEVO MOTOR: SOL Y LUNA DINÁMICOS EN METEOSPOTTER
+    ========================================================= */
+    function updateMeteoSunMoon() {
+      const astro = document.getElementById('astro-body');
+      const skyBg = document.getElementById('meteo-sky-bg');
+      const meteoBox = document.getElementById('meteo-section');
+      
+      if (!astro || !skyBg || !meteoBox) return;
 
+      const now = new Date();
+      const hours = now.getHours() + now.getMinutes() / 60;
+
+      // Definición de horario: Día de 06:00 a 18:00
+      const isDay = hours >= 6 && hours < 18;
+      
+      let progress = 0;
+      if (isDay) {
+        progress = (hours - 6) / 12; // 0.0 a las 06:00 -> 1.0 a las 18:00
+        astro.className = 'astro-body sun';
+        skyBg.className = 'meteo-sky-bg day-sky';
+      } else {
+        const nightHours = hours >= 18 ? hours - 18 : hours + 6;
+        progress = nightHours / 12; // 0.0 a las 18:00 -> 1.0 a las 06:00
+        astro.className = 'astro-body moon';
+        skyBg.className = 'meteo-sky-bg night-sky';
+      }
+
+      // Geometría del contenedor Meteo
+      const boxWidth = meteoBox.clientWidth || 340;
+      const boxHeight = meteoBox.clientHeight || 200;
+
+      // Coordenada X (de izquierda a derecha)
+      const paddingX = 25;
+      const posX = paddingX + progress * (boxWidth - (paddingX * 2));
+
+      // Trayectoria Parabólica Y (Arco en la parte superior)
+      // En progress = 0.5 (mediodía/medianoche), Y alcanza su punto más alto (cenit)
+      const arcHeight = boxHeight * 0.55; 
+      const baseY = boxHeight - 20; 
+      const posY = baseY - Math.sin(progress * Math.PI) * arcHeight;
+
+      astro.style.left = `${posX}px`;
+      astro.style.top = `${posY}px`;
+    }
+
+    // Inicializar y actualizar la posición del Sol/Luna cada 60s
+    updateMeteoSunMoon();
+    setInterval(updateMeteoSunMoon, 60000);
+    window.addEventListener('resize', updateMeteoSunMoon);
 
     /* =========================================================
         2. METEOROLOGÍA & TIPS SPOTTER EN TIEMPO REAL
@@ -1603,269 +1610,78 @@
       quizDeclinedOrFinished = true;
     });
   </script>
-<!-- =====================================================
-     AVISO DE ACTUALIZACIÓN
-===================================================== -->
 
-<div id="update-overlay" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:rgba(0,0,0,0.85);
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-">
-
-  <div style="
-    width:100%;
-    max-width:420px;
-    background:#07101f;
-    border:1px solid rgba(255,60,60,0.5);
-    border-radius:20px;
-    padding:28px 22px;
-    text-align:center;
-    box-shadow:0 0 30px rgba(255,0,0,0.25);
-  ">
-
-    <div style="
-      font-size:42px;
-      margin-bottom:12px;
-      color:#ff3030;
-    ">
-      <i class="fa-solid fa-cloud-arrow-down"></i>
+  <!-- =====================================================
+      AVISO DE ACTUALIZACIÓN
+  ===================================================== -->
+  <div id="update-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; padding:20px;">
+    <div style="width:100%; max-width:420px; background:#07101f; border:1px solid rgba(255,60,60,0.5); border-radius:20px; padding:28px 22px; text-align:center; box-shadow:0 0 30px rgba(255,0,0,0.25);">
+      <div style="font-size:42px; margin-bottom:12px; color:#ff3030;">
+        <i class="fa-solid fa-cloud-arrow-down"></i>
+      </div>
+      <h2 style="margin:0 0 12px; font-size:22px; font-weight:800;">ACTUALIZACIÓN DISPONIBLE</h2>
+      <p id="update-message" style="margin:0 0 10px; opacity:0.85; line-height:1.5;">Hay una nueva versión de Spotters Spain disponible.</p>
+      <div id="update-version" style="margin-bottom:22px; font-weight:700; color:#ff4040;"></div>
+      <div style="display:flex; gap:10px; justify-content:center;">
+        <button id="update-later" type="button" style="flex:1; padding:13px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:#111827; color:white; font-weight:700; cursor:pointer;">MÁS TARDE</button>
+        <button id="update-button" type="button" style="flex:1; padding:13px 10px; border-radius:12px; border:none; background:#e60000; color:white; font-weight:800; cursor:pointer;">ACTUALIZAR</button>
+      </div>
     </div>
-
-    <h2 style="
-      margin:0 0 12px;
-      font-size:22px;
-      font-weight:800;
-    ">
-      ACTUALIZACIÓN DISPONIBLE
-    </h2>
-
-    <p id="update-message" style="
-      margin:0 0 10px;
-      opacity:0.85;
-      line-height:1.5;
-    ">
-      Hay una nueva versión de Spotters Spain disponible.
-    </p>
-
-    <div id="update-version" style="
-      margin-bottom:22px;
-      font-weight:700;
-      color:#ff4040;
-    ">
-    </div>
-
-    <div style="
-      display:flex;
-      gap:10px;
-      justify-content:center;
-    ">
-
-      <button
-        id="update-later"
-        type="button"
-        style="
-          flex:1;
-          padding:13px 10px;
-          border-radius:12px;
-          border:1px solid rgba(255,255,255,0.2);
-          background:#111827;
-          color:white;
-          font-weight:700;
-          cursor:pointer;
-        "
-      >
-        MÁS TARDE
-      </button>
-
-      <button
-        id="update-button"
-        type="button"
-        style="
-          flex:1;
-          padding:13px 10px;
-          border-radius:12px;
-          border:none;
-          background:#e60000;
-          color:white;
-          font-weight:800;
-          cursor:pointer;
-        "
-      >
-        ACTUALIZAR
-      </button>
-
-    </div>
-
   </div>
 
-</div>
-<script>
-/* =========================================================
-   SISTEMA DE ACTUALIZACIÓN
-========================================================= */
+  <script>
+  /* =========================================================
+     SISTEMA DE ACTUALIZACIÓN
+  ========================================================= */
+  const APP_VERSION = '1.0.5';
+  const overlay = document.getElementById('update-overlay');
+  const message = document.getElementById('update-message');
+  const versionText = document.getElementById('update-version');
+  const updateButton = document.getElementById('update-button');
+  const laterButton = document.getElementById('update-later');
 
-const APP_VERSION = '1.0.5';
-
-const overlay =
-  document.getElementById('update-overlay');
-
-const message =
-  document.getElementById('update-message');
-
-const versionText =
-  document.getElementById('update-version');
-
-const updateButton =
-  document.getElementById('update-button');
-
-const laterButton =
-  document.getElementById('update-later');
-
-
-async function checkForUpdate() {
-
-  try {
-
-    const response =
-      await fetch(
-        './version.json?t=' + Date.now(),
-        {
-          cache: 'no-store'
-        }
-      );
-
-    if (!response.ok) {
-      return;
-    }
-
-    const data =
-      await response.json();
-
-    if (!data.version) {
-      return;
-    }
-
-    if (data.version !== APP_VERSION) {
-
-      message.textContent =
-        data.mensaje ||
-        'Hay una nueva versión de Spotters Spain disponible con mejoras y novedades.';
-
-      versionText.textContent =
-        'Nueva versión: ' +
-        data.version;
-
-      overlay.style.display =
-        'flex';
-    }
-
-  } catch (error) {
-
-    console.log(
-      'No se pudo comprobar la actualización.'
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   BOTÓN ACTUALIZAR
-========================================================= */
-
-updateButton.addEventListener(
-  'click',
-  async function () {
-
-    updateButton.disabled = true;
-
-    updateButton.textContent =
-      'ACTUALIZANDO...';
-
+  async function checkForUpdate() {
     try {
+      const response = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (!data.version) return;
 
-      if (
-        'serviceWorker' in navigator
-      ) {
-
-        const registration =
-          await navigator.serviceWorker
-            .getRegistration();
-
-        if (registration) {
-
-          await registration.update();
-
-        }
-
+      if (data.version !== APP_VERSION) {
+        message.textContent = data.mensaje || 'Hay una nueva versión de Spotters Spain disponible con mejoras y novedades.';
+        versionText.textContent = 'Nueva versión: ' + data.version;
+        overlay.style.display = 'flex';
       }
-
-      /*
-       * Recarga la aplicación.
-       * El Service Worker v1.0.8
-       * ya habrá preparado el nuevo caché.
-       */
-
-      window.location.reload();
-
     } catch (error) {
-
-      console.error(
-        'Error actualizando:',
-        error
-      );
-
-      updateButton.disabled = false;
-
-      updateButton.textContent =
-        'REINTENTAR';
-
+      console.log('No se pudo comprobar la actualización.');
     }
-
   }
-);
 
+  updateButton.addEventListener('click', async function () {
+    updateButton.disabled = true;
+    updateButton.textContent = 'ACTUALIZANDO...';
+    try {
+      if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          await registration.update();
+        }
+      }
+      window.location.reload();
+    } catch (error) {
+      console.error('Error actualizando:', error);
+      updateButton.disabled = false;
+      updateButton.textContent = 'REINTENTAR';
+    }
+  });
 
-/* =========================================================
-   BOTÓN MÁS TARDE
-========================================================= */
+  laterButton.addEventListener('click', function () {
+    overlay.style.display = 'none';
+  });
 
-laterButton.addEventListener(
-  'click',
-  function () {
-
-    overlay.style.display =
-      'none';
-
-  }
-);
-
-
-/* =========================================================
-   COMPROBAR AL CARGAR
-========================================================= */
-
-window.addEventListener(
-  'load',
-  function () {
-
-    setTimeout(
-      checkForUpdate,
-      2000
-    );
-
-  }
-);
-
-</script>
-</body>
-</html>
+  window.addEventListener('load', function () {
+    setTimeout(checkForUpdate, 2000);
+  });
+  </script>
 </body>
 </html>
