@@ -713,7 +713,7 @@
 
       <iframe
         id="traffic-iframe"
-        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid"
+        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1"
         title="Tráfico aéreo Satélite Spotters"
         allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
@@ -744,7 +744,7 @@
         </p>
 
         <!-- OPCIÓN 1 -->
-        <div class="feature-item" onclick="toggleFeature(this)">
+        <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
               <div class="feature-icon details"><i class="fa-solid fa-plane-dot"></i></div>
@@ -758,7 +758,7 @@
         </div>
 
         <!-- OPCIÓN 2 -->
-        <div class="feature-item" onclick="toggleFeature(this)">
+        <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
               <div class="feature-icon apt"><i class="fa-solid fa-plane-arrival"></i></div>
@@ -772,7 +772,7 @@
         </div>
 
         <!-- OPCIÓN 3 -->
-        <div class="feature-item" onclick="toggleFeature(this)">
+        <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
               <div class="feature-icon heavy"><i class="fa-solid fa-layer-group"></i></div>
@@ -786,7 +786,7 @@
         </div>
 
         <!-- OPCIÓN 4 -->
-        <div class="feature-item" onclick="toggleFeature(this)">
+        <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
               <div class="feature-icon mil"><i class="fa-solid fa-shield-halved"></i></div>
@@ -800,7 +800,7 @@
         </div>
 
         <!-- OPCIÓN 5 -->
-        <div class="feature-item" onclick="toggleFeature(this)">
+        <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
               <div class="feature-icon airline"><i class="fa-solid fa-building"></i></div>
@@ -867,7 +867,7 @@
         }, 700);
       }, 500);
 
-      // CAMBIO: APERTURA DEL MODAL A LOS 5 SEGUNDOS (5000ms)
+      // APERTURA DEL MODAL A LOS 5 SEGUNDOS (5000ms)
       setTimeout(() => {
         openModal();
       }, 5000);
@@ -903,7 +903,7 @@
 
     function getBaseUrlForAirport(aptKey) {
       const apt = spanishAirports[aptKey] || spanishAirports['BCN'];
-      return `https://globe.adsbexchange.com/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid`;
+      return `https://globe.adsbexchange.com/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
     }
 
     function changeAirport() {
@@ -970,11 +970,11 @@
         } else if (altVal === 'HIGH_ALT') {
           altSelect.classList.add('active');
           badge.textContent = `ALT ≥ 20.000 FT (${currentApt.code})`;
-          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMin=20000&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMin=20000&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
         } else {
           altSelect.classList.add('active');
           badge.textContent = `ALT ≤ ${altVal} FT (${currentApt.code})`;
-          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMax=${altVal}&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMax=${altVal}&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
         }
       } else {
         document.getElementById('btn-all').classList.add('active');
