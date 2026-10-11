@@ -1,46 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
-<style>
-  /* Botón Flotante Neón */
-  .btn-float-inicio {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99999;
-    background: #0c102b;
-    color: #00ffcc;
-    border: 2px solid #00ffcc;
-    border-radius: 50px;
-    padding: 8px 16px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease;
-  }
-
-  /* Efecto al pasar el cursor / tocar */
-  .btn-float-inicio:hover, .btn-float-inicio:active {
-    background: #00ffcc;
-    color: #050814;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
-    transform: scale(1.08) translateY(-2px);
-  }
-</style>
-
-<!-- Botón Flotante para volver a la página anterior -->
-<a href="#" class="btn-float-inicio" onClick="history.back(); return false;">
-  <i class="fa-solid fa-arrow-left"></i> Atrás
-</a>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Spotters Spain · Radar BCN & Escáner Heavies</title>
@@ -74,6 +34,38 @@
       flex-direction: column;
       overflow: hidden;
       padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* BOTÓN FLOTANTE INICIO (UN SOLO CLIC A INDEX.HTML) */
+    .btn-float-inicio {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+      background: #0c102b;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-float-inicio:hover, .btn-float-inicio:active {
+      background: #00ffcc;
+      color: #050814;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+      transform: scale(1.08) translateY(-2px);
     }
 
     header {
@@ -161,16 +153,34 @@
       box-shadow: 0 0 10px var(--neon-cyan);
     }
 
+    /* BARRA DE SELECCIÓN CON ANIMACIÓN HINT */
     .heavy-selector-bar {
       background: #03050d;
-      padding: 3px 8px;
+      padding: 5px 8px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 6px;
       border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-      flex-wrap: nowrap;
       overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .heavy-selector-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .heavy-selector-bar.animate-scroll {
+      animation: swipeHint 1.8s ease-in-out 0.5s;
+    }
+
+    @keyframes swipeHint {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-45px); }
+      50% { transform: translateX(20px); }
+      75% { transform: translateX(-15px); }
+      100% { transform: translateX(0); }
     }
 
     .heavy-selector-group {
@@ -379,6 +389,7 @@
       text-overflow: ellipsis;
     }
 
+    /* MODAL MÁS COMPACTO Y CON DESPLEGABLES */
     .neon-modal-overlay {
       position: fixed;
       inset: 0;
@@ -388,7 +399,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 10px;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.35s ease, visibility 0.35s ease;
@@ -399,19 +410,18 @@
       visibility: visible;
     }
 
-    /* TARJETA MODAL COMPACTA Y PEQUEÑA */
     .neon-modal-card {
       background: linear-gradient(160deg, #0a0e28 0%, #050716 100%);
       border: 1.5px solid var(--neon-cyan);
       box-shadow: 0 0 20px rgba(0, 210, 255, 0.35), inset 0 0 10px rgba(0, 210, 255, 0.1);
-      border-radius: 12px;
-      max-width: 420px;
+      border-radius: 10px;
+      max-width: 360px; /* Más compacto */
       width: 100%;
-      max-height: 82vh;
+      max-height: 80vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      transform: scale(0.92) translateY(15px);
+      transform: scale(0.9) translateY(10px);
       transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -420,7 +430,7 @@
     }
 
     .neon-modal-header {
-      padding: 10px 14px;
+      padding: 8px 12px;
       background: rgba(0, 210, 255, 0.05);
       border-bottom: 1px solid rgba(0, 210, 255, 0.25);
       display: flex;
@@ -429,77 +439,77 @@
     }
 
     .neon-modal-title {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: var(--neon-cyan);
       text-shadow: 0 0 6px rgba(0, 210, 255, 0.6);
       display: flex;
       align-items: center;
       gap: 6px;
-      letter-spacing: 0.4px;
     }
 
     .neon-modal-close {
       background: rgba(255, 0, 85, 0.15);
       border: 1px solid var(--neon-red);
       color: var(--neon-red);
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       transition: all 0.2s ease;
     }
 
     .neon-modal-close:hover {
       background: var(--neon-red);
       color: #fff;
-      box-shadow: 0 0 8px var(--neon-red);
     }
 
     .neon-modal-body {
-      padding: 12px 14px;
+      padding: 8px 10px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      font-size: 0.76rem;
-      line-height: 1.35;
-      color: #d1d9e6;
+      gap: 6px;
+      font-size: 0.72rem;
     }
 
-    .neon-modal-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .neon-modal-body::-webkit-scrollbar-thumb {
-      background: var(--neon-cyan);
-      border-radius: 10px;
-    }
-
+    /* ESTILOS DE ACORDEÓN / DESPLEGABLE */
     .feature-item {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(0, 210, 255, 0.12);
-      border-radius: 8px;
-      padding: 8px 10px;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      transition: border-color 0.2s ease;
+      border-radius: 6px;
+      padding: 6px 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .feature-item:hover {
+    .feature-item:hover, .feature-item.active {
       border-color: var(--neon-green);
+      background: rgba(0, 255, 204, 0.04);
+    }
+
+    .feature-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .feature-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .feature-icon {
-      font-size: 0.95rem;
-      min-width: 24px;
-      height: 24px;
-      border-radius: 6px;
+      font-size: 0.8rem;
+      min-width: 22px;
+      height: 22px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -510,18 +520,43 @@
     .feature-icon.heavy { color: var(--neon-gold); border: 1px solid var(--neon-gold); }
     .feature-icon.mil { color: var(--neon-purple); border: 1px solid var(--neon-purple); }
     .feature-icon.airline { color: var(--neon-cyan); border: 1px solid var(--neon-cyan); }
-    .feature-icon.alt { color: #ff0077; border: 1px solid #ff0077; }
     .feature-icon.details { color: #00ffcc; border: 1px solid #00ffcc; }
 
-    .feature-info strong {
-      display: block;
+    .feature-title {
+      font-weight: 700;
       color: #ffffff;
-      font-size: 0.78rem;
-      margin-bottom: 1px;
+      font-size: 0.75rem;
+    }
+
+    .feature-chevron {
+      font-size: 0.65rem;
+      color: var(--neon-cyan);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-item.active .feature-chevron {
+      transform: rotate(180deg);
+    }
+
+    .feature-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+      color: #b0c4de;
+      font-size: 0.68rem;
+      line-height: 1.3;
+      padding-top: 0;
+    }
+
+    .feature-item.active .feature-details {
+      max-height: 200px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(0, 210, 255, 0.2);
+      margin-top: 4px;
     }
 
     .neon-modal-footer {
-      padding: 8px 14px;
+      padding: 6px 10px;
       background: rgba(3, 5, 13, 0.6);
       border-top: 1px solid rgba(0, 210, 255, 0.18);
       display: flex;
@@ -532,23 +567,13 @@
       background: linear-gradient(90deg, #00d2ff, #00ffcc);
       color: #03050d;
       border: none;
-      padding: 5px 14px;
-      border-radius: 16px;
-      font-size: 0.73rem;
+      padding: 4px 12px;
+      border-radius: 14px;
+      font-size: 0.7rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .btn-neon-action:hover {
-      box-shadow: 0 0 16px rgba(0, 255, 204, 0.85);
-      transform: translateY(-1px);
+      box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
     }
 
     @keyframes spin-radar {
@@ -560,26 +585,19 @@
       50% { opacity: 0.5; }
     }
 
-    @keyframes rainbow-glow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes pulse-heavy-text {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.03); }
-    }
-
     @media (max-width: 600px) {
       header h1 { font-size: 0.85rem; }
       .heavy-selector-bar { padding: 4px 6px; }
       .btn-fullscreen { font-size: 0.65rem; padding: 2px 6px; }
-      .neon-modal-card { max-width: 92vw; }
     }
   </style>
 </head>
 <body>
+
+  <!-- BOTÓN FLOTANTE INICIO -->
+  <a href="index.html" class="btn-float-inicio">
+    <i class="fa-solid fa-house"></i> Inicio
+  </a>
 
   <header id="main-header">
     <h1 id="main-title">
@@ -588,7 +606,7 @@
     </h1>
 
     <div class="links">
-      <button class="btn-help-trigger" onclick="openModal()" title="Guía de Filtros">
+      <button class="btn-help-trigger" onClick="openModal()" title="Guía de Filtros">
         <i class="fa-solid fa-circle-info"></i> Guía
       </button>
       <a href="https://www.flightradar24.com/41.30,2.08/11" target="_blank" rel="noopener" id="fr24-link">
@@ -597,14 +615,13 @@
     </div>
   </header>
 
-  <!-- BARRA DE SELECCIÓN DE TRÁFICO HEAVY -->
-  <div class="heavy-selector-bar">
+  <!-- BARRA DE SELECCIÓN DE TRÁFICO -->
+  <div class="heavy-selector-bar" id="filterBar">
     <div class="heavy-selector-group">
       <div class="heavy-tag-title">
         <i class="fa-solid fa-plane"></i> FILTRO:
       </div>
 
-      <!-- DESPLEGABLE DE AEROPUERTOS DE ESPAÑA -->
       <select class="select-heavy-model select-airport" id="select-airport-filter" onChange="changeAirport()">
         <option value="BCN" selected>📍 Barcelona-El Prat (BCN)</option>
         <option value="MAD">📍 Madrid-Barajas (MAD)</option>
@@ -642,12 +659,10 @@
         <i class="fa-solid fa-layer-group"></i> Heavies
       </button>
 
-      <!-- BOTÓN MILITAR -->
       <button class="btn-heavy-model btn-mil" id="btn-mil" onClick="filterHeavyModel('MILITARY')">
         <i class="fa-solid fa-shield-halved"></i> Militar
       </button>
 
-      <!-- DESPLEGABLE DE AEROLÍNEAS -->
       <select class="select-heavy-model" id="select-airline-filter" onChange="filterHeavyModel('AIRLINE_FILTER')">
         <option value="ALL_AIRLINES" selected>🏢 Aerolínea: Todas</option>
         <option value="VLG">💛 Vueling (VLG)</option>
@@ -670,7 +685,6 @@
         <option value="IBB">🇮🇨 Binter Canarias (IBB)</option>
       </select>
 
-      <!-- DESPLEGABLE DE ALTITUD -->
       <select class="select-heavy-model" id="select-alt-filter" onChange="filterHeavyModel('ALT_FILTER')">
         <option value="ALL_ALT" selected>✈️ Altura: Todas</option>
         <option value="3000">🛬 ≤ 3.000 ft</option>
@@ -687,7 +701,6 @@
       <div class="panel-header">
         <div class="left">
           <i class="fa-solid fa-location-dot"></i>
-
           <span id="tma-location-text">TMA BCN/ESP</span>
           <span class="badge" id="filter-badge">SATÉLITE (BCN)</span>
         </div>
@@ -698,7 +711,6 @@
         </button>
       </div>
 
-      <!-- MARCO DEL MAPA CON PARÁMETROS DE INFORMACIÓN COMPACTA (miniEnable=1) -->
       <iframe
         id="traffic-iframe"
         src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid"
@@ -710,71 +722,100 @@
     </div>
   </div>
 
-  <!-- PIE DE PÁGINA -->
   <footer id="footer-text">
     BCN · Satélite Spotters Spain
   </footer>
 
-  <!-- MODAL INFORMATIVO NEÓN (PEQUEÑO Y COMPACTO) -->
+  <!-- MODAL INFORMATIVO MÁS PEQUEÑO CON DESPLEGABLES -->
   <div class="neon-modal-overlay" id="helpModal">
     <div class="neon-modal-card">
       <div class="neon-modal-header">
         <div class="neon-modal-title">
-          <i class="fa-solid fa-sliders"></i> Guía del Radar Spotters
+          <i class="fa-solid fa-sliders"></i> Guía del Radar
         </div>
-        <button class="neon-modal-close" onclick="closeModal()" title="Cerrar">
+        <button class="neon-modal-close" onClick="closeModal()" title="Cerrar">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
       <div class="neon-modal-body">
-        <p style="color: var(--neon-cyan); font-weight: 600; font-size: 0.74rem;">
-          ¡Bienvenido al radar de Spotters Spain! Resumen de funciones:
+        <p style="color: var(--neon-cyan); font-weight: 600; text-align: center; margin-bottom: 2px;">
+          Toca cada título para ver detalles:
         </p>
 
-        <div class="feature-item">
-          <div class="feature-icon details"><i class="fa-solid fa-plane-dot"></i></div>
-          <div class="feature-info">
-            <strong>Ficha Simplificada al Tocar Avión</strong>
-            Muestra sólo foto real, altitud, velocidad, rumbo, tipo, aerolínea, matrícula, squawk y traza.
+        <!-- OPCIÓN 1 -->
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <div class="feature-header-left">
+              <div class="feature-icon details"><i class="fa-solid fa-plane-dot"></i></div>
+              <div class="feature-title">Ficha al Tocar Avión</div>
+            </div>
+            <i class="fa-solid fa-chevron-down feature-chevron"></i>
+          </div>
+          <div class="feature-details">
+            Al tocar cualquier avión sobre el mapa satélite, se abre la ventana simplificada sin distracciones. Muestra foto real de la aeronave, velocidad nodal, altitud de vuelo, rumbo magnético, compañía aérea, matrícula registrada y código Squawk en tiempo real.
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon apt"><i class="fa-solid fa-plane-arrival"></i></div>
-          <div class="feature-info">
-            <strong>Filtro por Aeropuerto</strong>
-            Cambia la vista entre 27 aeropuertos de España (BCN, MAD, PMI, AGP...).
+        <!-- OPCIÓN 2 -->
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <div class="feature-header-left">
+              <div class="feature-icon apt"><i class="fa-solid fa-plane-arrival"></i></div>
+              <div class="feature-title">Filtro por Aeropuerto</div>
+            </div>
+            <i class="fa-solid fa-chevron-down feature-chevron"></i>
+          </div>
+          <div class="feature-details">
+            Despliega la lista de aeropuertos para centrar de inmediato el mapa sobre la zona terminal (TMA) de 27 aeropuertos españoles. Cambia automáticamente las coordenadas, el nivel de zoom óptimo y los enlaces directos a Flightradar24.
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon heavy"><i class="fa-solid fa-layer-group"></i></div>
-          <div class="feature-info">
-            <strong>Tráfico Heavy (A5)</strong>
-            Filtra únicamente fuselajes Anchos (A350, B777, A380, B787...).
+        <!-- OPCIÓN 3 -->
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <div class="feature-header-left">
+              <div class="feature-icon heavy"><i class="fa-solid fa-layer-group"></i></div>
+              <div class="feature-title">Tráfico Heavy (A5)</div>
+            </div>
+            <i class="fa-solid fa-chevron-down feature-chevron"></i>
+          </div>
+          <div class="feature-details">
+            Activa el filtro de categoría A5 para aislar únicamente aviones de fuselaje ancho (Widebody). Ideal para cazar vuelos intercontinentales y grandes cargueros como los Airbus A350, A380, A330 o Boeing 777, 787 y 747.
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon mil"><i class="fa-solid fa-shield-halved"></i></div>
-          <div class="feature-info">
-            <strong>Tráfico Militar</strong>
-            Muestra cazas, fuerza aérea y jets VIP gubernamentales.
+        <!-- OPCIÓN 4 -->
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <div class="feature-header-left">
+              <div class="feature-icon mil"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="feature-title">Tráfico Militar</div>
+            </div>
+            <i class="fa-solid fa-chevron-down feature-chevron"></i>
+          </div>
+          <div class="feature-details">
+            Muestra vuelos de la fuerza aérea, cazas de combate, aviones de transporte militar (Eurofighter, C130 Hercules, A400M) y jets VIP gubernamentales en tiempo real a través de transpondedores militares activos.
           </div>
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon airline"><i class="fa-solid fa-building"></i></div>
-          <div class="feature-info">
-            <strong>Aerolíneas y Altitud</strong>
-            Filtra compañías (Iberia, Vueling...) o rangos de altura para despegues.
+        <!-- OPCIÓN 5 -->
+        <div class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <div class="feature-header-left">
+              <div class="feature-icon airline"><i class="fa-solid fa-building"></i></div>
+              <div class="feature-title">Aerolíneas y Altitud</div>
+            </div>
+            <i class="fa-solid fa-chevron-down feature-chevron"></i>
+          </div>
+          <div class="feature-details">
+            Filtra tráficos por el indicativo (Callsign) de compañías específicas (Iberia, Vueling, Emirates...) o selecciona rangos de altitud (≤ 3.000 ft, ≤ 6.000 ft) para rastrear de forma exacta las aproximaciones y despegues en cabecera de pista.
           </div>
         </div>
       </div>
 
       <div class="neon-modal-footer">
-        <button class="btn-neon-action" onclick="closeModal()">
+        <button class="btn-neon-action" onClick="closeModal()">
           Entendido <i class="fa-solid fa-check"></i>
         </button>
       </div>
@@ -782,7 +823,6 @@
   </div>
 
   <script>
-    // DICCIONARIO DE AEROPUERTOS ESPAÑOLES
     const spanishAirports = {
       BCN: { name: 'Barcelona-El Prat', lat: 41.30, lon: 2.08, zoom: 11, code: 'BCN' },
       MAD: { name: 'Madrid-Barajas', lat: 40.48, lon: -3.56, zoom: 11, code: 'MAD' },
@@ -816,11 +856,21 @@
     let currentAirportKey = 'BCN';
     let activeFilterMode = 'ALL';
 
-    // APERTURA AUTOMÁTICA DEL CARTEL NEÓN A LOS 2 SEG DE CARGAR
     window.addEventListener('DOMContentLoaded', () => {
+      // Animación de deslizamiento lateral en filtros
+      const filterBar = document.getElementById('filterBar');
+      setTimeout(() => {
+        filterBar.classList.add('animate-scroll');
+        filterBar.scrollTo({ left: 120, behavior: 'smooth' });
+        setTimeout(() => {
+          filterBar.scrollTo({ left: 0, behavior: 'smooth' });
+        }, 700);
+      }, 500);
+
+      // CAMBIO: APERTURA DEL MODAL A LOS 5 SEGUNDOS (5000ms)
       setTimeout(() => {
         openModal();
-      }, 2000);
+      }, 5000);
     });
 
     function openModal() {
@@ -831,14 +881,26 @@
       document.getElementById('helpModal').classList.remove('active');
     }
 
-    // CERRAR AL HACER CLIC FUERA DE LA TARJETA
+    // DESPLEGABLE INTERACTIVO DE DETALLES
+    function toggleFeature(element) {
+      const isActive = element.classList.contains('active');
+      
+      // Cerrar otros desplegables para mantener el modal compacto
+      document.querySelectorAll('.feature-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      if (!isActive) {
+        element.classList.add('active');
+      }
+    }
+
     document.getElementById('helpModal').addEventListener('click', (e) => {
       if (e.target.id === 'helpModal') {
         closeModal();
       }
     });
 
-    // GENERAR URL CON FIJACIÓN DE MAPA E INFORMACIÓN ESENCIAL
     function getBaseUrlForAirport(aptKey) {
       const apt = spanishAirports[aptKey] || spanishAirports['BCN'];
       return `https://globe.adsbexchange.com/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid`;
@@ -849,14 +911,10 @@
       currentAirportKey = selectApt.value;
       const apt = spanishAirports[currentAirportKey];
 
-      // Actualizar enlace de Flightradar24
       document.getElementById('fr24-link').href = `https://www.flightradar24.com/${apt.lat},${apt.lon}/${apt.zoom}`;
-      
-      // Actualizar cabecera y footer
       document.getElementById('tma-location-text').textContent = `TMA ${apt.code}/ESP`;
       document.getElementById('footer-text').textContent = `${apt.code} · ${apt.name} · Spotters Spain`;
 
-      // Reaplicar filtro sobre el nuevo aeropuerto
       filterHeavyModel(activeFilterMode);
     }
 
