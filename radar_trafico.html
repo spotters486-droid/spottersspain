@@ -36,7 +36,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* BOTÓN FLOTANTE INICIO */
+    /* BOTÓN FLOTANTE INICIO (UN SOLO CLIC A INDEX.HTML) */
     .btn-float-inicio {
       position: fixed;
       bottom: 20px;
@@ -415,7 +415,7 @@
       border: 1.5px solid var(--neon-cyan);
       box-shadow: 0 0 20px rgba(0, 210, 255, 0.35), inset 0 0 10px rgba(0, 210, 255, 0.1);
       border-radius: 10px;
-      max-width: 360px;
+      max-width: 360px; /* Más compacto */
       width: 100%;
       max-height: 80vh;
       display: flex;
@@ -713,7 +713,7 @@
 
       <iframe
         id="traffic-iframe"
-        src="https://globe.airplanes.live/?lat=41.30&lon=2.08&zoom=11&hideButtons&hideHeader&hideSidebar"
+        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1"
         title="Tráfico aéreo Satélite Spotters"
         allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
@@ -726,7 +726,7 @@
     BCN · Satélite Spotters Spain
   </footer>
 
-  <!-- MODAL INFORMATIVO -->
+  <!-- MODAL INFORMATIVO MÁS PEQUEÑO CON DESPLEGABLES -->
   <div class="neon-modal-overlay" id="helpModal">
     <div class="neon-modal-card">
       <div class="neon-modal-header">
@@ -743,6 +743,7 @@
           Toca cada título para ver detalles:
         </p>
 
+        <!-- OPCIÓN 1 -->
         <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
@@ -756,6 +757,7 @@
           </div>
         </div>
 
+        <!-- OPCIÓN 2 -->
         <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
@@ -769,6 +771,7 @@
           </div>
         </div>
 
+        <!-- OPCIÓN 3 -->
         <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
@@ -782,6 +785,7 @@
           </div>
         </div>
 
+        <!-- OPCIÓN 4 -->
         <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
@@ -795,6 +799,7 @@
           </div>
         </div>
 
+        <!-- OPCIÓN 5 -->
         <div class="feature-item" onClick="toggleFeature(this)">
           <div class="feature-header">
             <div class="feature-header-left">
@@ -852,6 +857,7 @@
     let activeFilterMode = 'ALL';
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Animación de deslizamiento lateral en filtros
       const filterBar = document.getElementById('filterBar');
       setTimeout(() => {
         filterBar.classList.add('animate-scroll');
@@ -861,6 +867,7 @@
         }, 700);
       }, 500);
 
+      // APERTURA DEL MODAL A LOS 5 SEGUNDOS (5000ms)
       setTimeout(() => {
         openModal();
       }, 5000);
@@ -874,8 +881,11 @@
       document.getElementById('helpModal').classList.remove('active');
     }
 
+    // DESPLEGABLE INTERACTIVO DE DETALLES
     function toggleFeature(element) {
       const isActive = element.classList.contains('active');
+      
+      // Cerrar otros desplegables para mantener el modal compacto
       document.querySelectorAll('.feature-item').forEach(item => {
         item.classList.remove('active');
       });
@@ -893,7 +903,7 @@
 
     function getBaseUrlForAirport(aptKey) {
       const apt = spanishAirports[aptKey] || spanishAirports['BCN'];
-      return `https://globe.airplanes.live/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&hideButtons&hideHeader&hideSidebar`;
+      return `https://globe.adsbexchange.com/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&lang=es&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
     }
 
     function changeAirport() {
@@ -960,11 +970,11 @@
         } else if (altVal === 'HIGH_ALT') {
           altSelect.classList.add('active');
           badge.textContent = `ALT ≥ 20.000 FT (${currentApt.code})`;
-          targetUrl = `https://globe.airplanes.live/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&filterAltMin=20000&hideButtons&hideHeader&hideSidebar`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMin=20000&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
         } else {
           altSelect.classList.add('active');
           badge.textContent = `ALT ≤ ${altVal} FT (${currentApt.code})`;
-          targetUrl = `https://globe.airplanes.live/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&filterAltMax=${altVal}&hideButtons&hideHeader&hideSidebar`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMax=${altVal}&miniEnable=1&largeMode=0&hideButtons&hideHeader&mapType=hybrid&hideAds=1`;
         }
       } else {
         document.getElementById('btn-all').classList.add('active');
