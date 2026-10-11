@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Spotters Spain · Radar BCN & Heavy Scanner</title>
+  <title>Spotters Spain · Radar BCN & Escáner Heavies</title>
 
-  <!-- FontAwesome Icons -->
+  <!-- Iconos FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -16,6 +16,7 @@
       --neon-green: #00ffcc;
       --neon-red: #ff0055;
       --neon-gold: #ffcc00;
+      --neon-purple: #b026ff;
     }
 
     * {
@@ -35,7 +36,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* HEADER ULTRA-COMPACTO */
+    /* CABECERA ULTRACOMPACTA */
     header {
       background: linear-gradient(180deg, #070a1a 0%, #0c102b 100%);
       padding: 4px 10px;
@@ -78,7 +79,7 @@
       animation: pulse-live 1.8s infinite;
     }
 
-    /* HEAVY DETECTED RGB NEON GLOW */
+    /* ILUMINACIÓN NEÓN RGB CUANDO DETECTA HEAVIES */
     header.heavy-detected {
       border-bottom-color: var(--neon-gold);
       box-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
@@ -121,7 +122,7 @@
       box-shadow: 0 0 10px var(--neon-cyan);
     }
 
-    /* HEAVY SELECTOR BAR ULTRA-COMPACTA */
+    /* BARRA SELECTORA DE TRÁFICO HEAVY */
     .heavy-selector-bar {
       background: #03050d;
       padding: 3px 8px;
@@ -177,6 +178,19 @@
       box-shadow: 0 0 10px var(--neon-gold);
     }
 
+    /* ESTILO BOTÓN MILITAR */
+    .btn-heavy-model.btn-mil {
+      color: var(--neon-purple);
+      border-color: var(--neon-purple);
+      background: rgba(176, 38, 255, 0.08);
+    }
+
+    .btn-heavy-model.btn-mil:hover, .btn-heavy-model.btn-mil.active {
+      background: var(--neon-purple);
+      color: #ffffff;
+      box-shadow: 0 0 10px var(--neon-purple);
+    }
+
     /* ESTILO PARA LOS DESPLEGABLES */
     .select-heavy-model {
       background: #070a1a;
@@ -194,9 +208,20 @@
       white-space: nowrap;
     }
 
+    .select-heavy-model.select-airport {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      box-shadow: 0 0 4px rgba(0, 255, 204, 0.2);
+    }
+
     .select-heavy-model:hover, .select-heavy-model:focus, .select-heavy-model.active {
       background: rgba(0, 210, 255, 0.15);
       box-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    .select-heavy-model.select-airport:hover, .select-heavy-model.select-airport:focus {
+      background: rgba(0, 255, 204, 0.15);
+      box-shadow: 0 0 10px var(--neon-green);
     }
 
     .select-heavy-model option {
@@ -205,17 +230,7 @@
       font-weight: 600;
     }
 
-    .heavy-ticker {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: #7a8b9e;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    /* MAIN CONTAINER - MÁXIMO ESPACIO PARA EL MAPA */
+    /* CONTENEDOR PRINCIPAL */
     .container {
       flex: 1;
       display: flex;
@@ -236,7 +251,7 @@
       overflow: hidden;
     }
 
-    /* PANEL HEADER */
+    /* CABECERA DEL PANEL */
     .panel-header {
       background: #03050d;
       padding: 3px 10px;
@@ -390,36 +405,73 @@
 </head>
 <body>
 
-  <!-- FLOATING BACK BUTTON -->
+  <!-- BOTÓN FLOTANTE ATRÁS -->
   <button class="btn-float-inicio" onClick="volverAtras()">
     <i class="fa-solid fa-arrow-left"></i> Atrás
   </button>
 
-  <!-- HEADER WITH DYNAMIC COLOR ANIMATION -->
+  <!-- CABECERA -->
   <header id="main-header">
     <h1 id="main-title">
       <i class="fa-solid fa-crosshairs radar-icon"></i> Spotters Spain
-      <span class="live-badge" id="live-tag">LIVE</span>
+      <span class="live-badge" id="live-tag">EN VIVO</span>
     </h1>
 
     <div class="links">
-      <a href="https://www.flightradar24.com/41.30,2.08/11" target="_blank" rel="noopener">
+      <a href="https://www.flightradar24.com/41.30,2.08/11" target="_blank" rel="noopener" id="fr24-link">
         <i class="fa-solid fa-plane-departure"></i> FR24
       </a>
     </div>
   </header>
 
-  <!-- HEAVY TRAFFIC SELECTOR BAR -->
+  <!-- BARRA DE SELECCIÓN DE TRÁFICO HEAVY -->
   <div class="heavy-selector-bar">
     <div class="heavy-selector-group">
       <div class="heavy-tag-title">
         <i class="fa-solid fa-plane"></i> FILTRO:
       </div>
+
+      <!-- DESPLEGABLE DE AEROPUERTOS DE ESPAÑA -->
+      <select class="select-heavy-model select-airport" id="select-airport-filter" onChange="changeAirport()">
+        <option value="BCN" selected>📍 Barcelona-El Prat (BCN)</option>
+        <option value="MAD">📍 Madrid-Barajas (MAD)</option>
+        <option value="PMI">📍 Palma de Mallorca (PMI)</option>
+        <option value="AGP">📍 Málaga-Costa del Sol (AGP)</option>
+        <option value="ALC">📍 Alicante-Elche (ALC)</option>
+        <option value="VLC">📍 Valencia (VLC)</option>
+        <option value="SVQ">📍 Sevilla (SVQ)</option>
+        <option value="BIO">📍 Bilbao (BIO)</option>
+        <option value="TFS">📍 Tenerife Sur (TFS)</option>
+        <option value="TFN">📍 Tenerife Norte (TFN)</option>
+        <option value="LPA">📍 Gran Canaria (LPA)</option>
+        <option value="ACE">📍 Lanzarote (ACE)</option>
+        <option value="FUE">📍 Fuerteventura (FUE)</option>
+        <option value="IBZ">📍 Ibiza (IBZ)</option>
+        <option value="MAH">📍 Menorca (MAH)</option>
+        <option value="SCQ">📍 Santiago de Compostela (SCQ)</option>
+        <option value="LCG">📍 A Coruña (LCG)</option>
+        <option value="VGO">📍 Vigo (VGO)</option>
+        <option value="OVD">📍 Asturias (OVD)</option>
+        <option value="SDR">📍 Santander (SDR)</option>
+        <option value="ZAZ">📍 Zaragoza (ZAZ)</option>
+        <option value="GRX">📍 Granada-Jaén (GRX)</option>
+        <option value="LEI">📍 Almería (LEI)</option>
+        <option value="XRY">📍 Jerez (XRY)</option>
+        <option value="RMU">📍 Región de Murcia (RMU)</option>
+        <option value="REU">📍 Reus (REU)</option>
+        <option value="GRO">📍 Girona-Costa Brava (GRO)</option>
+      </select>
+
       <button class="btn-heavy-model active" id="btn-all" onClick="filterHeavyModel('ALL')">
         <i class="fa-solid fa-globe"></i> Todo
       </button>
       <button class="btn-heavy-model" id="btn-heavy" onClick="filterHeavyModel('HEAVY_ALL')">
         <i class="fa-solid fa-layer-group"></i> Heavies
+      </button>
+
+      <!-- BOTÓN MILITAR -->
+      <button class="btn-heavy-model btn-mil" id="btn-mil" onClick="filterHeavyModel('MILITARY')">
+        <i class="fa-solid fa-shield-halved"></i> Militar
       </button>
 
       <!-- DESPLEGABLE DE AEROLÍNEAS -->
@@ -455,20 +507,16 @@
         <option value="HIGH_ALT">☁️ ≥ 20.000 ft</option>
       </select>
     </div>
-
-    <div class="heavy-ticker" id="heavy-ticker-info">
-      <i class="fa-solid fa-radar"></i>
-      <span id="scanner-text">Escaneando España...</span>
-    </div>
   </div>
 
-  <!-- RADAR CONTAINER -->
+  <!-- CONTENEDOR DEL RADAR -->
   <div class="container">
     <div class="panel" id="traffic-panel">
       <div class="panel-header">
         <div class="left">
           <i class="fa-solid fa-location-dot"></i>
-          <span>TMA BCN/ESP</span>
+
+          <span id="tma-location-text">TMA BCN/ESP</span>
           <span class="badge" id="filter-badge">SATÉLITE (BCN)</span>
         </div>
 
@@ -478,11 +526,11 @@
         </button>
       </div>
 
-      <!-- MAP IFRAME DEFAULT TO BARCELONA ALL ALTITUDES -->
+      <!-- MARCO DEL MAPA (CON IDIOMA ESPAÑOL FORZADO 'lang=es') -->
       <iframe
         id="traffic-iframe"
-        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid"
-        title="Tráfico aéreo BCN Satélite"
+        src="https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&lang=es&tempTrails=0&enableTraces&showTrace&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid"
+        title="Tráfico aéreo Satélite"
         allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
         loading="eager">
@@ -490,20 +538,75 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
+  <!-- PIE DE PÁGINA -->
+  <footer id="footer-text">
     BCN · Satélite · Spotters Spain
   </footer>
 
   <script>
-    const baseUrl = "https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=11&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid";
-    const heavyCallsignPrefixes = ['IBE', 'UAE', 'QTR', 'AAL', 'DAL', 'UAL', 'SIA', 'KAL', 'LVL', 'THY', 'ETH', 'SWR', 'AFR', 'BAW', 'LAN', 'TAM', 'ARG', 'AVA', 'AEA'];
+    // DICCIONARIO DE AEROPUERTOS ESPAÑOLES
+    const spanishAirports = {
+      BCN: { name: 'Barcelona-El Prat', lat: 41.30, lon: 2.08, zoom: 11, code: 'BCN' },
+      MAD: { name: 'Madrid-Barajas', lat: 40.48, lon: -3.56, zoom: 11, code: 'MAD' },
+      PMI: { name: 'Palma de Mallorca', lat: 39.55, lon: 2.73, zoom: 11, code: 'PMI' },
+      AGP: { name: 'Málaga-Costa del Sol', lat: 36.67, lon: -4.49, zoom: 11, code: 'AGP' },
+      ALC: { name: 'Alicante-Elche', lat: 38.28, lon: -0.56, zoom: 11, code: 'ALC' },
+      VLC: { name: 'Valencia', lat: 39.49, lon: -0.48, zoom: 11, code: 'VLC' },
+      SVQ: { name: 'Sevilla', lat: 37.42, lon: -5.89, zoom: 11, code: 'SVQ' },
+      BIO: { name: 'Bilbao', lat: 43.30, lon: -2.91, zoom: 11, code: 'BIO' },
+      TFS: { name: 'Tenerife Sur', lat: 28.04, lon: -16.57, zoom: 11, code: 'TFS' },
+      TFN: { name: 'Tenerife Norte', lat: 28.48, lon: -16.34, zoom: 11, code: 'TFN' },
+      LPA: { name: 'Gran Canaria', lat: 27.93, lon: -15.38, zoom: 11, code: 'LPA' },
+      ACE: { name: 'Lanzarote', lat: 28.95, lon: -13.60, zoom: 11, code: 'ACE' },
+      FUE: { name: 'Fuerteventura', lat: 28.45, lon: -13.86, zoom: 11, code: 'FUE' },
+      IBZ: { name: 'Ibiza', lat: 38.87, lon: 1.37, zoom: 11, code: 'IBZ' },
+      MAH: { name: 'Menorca', lat: 39.86, lon: 4.22, zoom: 11, code: 'MAH' },
+      SCQ: { name: 'Santiago de Compostela', lat: 42.89, lon: -8.41, zoom: 11, code: 'SCQ' },
+      LCG: { name: 'A Coruña', lat: 43.30, lon: -8.37, zoom: 11, code: 'LCG' },
+      VGO: { name: 'Vigo', lat: 42.23, lon: -8.62, zoom: 11, code: 'VGO' },
+      OVD: { name: 'Asturias', lat: 43.56, lon: -6.03, zoom: 11, code: 'OVD' },
+      SDR: { name: 'Santander', lat: 43.42, lon: -3.82, zoom: 11, code: 'SDR' },
+      ZAZ: { name: 'Zaragoza', lat: 41.66, lon: -1.04, zoom: 11, code: 'ZAZ' },
+      GRX: { name: 'Granada-Jaén', lat: 37.18, lon: -3.77, zoom: 11, code: 'GRX' },
+      LEI: { name: 'Almería', lat: 36.84, lon: -2.37, zoom: 11, code: 'LEI' },
+      XRY: { name: 'Jerez', lat: 36.74, lon: -6.06, zoom: 11, code: 'XRY' },
+      RMU: { name: 'Región de Murcia', lat: 37.80, lon: -1.12, zoom: 11, code: 'RMU' },
+      REU: { name: 'Reus', lat: 41.14, lon: 1.16, zoom: 11, code: 'REU' },
+      GRO: { name: 'Girona-Costa Brava', lat: 41.90, lon: 2.76, zoom: 11, code: 'GRO' }
+    };
+
+    let currentAirportKey = 'BCN';
+    let activeFilterMode = 'ALL';
+
+    function getBaseUrlForAirport(aptKey) {
+      const apt = spanishAirports[aptKey] || spanishAirports['BCN'];
+      return `https://globe.adsbexchange.com/?lat=${apt.lat}&lon=${apt.lon}&zoom=${apt.zoom}&lang=es&tempTrails=0&enableTraces&showTrace&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid`;
+    }
+
+    function changeAirport() {
+      const selectApt = document.getElementById('select-airport-filter');
+      currentAirportKey = selectApt.value;
+      const apt = spanishAirports[currentAirportKey];
+
+      // Actualizar enlace a FR24 con las nuevas coordenadas
+      document.getElementById('fr24-link').href = `https://www.flightradar24.com/${apt.lat},${apt.lon}/${apt.zoom}`;
+      
+      // Actualizar cabeceras/footers
+      document.getElementById('tma-location-text').textContent = `TMA ${apt.code}/ESP`;
+      document.getElementById('footer-text').textContent = `${apt.code} · ${apt.name} · Spotters Spain`;
+
+      // Re-aplicar el filtro activo sobre el nuevo aeropuerto
+      filterHeavyModel(activeFilterMode);
+    }
 
     function filterHeavyModel(modelKey) {
+      activeFilterMode = modelKey;
       const iframe = document.getElementById('traffic-iframe');
       const badge = document.getElementById('filter-badge');
       const altSelect = document.getElementById('select-alt-filter');
       const airlineSelect = document.getElementById('select-airline-filter');
+      const currentApt = spanishAirports[currentAirportKey];
+      const baseUrl = getBaseUrlForAirport(currentAirportKey);
 
       document.querySelectorAll('.btn-heavy-model').forEach(btn => btn.classList.remove('active'));
       altSelect.classList.remove('active');
@@ -515,20 +618,26 @@
         document.getElementById('btn-heavy').classList.add('active');
         airlineSelect.value = 'ALL_AIRLINES';
         altSelect.value = 'ALL_ALT';
-        badge.textContent = 'HEAVIES (A5)';
+        badge.textContent = `HEAVIES (${currentApt.code})`;
         targetUrl = `${baseUrl}&filterCategory=A5`;
+      } else if (modelKey === 'MILITARY') {
+        document.getElementById('btn-mil').classList.add('active');
+        airlineSelect.value = 'ALL_AIRLINES';
+        altSelect.value = 'ALL_ALT';
+        badge.textContent = `MILITAR (${currentApt.code})`;
+        targetUrl = `${baseUrl}&mil`;
       } else if (modelKey === 'AIRLINE_FILTER') {
         const airlineVal = airlineSelect.value;
         altSelect.value = 'ALL_ALT';
 
         if (airlineVal === 'ALL_AIRLINES') {
           document.getElementById('btn-all').classList.add('active');
-          badge.textContent = 'SATÉLITE (BCN)';
+          badge.textContent = `SATÉLITE (${currentApt.code})`;
           targetUrl = baseUrl;
         } else {
           airlineSelect.classList.add('active');
           const airlineText = airlineSelect.options[airlineSelect.selectedIndex].text.split('(')[0].trim();
-          badge.textContent = `AEROLÍNEA: ${airlineText.toUpperCase()}`;
+          badge.textContent = `${airlineText.toUpperCase()} (${currentApt.code})`;
           targetUrl = `${baseUrl}&filterCallsign=${airlineVal}`;
         }
       } else if (modelKey === 'ALT_FILTER') {
@@ -537,22 +646,22 @@
 
         if (altVal === 'ALL_ALT') {
           document.getElementById('btn-all').classList.add('active');
-          badge.textContent = 'SATÉLITE (BCN)';
+          badge.textContent = `SATÉLITE (${currentApt.code})`;
           targetUrl = baseUrl;
         } else if (altVal === 'HIGH_ALT') {
           altSelect.classList.add('active');
-          badge.textContent = 'ALT ≥ 20.000 FT';
-          targetUrl = "https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=10&filterAltMin=20000&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid";
+          badge.textContent = `ALT ≥ 20.000 FT (${currentApt.code})`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMin=20000&tempTrails=0&enableTraces&showTrace&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid`;
         } else {
           altSelect.classList.add('active');
-          badge.textContent = `ALT ≤ ${altVal} FT`;
-          targetUrl = `https://globe.adsbexchange.com/?lat=41.30&lon=2.08&zoom=10&filterAltMax=${altVal}&tempTrails=1&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid`;
+          badge.textContent = `ALT ≤ ${altVal} FT (${currentApt.code})`;
+          targetUrl = `https://globe.adsbexchange.com/?lat=${currentApt.lat}&lon=${currentApt.lon}&zoom=10&lang=es&filterAltMax=${altVal}&tempTrails=0&enableTraces&showTrace&largeMode=1&hideSidebar&hideButtons&hideHeader&mapType=hybrid`;
         }
       } else {
         document.getElementById('btn-all').classList.add('active');
         airlineSelect.value = 'ALL_AIRLINES';
         altSelect.value = 'ALL_ALT';
-        badge.textContent = 'SATÉLITE (BCN)';
+        badge.textContent = `SATÉLITE (${currentApt.code})`;
         targetUrl = baseUrl;
       }
 
@@ -560,53 +669,6 @@
         iframe.contentWindow.location.replace(targetUrl);
       } catch (e) {
         iframe.src = targetUrl;
-      }
-    }
-
-    // Escáner automático para la alerta visual de Heavies en la cabecera
-    async function scanSpainHeavyAircraft() {
-      try {
-        const rawUrl = 'https://opensky-network.org/api/states/all?lamin=35.50&lomin=-9.50&lamax=43.80&lomax=4.30';
-        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawUrl);
-
-        const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
-        if (!response.ok) return;
-
-        const data = await response.json();
-        if (!data || !data.states) return;
-
-        let heavyCount = 0;
-        let sampleCallsign = '';
-
-        for (let flight of data.states) {
-          const callsign = (flight[1] || '').trim();
-          const lat = flight[6];
-          const lon = flight[5];
-
-          const isHeavy = heavyCallsignPrefixes.some(prefix => callsign.startsWith(prefix));
-
-          if (isHeavy && lat && lon) {
-            heavyCount++;
-            if (!sampleCallsign) sampleCallsign = callsign;
-          }
-        }
-
-        const mainHeader = document.getElementById('main-header');
-        const liveTag = document.getElementById('live-tag');
-        const scannerText = document.getElementById('scanner-text');
-
-        if (heavyCount > 0) {
-          mainHeader.classList.add('heavy-detected');
-          if (liveTag) liveTag.textContent = 'HEAVY';
-          if (scannerText) scannerText.textContent = `${heavyCount} Heavy: ${sampleCallsign}`;
-        } else {
-          mainHeader.classList.remove('heavy-detected');
-          if (liveTag) liveTag.textContent = 'LIVE';
-          if (scannerText) scannerText.textContent = 'Escaneando España...';
-        }
-
-      } catch (err) {
-        console.log('Error escaneando Heavies:', err);
       }
     }
 
@@ -655,9 +717,6 @@
         }
       }
     });
-
-    scanSpainHeavyAircraft();
-    setInterval(scanSpainHeavyAircraft, 15000);
   </script>
 </body>
 </html>
