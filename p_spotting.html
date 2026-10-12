@@ -43,26 +43,10 @@
     box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
     transform: scale(1.08) translateY(-2px);
   }
-
-  /* Botón Flotante "Mi Espacio Spain" (Cyan) */
-  .btn-float-espacio {
-    color: #00d2ff;
-    border-color: #00d2ff;
-    box-shadow: 0 0 12px rgba(0, 210, 255, 0.4), inset 0 0 8px rgba(0, 210, 255, 0.2);
-  }
-
-  .btn-float-espacio:hover, .btn-float-espacio:active {
-    background: #00d2ff;
-    color: #050814;
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.9);
-  }
 </style>
 
 <!-- Botones Flotantes Inferiores -->
 <div class="float-buttons-container">
-  <a href="mi_espasio_spain.html" class="btn-float-inicio btn-float-espacio">
-    <i class="fa-solid fa-user-gear"></i> Mi espacio spain
-  </a>
   <a href="index.html" class="btn-float-inicio">
     <i class="fa-solid fa-arrow-left"></i> Atrás
   </a>
@@ -118,6 +102,7 @@
       text-align: center;
       margin-bottom: 14px;
       box-shadow: 0 0 15px rgba(0, 210, 255, 0.2), inset 0 0 15px rgba(0, 210, 255, 0.1);
+      position: relative;
     }
 
     .icao-badge {
@@ -147,29 +132,87 @@
       margin-bottom: 12px;
     }
 
-    /* Botón Cabecera "Mi Espacio Spain" */
+    /* Botón Cabecera "Mi Espacio Spain" en Dorado Neón */
+    .btn-header-container {
+      position: relative;
+      display: inline-block;
+    }
+
     .btn-header-espacio {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 210, 255, 0.12);
-      color: var(--neon-cyan);
-      border: 1px solid var(--neon-cyan);
+      background: #ffcc00;
+      color: #050814;
+      border: 2px solid #ffffff;
       border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.78rem;
-      font-weight: 800;
+      padding: 8px 18px;
+      font-size: 0.82rem;
+      font-weight: 900;
       text-decoration: none;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.25s ease;
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+      letter-spacing: 0.6px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 30px rgba(255, 204, 0, 0.4);
+      animation: pulseGold 2s infinite ease-in-out;
     }
 
     .btn-header-espacio:hover, .btn-header-espacio:active {
-      background: var(--neon-cyan);
+      background: #ffffff;
       color: #050814;
-      box-shadow: 0 0 18px var(--neon-cyan);
+      border-color: #ffcc00;
+      box-shadow: 0 0 25px #ffcc00;
+      transform: scale(1.06);
+    }
+
+    @keyframes pulseGold {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.8), 0 0 30px rgba(255, 204, 0, 0.4);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 204, 0, 1), 0 0 45px rgba(255, 204, 0, 0.7);
+        transform: scale(1.04);
+      }
+    }
+
+    /* Mensaje flotante aleatorio para el botón superior */
+    .header-tooltip {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0c102b;
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      width: 260px;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      pointer-events: none;
+    }
+
+    .header-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 8px 8px 8px;
+      border-style: solid;
+      border-color: transparent transparent #ffcc00 transparent;
+    }
+
+    .header-tooltip.show {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* SECCIÓN DEL MAPA INTERACTIVO */
@@ -375,9 +418,15 @@
       <span class="icao-badge">LEBL</span>
       <h1>Mapa Spotters Barcelona</h1>
       <p class="subtitle">Miradores y Puntos de Interés · BCN Spotters</p>
-      <a href="mi_espasio_spain.html" class="btn-header-espacio">
-        <i class="fa-solid fa-user-gear"></i> Mi espacio spain
-      </a>
+      
+      <div class="btn-header-container">
+        <a href="mi_espasio_spain.html" class="btn-header-espacio">
+          <i class="fa-solid fa-user-gear"></i> Mi espacio spain
+        </a>
+        <div class="header-tooltip" id="randomTooltip">
+          <i class="fa-solid fa-lightbulb"></i> ¡Haz clic aquí para acceder a tu panel personal, ajustar preferencias y guardar tus spots favoritos!
+        </div>
+      </div>
     </header>
 
     <!-- MAPA INTERACTIVO ÚNICO -->
@@ -532,17 +581,31 @@
       }
     }
 
-    // MOSTRAR CARTEL Y REPRODUCIR TRAS 5 SEGUNDOS
+    // MOSTRAR CARTEL Y MANEJAR MENSAJE ALEATORIO TRAS CARGAR
     window.addEventListener('DOMContentLoaded', () => {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.getVoices();
       }
 
+      // Modal de aviso a los 5s
       setTimeout(() => {
         const modal = document.getElementById('infoModalOverlay');
         modal.classList.add('active');
         speakAlertMessage();
       }, 5000);
+
+      // LÓGICA DE MENSAJE ALEATORIO (50% de probabilidad)
+      const showRandomTooltip = Math.random() < 0.5;
+      if (showRandomTooltip) {
+        const tooltip = document.getElementById('randomTooltip');
+        setTimeout(() => {
+          tooltip.classList.add('show');
+          // Desaparece exactamente a los 9 segundos (9000 ms)
+          setTimeout(() => {
+            tooltip.classList.remove('show');
+          }, 9000);
+        }, 2000); // Aparece 2 segundos después de cargar la página
+      }
     });
 
     // REGISTRO DE SERVICE WORKER PARA GUARDADO EN CACHÉ

@@ -478,6 +478,17 @@ textarea.campo {
   margin: 10px 0;
 }
 
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--cian);
+  text-decoration: underline;
+  padding: 0;
+  font-size: 11px;
+  margin-top: 4px;
+  text-align: left;
+}
+
 @media (max-width: 360px) {
   .estadisticas { gap: 4px; }
   .estadistica { padding: 6px 2px; }
@@ -506,7 +517,7 @@ textarea.campo {
 
     <div class="acciones">
       <button class="boton boton-principal" id="btnNueva">＋ AÑADIR FOTO</button>
-      <button class="boton" id="btnBloquear">🔒 BLOQUEAR</button>
+      <button class="boton" id="btnBloquear">🔑 CAMBIAR CONTRASEÑA</button>
       <button class="boton boton-verde" id="btnExportar">⇩ COPIA CIFRADA</button>
       <button class="boton" id="btnImportar">⇧ RESTAURAR COPIA</button>
       <input type="file" id="archivoCopia" accept=".json,application/json" hidden>
@@ -532,15 +543,15 @@ textarea.campo {
     </section>
 
     <div class="privacidad">
-      🔐 <strong>Cifrado local con contraseña.</strong><br>
-      Fotos comprimidas a máx. 1400 px y cifradas con AES-GCM. Guarda una copia de seguridad externa. Si pierdes la clave, no se podrán recuperar.
+      🔐 <strong>Cifrado local con contraseña y recuperación.</strong><br>
+      Fotos comprimidas a máx. 1400 px y cifradas con AES-GCM. Tu pregunta de seguridad te permite recuperar el acceso sin perder datos.
     </div>
   </section>
 
   <div class="pie">SPOTTERS SPAIN · MI ESPACIO SPAIN<br>Tu pasión por la aviación, en tu dispositivo.</div>
 </main>
 
-<!-- Modal Clave -->
+<!-- Modal Clave (Acceso o Crear) -->
 <div class="modal abierto" id="modalClave">
   <div class="modal-contenido">
     <h2 id="tituloClave">🔐 Proteger Mi espacio spain</h2>
@@ -552,8 +563,75 @@ textarea.campo {
       <label id="filaClave2">Repite la contraseña
         <input class="campo" id="clave2" type="password" minlength="8" autocomplete="new-password" required placeholder="Repite la contraseña">
       </label>
-      <div class="ayuda">Esta contraseña no se guarda en ningún servidor y no se puede recuperar si la olvidas.</div>
+
+      <!-- Campos de Pregunta de Seguridad -->
+      <div id="seccionPreguntaSeguridad">
+        <label>Pregunta de Seguridad (para recuperación)
+          <select class="campo" id="preguntaSeguridad" required>
+            <option value="mascota">¿Cómo se llama tu primera mascota o tu perro?</option>
+            <option value="ciudad">¿En qué ciudad naciste?</option>
+            <option value="colegio">¿Cómo se llamaba tu primer colegio?</option>
+            <option value="primer_avion">¿Cuál fue el primer modelo de avión que fotografiaste?</option>
+            <option value="comida">¿Cuál es tu comida favorita?</option>
+          </select>
+        </label>
+        <label>Respuesta
+          <input class="campo mayusculas" id="respuestaSeguridad" type="text" required placeholder="Tu respuesta secreta">
+        </label>
+      </div>
+
+      <div class="ayuda">Esta información se procesa localmente en tu dispositivo para permitir la recuperación segura.</div>
       <button class="boton boton-principal" id="btnEntrar" type="submit">CREAR PROTECCIÓN</button>
+      <button class="btn-link" type="button" id="btnOlvidaste" style="display:none">¿Has olvidado tu contraseña?</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Recuperación de Contraseña -->
+<div class="modal" id="modalRecuperar">
+  <div class="modal-contenido">
+    <h2>🧩 Recuperar Acceso</h2>
+    <p class="subtitulo" id="textoPreguntaRecuperar">Responde a tu pregunta de seguridad para acceder.</p>
+    <form class="formulario" id="formRecuperar">
+      <label>Respuesta de seguridad
+        <input class="campo mayusculas" id="respuestaRecuperar" type="text" required placeholder="Escribe tu respuesta">
+      </label>
+      <div class="acciones" style="margin-top: 6px;">
+        <button class="boton boton-principal" type="submit">RECUPERAR Y ENTRAR</button>
+        <button class="boton" type="button" id="btnCancelarRecuperar">CANCELAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Cambiar Contraseña -->
+<div class="modal" id="modalCambiarClave">
+  <div class="modal-contenido">
+    <h2>🔑 Cambiar Contraseña</h2>
+    <p class="subtitulo">Establece una nueva clave y pregunta de seguridad. Tu colección se re-cifrará automáticamente.</p>
+    <form class="formulario" id="formCambiarClave">
+      <label>Nueva Contraseña
+        <input class="campo" id="nuevaClave1" type="password" minlength="8" autocomplete="new-password" required placeholder="Mínimo 8 caracteres">
+      </label>
+      <label>Repite la nueva contraseña
+        <input class="campo" id="nuevaClave2" type="password" minlength="8" autocomplete="new-password" required placeholder="Repite la contraseña">
+      </label>
+      <label>Pregunta de Seguridad
+        <select class="campo" id="nuevaPreguntaSeguridad" required>
+          <option value="mascota">¿Cómo se llama tu primera mascota o tu perro?</option>
+          <option value="ciudad">¿En qué ciudad naciste?</option>
+          <option value="colegio">¿Cómo se llamaba tu primer colegio?</option>
+          <option value="primer_avion">¿Cuál fue el primer modelo de avión que fotografiaste?</option>
+          <option value="comida">¿Cuál es tu comida favorita?</option>
+        </select>
+      </label>
+      <label>Respuesta de Seguridad
+        <input class="campo mayusculas" id="nuevaRespuestaSeguridad" type="text" required placeholder="Tu respuesta secreta">
+      </label>
+      <div class="acciones" style="margin-top: 6px;">
+        <button class="boton boton-principal" id="btnGuardarClave" type="submit">GUARDAR Y RE-CIFRAR</button>
+        <button class="boton" type="button" id="btnCancelarCambiarClave">CANCELAR</button>
+      </div>
     </form>
   </div>
 </div>
@@ -713,11 +791,18 @@ textarea.campo {
   const STORE = 'fotografias';
   const CONFIG = 'configuracion';
 
-  /* Mayor compresión: Dimensión máx 1400px y calidad JPEG 0.38 */
   const MAX_DIMENSION = 1400;
   const JPEG_QUALITY = 0.38;
   const MAX_FILE_SIZE = 30 * 1024 * 1024;
   const PBKDF2_ITERATIONS = 250000;
+
+  const PREGUNTAS = {
+    mascota: '¿Cómo se llama tu primera mascota o tu perro?',
+    ciudad: '¿En qué ciudad naciste?',
+    colegio: '¿Cómo se llamaba tu primer colegio?',
+    primer_avion: '¿Cuál fue el primer modelo de avión que fotografiaste?',
+    comida: '¿Cuál es tu comida favorita?'
+  };
 
   let db = null;
   let claveCrypto = null;
@@ -818,15 +903,37 @@ textarea.campo {
     try {
       return await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(iv) }, key, unb64(data));
     } catch(e) {
-      throw Error('Contraseña incorrecta o datos corruptos.');
+      throw Error('Contraseña o respuesta incorrecta.');
     }
   }
 
-  async function crearConfig(password) {
+  function normalizarTexto(txt) {
+    return String(txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim();
+  }
+
+  async function crearConfig(password, preguntaId, respuesta) {
     const salt = randomBytes(16);
     const key = await derivarClave(password, salt);
     const test = await cifrar(new TextEncoder().encode('Spotters Spain Mi Espacio Spain v1'), key);
-    const c = { id: 'main', salt: b64(salt), testIv: test.iv, testData: test.data, iterations: PBKDF2_ITERATIONS, version: 1 };
+
+    // Cifrar la contraseña principal usando la respuesta de seguridad normalizada
+    const resNorm = normalizarTexto(respuesta);
+    const saltRes = randomBytes(16);
+    const keyRes = await derivarClave(resNorm, saltRes);
+    const passCifrada = await cifrar(new TextEncoder().encode(password), keyRes);
+
+    const c = { 
+      id: 'main', 
+      salt: b64(salt), 
+      testIv: test.iv, 
+      testData: test.data, 
+      preguntaId: preguntaId,
+      saltRes: b64(saltRes),
+      passIv: passCifrada.iv,
+      passData: passCifrada.data,
+      iterations: PBKDF2_ITERATIONS, 
+      version: 1 
+    };
     await setConfig(c);
     config = c;
     claveCrypto = key;
@@ -842,6 +949,16 @@ textarea.campo {
     }
     config = c;
     claveCrypto = key;
+  }
+
+  async function recuperarConRespuesta(respuesta, c) {
+    if (!c.saltRes || !c.passData) throw Error('Esta cuenta no tiene configurada una pregunta de recuperación.');
+    const resNorm = normalizarTexto(respuesta);
+    const keyRes = await derivarClave(resNorm, unb64(c.saltRes));
+    const bufferPass = await descifrar(c.passData, c.passIv, keyRes);
+    const passRecuperada = decodeText(bufferPass);
+
+    await desbloquear(passRecuperada, c);
   }
 
   function fechaLocal() {
@@ -1161,22 +1278,147 @@ textarea.campo {
   $('buscar').oninput = pintar;
   $('filtro').onchange = pintar;
 
+  /* MODAL CAMBIAR CONTRASEÑA */
   $('btnBloquear').onclick = () => {
-    claveCrypto = null;
-    registros = [];
-    $('zonaApp').style.display = 'none';
-    $('modalClave').classList.add('abierto');
-    $('tituloClave').textContent = '🔒 Mi espacio spain bloqueado';
-    $('textoClave').textContent = 'Introduce tu contraseña para desbloquear.';
-    $('filaClave2').style.display = 'none';
-    $('clave2').required = false;
-    $('btnEntrar').textContent = 'DESBLOQUEAR';
-    $('clave1').value = '';
-    $('clave1').focus();
+    $('formCambiarClave').reset();
+    $('modalCambiarClave').classList.add('abierto');
   };
+
+  $('btnCancelarCambiarClave').onclick = () => {
+    $('modalCambiarClave').classList.remove('abierto');
+    $('formCambiarClave').reset();
+  };
+
+  $('formCambiarClave').addEventListener('submit', async e => {
+    e.preventDefault();
+    const np1 = $('nuevaClave1').value;
+    const np2 = $('nuevaClave2').value;
+    const pId = $('nuevaPreguntaSeguridad').value;
+    const resp = $('nuevaRespuestaSeguridad').value;
+    const btn = $('btnGuardarClave');
+
+    if (np1.length < 8) {
+      avisar('Mínimo 8 caracteres.');
+      return;
+    }
+    if (np1 !== np2) {
+      avisar('Las contraseñas no coinciden.');
+      return;
+    }
+    if (!resp.trim()) {
+      avisar('Introduce una respuesta de seguridad.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'RE-CIFRANDO...';
+
+    try {
+      const itemsOriginales = await all();
+      const datosDescifrados = [];
+      for (const rec of itemsOriginales) {
+        const metaBytes = await descifrar(rec.metaData, rec.metaIv, claveCrypto);
+        const photoBytes = await descifrar(rec.photoData, rec.photoIv, claveCrypto);
+        datosDescifrados.push({
+          id: rec.id,
+          metaBytes,
+          photoBytes,
+          bytes: rec.bytes,
+          fechaCreacion: rec.fechaCreacion,
+          fechaModificacion: rec.fechaModificacion
+        });
+      }
+
+      const nuevoSalt = randomBytes(16);
+      const nuevaClaveCrypto = await derivarClave(np1, nuevoSalt);
+      const nuevoTest = await cifrar(new TextEncoder().encode('Spotters Spain Mi Espacio Spain v1'), nuevaClaveCrypto);
+
+      for (const item of datosDescifrados) {
+        const encMeta = await cifrar(item.metaBytes, nuevaClaveCrypto);
+        const encPhoto = await cifrar(item.photoBytes, nuevaClaveCrypto);
+        await put({
+          id: item.id,
+          photoIv: encPhoto.iv,
+          photoData: encPhoto.data,
+          metaIv: encMeta.iv,
+          metaData: encMeta.data,
+          bytes: item.bytes,
+          fechaCreacion: item.fechaCreacion,
+          fechaModificacion: new Date().toISOString()
+        });
+      }
+
+      // Re-cifrar también el método de recuperación con la respuesta
+      const resNorm = normalizarTexto(resp);
+      const saltRes = randomBytes(16);
+      const keyRes = await derivarClave(resNorm, saltRes);
+      const passCifrada = await cifrar(new TextEncoder().encode(np1), keyRes);
+
+      const nuevaConfig = {
+        id: 'main',
+        salt: b64(nuevoSalt),
+        testIv: nuevoTest.iv,
+        testData: nuevoTest.data,
+        preguntaId: pId,
+        saltRes: b64(saltRes),
+        passIv: passCifrada.iv,
+        passData: passCifrada.data,
+        iterations: PBKDF2_ITERATIONS,
+        version: 1
+      };
+      await setConfig(nuevaConfig);
+
+      config = nuevaConfig;
+      claveCrypto = nuevaClaveCrypto;
+
+      $('modalCambiarClave').classList.remove('abierto');
+      $('formCambiarClave').reset();
+      await cargar();
+      avisar('Contraseña actualizada y datos re-cifrados con éxito. 🔑');
+    } catch(err) {
+      console.error(err);
+      avisar(err.message || 'Error al cambiar contraseña.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'GUARDAR Y RE-CIFRAR';
+    }
+  });
+
+  /* LÓGICA DE OLVIDO DE CONTRASEÑA */
+  $('btnOlvidaste').onclick = () => {
+    if (!config || !config.preguntaId) {
+      avisar('No hay configuración de recuperación guardada.');
+      return;
+    }
+    const textoPregunta = PREGUNTAS[config.preguntaId] || 'Pregunta de seguridad:';
+    $('textoPreguntaRecuperar').textContent = textoPregunta;
+    $('respuestaRecuperar').value = '';
+    $('modalRecuperar').classList.add('abierto');
+  };
+
+  $('btnCancelarRecuperar').onclick = () => {
+    $('modalRecuperar').classList.remove('abierto');
+  };
+
+  $('formRecuperar').addEventListener('submit', async e => {
+    e.preventDefault();
+    const resp = $('respuestaRecuperar').value;
+    try {
+      await recuperarConRespuesta(resp, config);
+      $('modalRecuperar').classList.remove('abierto');
+      $('modalClave').classList.remove('abierto');
+      $('zonaApp').style.display = 'block';
+      await cargar();
+      avisar('Acceso recuperado con éxito. ✈');
+    } catch(err) {
+      avisar(err.message || 'Respuesta incorrecta.');
+    }
+  });
 
   $('modalFoto').addEventListener('click', e => { if (e.target === $('modalFoto')) cerrarFormulario(); });
   $('modalVisor').addEventListener('click', e => { if (e.target === $('modalVisor')) $('modalVisor').classList.remove('abierto'); });
+  $('modalCambiarClave').addEventListener('click', e => { if (e.target === $('modalCambiarClave')) $('modalCambiarClave').classList.remove('abierto'); });
+  $('modalRecuperar').addEventListener('click', e => { if (e.target === $('modalRecuperar')) $('modalRecuperar').classList.remove('abierto'); });
 
   function descargar(blob, nombre) {
     const u = URL.createObjectURL(blob);
@@ -1250,7 +1492,10 @@ textarea.campo {
       const current = await getConfig();
       if (!current) {
         if (pass !== pass2) throw Error('Las contraseñas no coinciden.');
-        await crearConfig(pass);
+        const pId = $('preguntaSeguridad').value;
+        const resp = $('respuestaSeguridad').value;
+        if (!resp.trim()) throw Error('Introduce una respuesta a la pregunta.');
+        await crearConfig(pass, pId, resp);
       } else {
         await desbloquear(pass, current);
       }
@@ -1274,13 +1519,23 @@ textarea.campo {
         $('textoClave').textContent = 'Introduce la contraseña que creaste anteriormente.';
         $('filaClave2').style.display = 'none';
         $('clave2').required = false;
+        $('seccionPreguntaSeguridad').style.display = 'none';
+        $('preguntaSeguridad').required = false;
+        $('respuestaSeguridad').required = false;
         $('btnEntrar').textContent = 'DESBLOQUEAR';
+        if (config.preguntaId) {
+          $('btnOlvidaste').style.display = 'inline-block';
+        }
       } else {
         $('tituloClave').textContent = '🔐 Crear protección';
-        $('textoClave').textContent = 'Crea una contraseña para cifrar tus fotos.';
+        $('textoClave').textContent = 'Crea una contraseña y pregunta de seguridad para cifrar tus fotos.';
         $('filaClave2').style.display = 'grid';
         $('clave2').required = true;
+        $('seccionPreguntaSeguridad').style.display = 'grid';
+        $('preguntaSeguridad').required = true;
+        $('respuestaSeguridad').required = true;
         $('btnEntrar').textContent = 'CREAR PROTECCIÓN';
+        $('btnOlvidaste').style.display = 'none';
       }
     } catch(e) {
       $('panelBloqueo').style.display = 'block';
