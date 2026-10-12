@@ -135,12 +135,35 @@
       margin-bottom: 14px;
     }
 
+    /* Contenedor de Navegación con Gradiente Indicador de Scroll */
+    .tabs-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .tabs-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 5px;
+      width: 32px;
+      background: linear-gradient(to right, rgba(18, 26, 43, 0), rgba(18, 26, 43, 0.95));
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      border-radius: 0 8px 8px 0;
+      z-index: 2;
+    }
+
+    .tabs-wrapper.scrolled-end::after {
+      opacity: 0;
+    }
+
     /* Pestañas */
     .nav-tabs {
       display: flex;
       gap: 8px;
       border-bottom: 1px solid var(--border-color);
-      margin-bottom: 16px;
       overflow-x: auto;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
@@ -826,7 +849,7 @@
     </div>
 
     <!-- Selector de Aerolínea -->
-    <select id="airlineSelect" class="selector" onchange="loadAirlineData()">
+    <select id="airlineSelect" class="selector" onChange="loadAirlineData()">
       <optgroup label="España">
         <option value="VLG" selected>Vueling (VY / VLG)</option>
         <option value="IBE">Iberia (IB / IBE)</option>
@@ -857,18 +880,20 @@
       </optgroup>
     </select>
 
-    <!-- Navegación por Pestañas -->
-    <div class="nav-tabs">
-      <button class="tab-btn active" id="btn-tab-ficha" onclick="switchTab(event, 'ficha')">Ficha</button>
-      <button class="tab-btn" id="btn-tab-historia" onclick="switchTab(event, 'historia')">📜 Historia</button>
-      <button class="tab-btn" id="btn-tab-log" onclick="switchTab(event, 'log')">📝 Cuaderno Log</button>
-      <button class="tab-btn" id="btn-tab-radio" onclick="switchTab(event, 'radio')">📻 Radio & Ops</button>
-      <button class="tab-btn" id="btn-tab-sol" onclick="switchTab(event, 'sol')">☀️ Sol / Luz Spotter</button>
-      <button class="tab-btn" id="btn-tab-flota" onclick="switchTab(event, 'flota')">Flotas</button>
-      <button class="tab-btn" id="btn-tab-rutas" onclick="switchTab(event, 'rutas')">Rutas Oficiales</button>
-      <button class="tab-btn" id="btn-tab-libreas" onclick="switchTab(event, 'libreas')">Logos y Estándar</button>
-      <button class="tab-btn" id="btn-tab-especiales" onclick="switchTab(event, 'especiales')">✨ Libreas Especiales</button>
-      <button class="tab-btn" id="btn-tab-comparativa" onclick="switchTab(event, 'comparativa')">Comparativa Airbus</button>
+    <!-- Navegación por Pestañas con Indicador de Scroll -->
+    <div class="tabs-wrapper" id="tabsWrapper">
+      <div class="nav-tabs" id="navTabsContainer">
+        <button class="tab-btn active" id="btn-tab-ficha" onClick="switchTab(event, 'ficha')">Ficha</button>
+        <button class="tab-btn" id="btn-tab-historia" onClick="switchTab(event, 'historia')">📜 Historia</button>
+        <button class="tab-btn" id="btn-tab-log" onClick="switchTab(event, 'log')">📝 Cuaderno Log</button>
+        <button class="tab-btn" id="btn-tab-radio" onClick="switchTab(event, 'radio')">📻 Radio & Ops</button>
+        <button class="tab-btn" id="btn-tab-sol" onClick="switchTab(event, 'sol')">☀️ Sol / Luz Spotter</button>
+        <button class="tab-btn" id="btn-tab-flota" onClick="switchTab(event, 'flota')">Flotas</button>
+        <button class="tab-btn" id="btn-tab-rutas" onClick="switchTab(event, 'rutas')">Rutas Oficiales</button>
+        <button class="tab-btn" id="btn-tab-libreas" onClick="switchTab(event, 'libreas')">Logos y Estándar</button>
+        <button class="tab-btn" id="btn-tab-especiales" onClick="switchTab(event, 'especiales')">✨ Libreas Especiales</button>
+        <button class="tab-btn" id="btn-tab-comparativa" onClick="switchTab(event, 'comparativa')">Comparativa Airbus</button>
+      </div>
     </div>
 
     <!-- Pestaña Ficha General -->
@@ -884,7 +909,7 @@
       <div class="history-card">
         <div class="history-title">📖 Origen e Historia</div>
         <div class="history-text" id="info-historia-corta">Cargando historia...</div>
-        <button id="btnToggleHistory" class="btn-read-more" onclick="toggleHistoryExpansion()">
+        <button id="btnToggleHistory" class="btn-read-more" onClick="toggleHistoryExpansion()">
           <span>Leer más</span> <i class="fa-solid fa-chevron-down"></i>
         </button>
       </div>
@@ -907,7 +932,7 @@
     <div id="log" class="panel">
       <div class="log-form">
         <div class="log-form-title">📷 Registrar Nuevo Avistamiento</div>
-        <form id="spotterLogForm" onsubmit="saveSpotterLog(event)">
+        <form id="spotterLogForm" onSubmit="saveSpotterLog(event)">
           <div class="form-grid">
             <div class="form-group">
               <label>Matrícula / Reg</label>
@@ -937,8 +962,8 @@
       <div class="export-bar">
         <span style="font-size:0.85rem; font-weight:800; color:#fff;" id="logCount">Registros: 0</span>
         <div>
-          <button class="btn-export" onclick="exportLogsToCSV()">📥 Exportar CSV</button>
-          <button class="btn-clear" onclick="clearLogs()">🗑️ Borrar</button>
+          <button class="btn-export" onClick="exportLogsToCSV()">📥 Exportar CSV</button>
+          <button class="btn-clear" onClick="clearLogs()">🗑️ Borrar</button>
         </div>
       </div>
 
@@ -1006,7 +1031,7 @@
         <div class="airbus-select-grid">
           <div class="airbus-select-group">
             <label for="airbus1">Avión 1</label>
-            <select id="airbus1" class="airbus-select" onchange="compareAirbusModels()">
+            <select id="airbus1" class="airbus-select" onChange="compareAirbusModels()">
               <option value="a220-300">Airbus A220-300</option>
               <option value="a319neo">Airbus A319neo</option>
               <option value="a320neo" selected>Airbus A320neo</option>
@@ -1022,7 +1047,7 @@
           </div>
           <div class="airbus-select-group">
             <label for="airbus2">Avión 2</label>
-            <select id="airbus2" class="airbus-select" onchange="compareAirbusModels()">
+            <select id="airbus2" class="airbus-select" onChange="compareAirbusModels()">
               <option value="a220-300">Airbus A220-300</option>
               <option value="a319neo">Airbus A319neo</option>
               <option value="a320neo">Airbus A320neo</option>
@@ -1486,6 +1511,44 @@
       }
     };
 
+    // Función de Animación de Scroll para la barra de pestañas (.nav-tabs)
+    function triggerTabsScrollPreview() {
+      const navContainer = document.getElementById('navTabsContainer');
+      const wrapper = document.getElementById('tabsWrapper');
+      if (!navContainer) return;
+
+      // Evento para desvanecer el gradiente si se llega al final
+      navContainer.addEventListener('scroll', () => {
+        const isAtEnd = navContainer.scrollLeft + navContainer.clientWidth >= navContainer.scrollWidth - 10;
+        if (wrapper) {
+          if (isAtEnd) {
+            wrapper.classList.add('scrolled-end');
+          } else {
+            wrapper.classList.remove('scrolled-end');
+          }
+        }
+      });
+
+      // Retardo para asegurar el correcto renderizado inicial
+      setTimeout(() => {
+        const scrollDistance = 200;
+        
+        // Scroll Suave a la derecha
+        navContainer.scrollTo({
+          left: scrollDistance,
+          behavior: 'smooth'
+        });
+
+        // Retorno a la posición inicial tras mostrar las pestañas ocultas
+        setTimeout(() => {
+          navContainer.scrollTo({
+            left: 0,
+            behavior: 'smooth'
+          });
+        }, 800);
+      }, 600);
+    }
+
     // Control de Expansión de Historia
     function toggleHistoryExpansion() {
       const container = document.getElementById('info-historia-corta');
@@ -1550,7 +1613,8 @@
     }
 
     function clearLogs() {
-      if (confirm('¿Seguro que deseas borrar todo el cuaderno de avistamientos?')) {
+      const isConfirmed = window.confirm('¿Seguro que deseas borrar todo el cuaderno de avistamientos?');
+      if (isConfirmed) {
         localStorage.removeItem('spotters_logs');
         renderSpotterLogs();
       }
@@ -1559,7 +1623,6 @@
     function exportLogsToCSV() {
       const logs = JSON.parse(localStorage.getItem('spotters_logs') || '[]');
       if (logs.length === 0) {
-        alert('No hay registros para exportar.');
         return;
       }
 
@@ -1907,6 +1970,7 @@
       setDefaultLogDateTime();
       renderSpotterLogs();
       compareAirbusModels();
+      triggerTabsScrollPreview();
     });
   </script>
 </body>

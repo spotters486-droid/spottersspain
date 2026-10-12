@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030611">
+<title>Mi espacio spain | Spotters Spain</title>
+<!-- CÓDIGO DEL BOTÓN FLOTANTE INICIO -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Enlace Flotante a index.html -->
+<a href="p_spotting.html" class="btn-float-inicio">
+  <i class="fa-solid fa-house"></i> Atras
+</a>
+<style>
+:root {
+  --fondo: #030611;
+  --panel: rgba(11, 18, 32, 0.85);
+  --panel2: #111c2e;
+  --cian: #00d9ff;
+  --verde: #00ff9d;
+  --texto: #f0f6ff;
+  --gris: #8da0b9;
+  --borde: rgba(0, 217, 255, 0.22);
+  --rojo: #ff526b;
+  --sombra-glow: 0 0 15px rgba(0, 217, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.mayusculas {
+  text-transform: uppercase;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 10px 10px calc(20px + env(safe-area-inset-bottom));
+}
+
+.cabecera {
+  padding: 14px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(11, 27, 45, 0.9), rgba(7, 16, 30, 0.9));
+  box-shadow: var(--sombra-glow);
+  margin-bottom: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.etiqueta {
+  color: var(--verde);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(20px, 5.2vw, 28px);
+  margin: 4px 0 6px;
+  color: var(--cian);
+  overflow-wrap: anywhere;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.subtitulo {
+  color: var(--gris);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.estadisticas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.estadistica {
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  padding: 8px 4px;
+  text-align: center;
+  border-radius: 10px;
+  min-width: 0;
+}
+
+.estadistica strong {
+  display: block;
+  color: var(--cian);
+  font-size: clamp(15px, 3.8vw, 20px);
+  margin-bottom: 2px;
+  overflow-wrap: anywhere;
+}
+
+.estadistica span {
+  color: var(--gris);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.boton {
+  border: 1px solid var(--borde);
+  color: var(--cian);
+  background: rgba(0, 217, 255, 0.08);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.boton:active {
+  transform: scale(0.98);
+}
+
+.boton-principal {
+  background: var(--cian);
+  color: #001018;
+  border-color: var(--cian);
+  font-weight: 800;
+}
+
+.boton-verde {
+  color: var(--verde);
+  border-color: rgba(0, 255, 157, 0.3);
+  background: rgba(0, 255, 157, 0.08);
+}
+
+.boton-rojo {
+  color: var(--rojo);
+  border-color: rgba(255, 82, 107, 0.3);
+  background: rgba(255, 82, 107, 0.08);
+}
+
+.acciones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.acciones button {
+  width: 100%;
+}
+
+.seccion-titulo {
+  margin: 16px 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.seccion-titulo span {
+  color: var(--cian);
+}
+
+.buscador {
+  display: grid;
+  grid-template-columns: 1fr 130px;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.campo {
+  width: 100%;
+  min-width: 0;
+  color: var(--texto);
+  background: #070d18;
+  border: 1px solid #1f334a;
+  padding: 8px 10px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 12px;
+}
+
+.campo:focus {
+  border-color: var(--cian);
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.2);
+}
+
+input[type="date"].campo {
+  color-scheme: dark;
+  position: relative;
+}
+
+input[type="date"].campo::-webkit-calendar-picker-indicator {
+  filter: invert(0.8) sepia(100%) saturate(10000%) hue-rotate(150deg);
+  cursor: pointer;
+  opacity: 0.9;
+  padding: 2px;
+}
+
+select.campo {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2300d9ff'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 22px;
+}
+
+textarea.campo {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tarjeta {
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-imagen {
+  width: 100%;
+  aspect-ratio: 4/3;
+  display: block;
+  object-fit: cover;
+  background: #091322;
+  cursor: pointer;
+}
+
+.tarjeta-contenido {
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tarjeta h3 {
+  font-size: 12px;
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+  color: var(--cian);
+  font-weight: 700;
+}
+
+.tarjeta p {
+  font-size: 10.5px;
+  color: var(--gris);
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjeta-acciones {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.tarjeta-acciones button {
+  flex: 1;
+  padding: 6px 2px;
+  font-size: 9.5px;
+}
+
+.vacio {
+  text-align: center;
+  padding: 24px 10px;
+  border: 1px dashed #243850;
+  border-radius: 10px;
+  color: var(--gris);
+  grid-column: 1/-1;
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+.vacio .icono {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.privacidad {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: rgba(0, 255, 157, 0.03);
+  border: 1px solid rgba(0, 255, 157, 0.18);
+  border-radius: 10px;
+  font-size: 10.5px;
+  color: #9cbdb3;
+  line-height: 1.5;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(4px);
+  overflow-y: auto;
+}
+
+.modal.abierto {
+  display: flex;
+}
+
+.modal-contenido {
+  width: 100%;
+  max-width: 480px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  background: #08111e;
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 14px;
+  margin: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.modal-contenido h2 {
+  margin-top: 0;
+  color: var(--cian);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.formulario {
+  display: grid;
+  gap: 8px;
+}
+
+.formulario label {
+  display: grid;
+  gap: 3px;
+  color: #b2c5dd;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.dos-columnas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.previsualizacion {
+  display: none;
+  width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  background: #030611;
+  border-radius: 8px;
+  margin-top: 4px;
+  border: 1px solid #1a2a3e;
+}
+
+.mensaje {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  z-index: 2000;
+  max-width: 420px;
+  margin: auto;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--texto);
+  background: #0c1b2c;
+  border: 1px solid var(--cian);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+  display: none;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.mensaje.visible {
+  display: block;
+}
+
+.pie {
+  text-align: center;
+  margin-top: 18px;
+  color: #536780;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.ayuda {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--gris);
+  padding: 7px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #1c2b3c;
+  border-radius: 7px;
+}
+
+.estado {
+  padding: 10px;
+  border-radius: 8px;
+  background: #0b1c2d;
+  border: 1px solid var(--borde);
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 10px 0;
+}
+
+@media (max-width: 360px) {
+  .estadisticas { gap: 4px; }
+  .estadistica { padding: 6px 2px; }
+  .buscador { grid-template-columns: 1fr; }
+  .acciones { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<main class="contenedor">
+  <header class="cabecera">
+    <div class="etiqueta">SPOTTERS SPAIN · ZONA PERSONAL</div>
+    <h1>✈ MI ESPACIO SPAIN</h1>
+    <div class="subtitulo">Tu colección privada de spotting en España. Las fotografías se comprimen y cifran localmente.</div>
+  </header>
+
+  <div id="panelBloqueo" class="estado" style="display:none"></div>
+
+  <section id="zonaApp" style="display:none">
+    <div class="estadisticas">
+      <div class="estadistica"><strong id="totalFotos">0</strong><span>FOTOS</span></div>
+      <div class="estadistica"><strong id="totalAviones">0</strong><span>MODELOS</span></div>
+      <div class="estadistica"><strong id="espacioUsado">0 MB</strong><span>CIFRADO</span></div>
+    </div>
+
+    <div class="acciones">
+      <button class="boton boton-principal" id="btnNueva">＋ AÑADIR FOTO</button>
+      <button class="boton" id="btnBloquear">🔒 BLOQUEAR</button>
+      <button class="boton boton-verde" id="btnExportar">⇩ COPIA CIFRADA</button>
+      <button class="boton" id="btnImportar">⇧ RESTAURAR COPIA</button>
+      <input type="file" id="archivoCopia" accept=".json,application/json" hidden>
+    </div>
+
+    <h2 class="seccion-titulo"><span>▰</span> MI COLECCIÓN</h2>
+    
+    <div class="buscador">
+      <input class="campo mayusculas" id="buscar" placeholder="Buscar modelo, aerolínea...">
+      <select class="campo" id="filtro">
+        <option value="">Todos los fabricantes</option>
+        <option>Airbus</option>
+        <option>Boeing</option>
+        <option>Embraer</option>
+        <option>ATR</option>
+        <option>Bombardier / Canadair</option>
+        <option>Otros</option>
+      </select>
+    </div>
+
+    <section class="galeria" id="galeria">
+      <div class="vacio">Cargando colección...</div>
+    </section>
+
+    <div class="privacidad">
+      🔐 <strong>Cifrado local con contraseña.</strong><br>
+      Fotos comprimidas a máx. 1400 px y cifradas con AES-GCM. Guarda una copia de seguridad externa. Si pierdes la clave, no se podrán recuperar.
+    </div>
+  </section>
+
+  <div class="pie">SPOTTERS SPAIN · MI ESPACIO SPAIN<br>Tu pasión por la aviación, en tu dispositivo.</div>
+</main>
+
+<!-- Modal Clave -->
+<div class="modal abierto" id="modalClave">
+  <div class="modal-contenido">
+    <h2 id="tituloClave">🔐 Proteger Mi espacio spain</h2>
+    <p class="subtitulo" id="textoClave">Crea una contraseña para cifrar tus fotografías.</p>
+    <form class="formulario" id="formClave">
+      <label>Contraseña
+        <input class="campo" id="clave1" type="password" minlength="8" autocomplete="current-password" required placeholder="Mínimo 8 caracteres">
+      </label>
+      <label id="filaClave2">Repite la contraseña
+        <input class="campo" id="clave2" type="password" minlength="8" autocomplete="new-password" required placeholder="Repite la contraseña">
+      </label>
+      <div class="ayuda">Esta contraseña no se guarda en ningún servidor y no se puede recuperar si la olvidas.</div>
+      <button class="boton boton-principal" id="btnEntrar" type="submit">CREAR PROTECCIÓN</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Formulario Foto -->
+<div class="modal" id="modalFoto">
+  <div class="modal-contenido">
+    <h2 id="tituloFormulario">Añadir fotografía</h2>
+    <form class="formulario" id="formFoto">
+      <label>Fotografía *
+        <input class="campo" id="imagen" type="file" accept="image/jpeg,image/png,image/webp" required>
+      </label>
+      <img id="preview" class="previsualizacion" alt="Vista previa">
+
+      <label>Modelo de aeronave *
+        <input class="campo mayusculas" id="modelo" required maxlength="200" placeholder="Ej. AIRBUS A350-900">
+      </label>
+
+      <div class="dos-columnas">
+        <label>Aerolínea
+          <select class="campo mayusculas" id="aerolinea">
+            <option value="">-- SELECCIONAR AEROLÍNEA --</option>
+            <option>IBERIA</option>
+            <option>IBERIA EXPRESS</option>
+            <option>AIR EUROPA</option>
+            <option>VUELING</option>
+            <option>VOLOTEA</option>
+            <option>BINTER CANARIAS</option>
+            <option>CANARYFLY</option>
+            <option>RYANAIR</option>
+            <option>EASYJET</option>
+            <option>LUFTHANSA</option>
+            <option>AIR FRANCE</option>
+            <option>KLM ROYAL DUTCH</option>
+            <option>BRITISH AIRWAYS</option>
+            <option>WIZZ AIR</option>
+            <option>TRANSAVIA</option>
+            <option>TAP AIR PORTUGAL</option>
+            <option>ITA AIRWAYS</option>
+            <option>SWISS INT. AIR LINES</option>
+            <option>EDELWEISS AIR</option>
+            <option>AUSTRIAN AIRLINES</option>
+            <option>NORWEGIAN AIR SHUTTLE</option>
+            <option>SAS SCANDINAVIAN</option>
+            <option>FINNAIR</option>
+            <option>LOT POLISH AIRLINES</option>
+            <option>TURKISH AIRLINES</option>
+            <option>AEGEAN AIRLINES</option>
+            <option>EUROWINGS</option>
+            <option>CONDOR</option>
+            <option>TUI FLY</option>
+            <option>ICELANDAIR</option>
+            <option>LUXAIR</option>
+            <option value="OTRA / NO LISTADA">OTRA / NO LISTADA</option>
+          </select>
+        </label>
+
+        <label>Fabricante
+          <select class="campo mayusculas" id="fabricante">
+            <option>AIRBUS</option>
+            <option>BOEING</option>
+            <option>EMBRAER</option>
+            <option>ATR</option>
+            <option>BOMBARDIER / CANADAIR</option>
+            <option>OTROS</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="dos-columnas">
+        <label>Aeropuerto (España)
+          <select class="campo mayusculas" id="aeropuerto">
+            <option value="BARCELONA-EL PRAT (LEBL / BCN)" selected>BARCELONA-EL PRAT (LEBL / BCN)</option>
+            <option value="MADRID-BARAJAS (LEMD / MAD)">MADRID-BARAJAS (LEMD / MAD)</option>
+            <option value="PALMA DE MALLORCA (LEPA / PMI)">PALMA DE MALLORCA (LEPA / PMI)</option>
+            <option value="MÁLAGA-COSTA DEL SOL (LEMG / AGP)">MÁLAGA-COSTA DEL SOL (LEMG / AGP)</option>
+            <option value="ALICANTE-ELCHE (LEAL / ALC)">ALICANTE-ELCHE (LEAL / ALC)</option>
+            <option value="GRAN CANARIA (GCLP / LPA)">GRAN CANARIA (GCLP / LPA)</option>
+            <option value="TENERIFE SUR (GCTS / TFS)">TENERIFE SUR (GCTS / TFS)</option>
+            <option value="TENERIFE NORTE (GCXO / TFN)">TENERIFE NORTE (GCXO / TFN)</option>
+            <option value="VALENCIA (LEVC / VLC)">VALENCIA (LEVC / VLC)</option>
+            <option value="SEVILLA (LEZL / SVQ)">SEVILLA (LEZL / SVQ)</option>
+            <option value="IBIZA (LEIB / IBZ)">IBIZA (LEIB / IBZ)</option>
+            <option value="LANZAROTE (GCRR / ACE)">LANZAROTE (GCRR / ACE)</option>
+            <option value="FUERTEVENTURA (GCFV / FUE)">FUERTEVENTURA (GCFV / FUE)</option>
+            <option value="BILBAO (LEBB / BIO)">BILBAO (LEBB / BIO)</option>
+            <option value="MENORCA (LEMH / MAH)">MENORCA (LEMH / MAH)</option>
+            <option value="SANTIAGO-ROSALÍA DE CASTRO (LEST / SCQ)">SANTIAGO (LEST / SCQ)</option>
+            <option value="GIRONA-COSTA BRAVA (LEGE / GRO)">GIRONA-COSTA BRAVA (LEGE / GRO)</option>
+            <option value="REUS (LERS / REU)">REUS (LERS / REU)</option>
+            <option value="ASTURIAS (LEAS / OVD)">ASTURIAS (LEAS / OVD)</option>
+            <option value="A CORUÑA (LECO / LCG)">A CORUÑA (LECO / LCG)</option>
+            <option value="VIGO (LEVX / VGO)">VIGO (LEVX / VGO)</option>
+            <option value="ZARAGOZA (LEZG / ZAZ)">ZARAGOZA (LEZG / ZAZ)</option>
+            <option value="MURCIA-REGION DE MURCIA (LEMI / RMU)">MURCIA (LEMI / RMU)</option>
+            <option value="SANTANDER (LEXJ / SDR)">SANTANDER (LEXJ / SDR)</option>
+            <option value="SAN SEBASTIÁN (LESO / EAS)">SAN SEBASTIÁN (LESO / EAS)</option>
+            <option value="JEREZ (LEJR / XRY)">JEREZ (LEJR / XRY)</option>
+            <option value="GRANADA-JAÉN (LEGR / GRX)">GRANADA-JAÉN (LEGR / GRX)</option>
+            <option value="ALMERÍA (LEAM / LEI)">ALMERÍA (LEAM / LEI)</option>
+            <option value="LA PALMA (GCLA / SPC)">LA PALMA (GCLA / SPC)</option>
+            <option value="EL HIERRO (GCHI / VDE)">EL HIERRO (GCHI / VDE)</option>
+            <option value="LA GOMERA (GCGM / GMZ)">LA GOMERA (GCGM / GMZ)</option>
+            <option value="PAMPLONA (LEPP / PNA)">PAMPLONA (LEPP / PNA)</option>
+            <option value="VITORIA (LEVT / VIT)">VITORIA (LEVT / VIT)</option>
+            <option value="VALLADOLID (LEVD / VLL)">VALLADOLID (LEVD / VLL)</option>
+            <option value="LOGROÑO-AGONCILLO (LERJ / RJL)">LOGROÑO (LERJ / RJL)</option>
+            <option value="BADAJOZ (LEBZ / BJZ)">BADAJOZ (LEBZ / BJZ)</option>
+            <option value="LÉRIDA-ALGUAIRE (LEDA / ILD)">LÉRIDA (LEDA / ILD)</option>
+            <option value="CASTELLÓN (LECH / CDT)">CASTELLÓN (LECH / CDT)</option>
+            <option value="TERUEL (LETL / TEV)">TERUEL (LETL / TEV)</option>
+            <option value="SABADELL (LELL)">SABADELL (LELL)</option>
+            <option value="OTRO AEROPUERTO">OTRO AEROPUERTO</option>
+          </select>
+        </label>
+
+        <label>Fecha del spotting
+          <input class="campo" id="fecha" type="date">
+        </label>
+      </div>
+
+      <label>Notas personales
+        <textarea class="campo mayusculas" id="notas" maxlength="3000" placeholder="PISTA, CONDICIONES, REGISTRO..."></textarea>
+      </label>
+
+      <div class="acciones" style="margin-top: 6px;">
+        <button class="boton boton-principal" id="btnGuardar" type="submit">CIFRAR Y GUARDAR</button>
+        <button class="boton" type="button" id="btnCancelar">CANCELAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Visor -->
+<div class="modal" id="modalVisor">
+  <div class="modal-contenido">
+    <button class="boton" id="btnCerrarVisor" style="float: right;">✕ CERRAR</button>
+    <div style="clear: both;"></div>
+    <img id="imagenGrande" style="width:100%;max-height:50dvh;object-fit:contain;margin-top:8px;border-radius:8px;" alt="Aeronave">
+    <h2 id="visorModelo" style="margin: 10px 0 4px;"></h2>
+    <div id="visorDatos" class="subtitulo"></div>
+    <div class="acciones" style="margin-top:12px">
+      <button class="boton" id="btnEditar">✎ EDITAR</button>
+      <button class="boton boton-rojo" id="btnEliminar">ELIMINAR</button>
+    </div>
+  </div>
+</div>
+
+<div class="mensaje" id="mensaje" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  const DB_NAME = 'SpottersSpainMiEspacioCifrado';
+  const DB_VERSION = 1;
+  const STORE = 'fotografias';
+  const CONFIG = 'configuracion';
+
+  /* Mayor compresión: Dimensión máx 1400px y calidad JPEG 0.38 */
+  const MAX_DIMENSION = 1400;
+  const JPEG_QUALITY = 0.38;
+  const MAX_FILE_SIZE = 30 * 1024 * 1024;
+  const PBKDF2_ITERATIONS = 250000;
+
+  let db = null;
+  let claveCrypto = null;
+  let config = null;
+  let registros = [];
+  let fotoEditando = null;
+  let fotoSeleccionada = null;
+  let mensajeTimer = null;
+  let visorURL = null;
+  let previewURL = null;
+
+  const $ = id => document.getElementById(id);
+
+  const textDecoder = new TextDecoder('utf-8');
+  function decodeText(arrayBuffer) {
+    return textDecoder.decode(new Uint8Array(arrayBuffer));
+  }
+
+  function avisar(t) {
+    const e = $('mensaje');
+    e.textContent = t;
+    e.classList.add('visible');
+    clearTimeout(mensajeTimer);
+    mensajeTimer = setTimeout(() => e.classList.remove('visible'), 4000);
+  }
+
+  function abrirDB() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) {
+        reject(Error('Este navegador/WebView no admite IndexedDB.'));
+        return;
+      }
+      const r = indexedDB.open(DB_NAME, DB_VERSION);
+      r.onupgradeneeded = () => {
+        const d = r.result;
+        if (!d.objectStoreNames.contains(STORE)) d.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+        if (!d.objectStoreNames.contains(CONFIG)) d.createObjectStore(CONFIG, { keyPath: 'id' });
+      };
+      r.onsuccess = () => {
+        db = r.result;
+        db.onversionchange = () => { db.close(); db = null; };
+        resolve(db);
+      };
+      r.onerror = () => reject(r.error || Error('No se pudo abrir el almacenamiento local.'));
+    });
+  }
+
+  function trans(store, mode, action) {
+    return new Promise((resolve, reject) => {
+      if (!db) return reject(Error('Base de datos no disponible.'));
+      const tx = db.transaction(store, mode);
+      const os = tx.objectStore(store);
+      let result;
+      try { action(os, v => result = v); } catch(e) { reject(e); return; }
+      tx.oncomplete = () => resolve(result);
+      tx.onerror = () => reject(tx.error || Error('Error de almacenamiento.'));
+      tx.onabort = () => reject(tx.error || Error('Operación cancelada.'));
+    });
+  }
+
+  const all = () => trans(STORE, 'readonly', (s, set) => { const r = s.getAll(); r.onsuccess = () => set(r.result || []); });
+  const put = (rec) => trans(STORE, 'readwrite', (s, set) => { const r = rec.id ? s.put(rec) : s.add(rec); r.onsuccess = () => { if (!rec.id) rec.id = r.result; set(rec); }; });
+  const del = id => trans(STORE, 'readwrite', s => s.delete(id));
+  const getConfig = () => trans(CONFIG, 'readonly', (s, set) => { const r = s.get('main'); r.onsuccess = () => set(r.result || null); });
+  const setConfig = c => trans(CONFIG, 'readwrite', (s, set) => { const r = s.put(c); r.onsuccess = () => set(c); });
+
+  function b64(bytes) {
+    let bin = '';
+    const step = 0x8000;
+    for (let i = 0; i < bytes.length; i += step) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + step, bytes.length)));
+    }
+    return btoa(bin);
+  }
+
+  function unb64(s) {
+    const bin = atob(s);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function randomBytes(n) { const a = new Uint8Array(n); crypto.getRandomValues(a); return a; }
+
+  async function derivarClave(password, salt) {
+    if (!window.crypto || !crypto.subtle) throw Error('WebView sin soporte WebCrypto.');
+    const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+
+  async function cifrar(bytes, key) {
+    const iv = randomBytes(12);
+    const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, bytes);
+    return { iv: b64(iv), data: b64(new Uint8Array(cipher)) };
+  }
+
+  async function descifrar(data, iv, key) {
+    try {
+      return await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(iv) }, key, unb64(data));
+    } catch(e) {
+      throw Error('Contraseña incorrecta o datos corruptos.');
+    }
+  }
+
+  async function crearConfig(password) {
+    const salt = randomBytes(16);
+    const key = await derivarClave(password, salt);
+    const test = await cifrar(new TextEncoder().encode('Spotters Spain Mi Espacio Spain v1'), key);
+    const c = { id: 'main', salt: b64(salt), testIv: test.iv, testData: test.data, iterations: PBKDF2_ITERATIONS, version: 1 };
+    await setConfig(c);
+    config = c;
+    claveCrypto = key;
+  }
+
+  async function desbloquear(password, c) {
+    const key = await derivarClave(password, unb64(c.salt));
+    const buffer = await descifrar(c.testData, c.testIv, key);
+    const textoDecodificado = decodeText(buffer);
+    
+    if (textoDecodificado !== 'Spotters Spain Mi Espacio Spain v1' && textoDecodificado !== 'Spotters Spain Mi espacio v1') {
+      throw Error('Contraseña incorrecta.');
+    }
+    config = c;
+    claveCrypto = key;
+  }
+
+  function fechaLocal() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function normalizar(v) { return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim(); }
+  
+  function escapar(v) {
+    if (v == null) return '';
+    return String(v)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function bytesLegibles(n) {
+    if (!n) return '0 KB';
+    if (n < 1024 * 1024) return Math.round(n / 1024) + ' KB';
+    return (n / 1024 / 1024).toFixed(2) + ' MB';
+  }
+
+  function imagenValida(f) { return f && ['image/jpeg', 'image/png', 'image/webp'].includes(f.type); }
+
+  async function comprimirCompatible(f) {
+    if (!imagenValida(f)) throw Error('Selecciona JPEG, PNG o WebP.');
+    if (f.size > MAX_FILE_SIZE) throw Error('Supera los 30 MB.');
+    let bmp;
+    if (typeof createImageBitmap === 'function') {
+      try { bmp = await createImageBitmap(f); } catch(e) { bmp = null; }
+    }
+    if (!bmp) {
+      const url = URL.createObjectURL(f);
+      try {
+        const img = await new Promise((res, rej) => {
+          const i = new Image();
+          i.onload = () => res(i);
+          i.onerror = () => rej(Error('Error al leer imagen.'));
+          i.src = url;
+        });
+        bmp = { width: img.naturalWidth, height: img.naturalHeight, draw: img, close() {} };
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    }
+    try {
+      const scale = Math.min(1, MAX_DIMENSION / Math.max(bmp.width, bmp.height));
+      const w = Math.max(1, Math.round(bmp.width * scale));
+      const h = Math.max(1, Math.round(bmp.height * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw Error('Canvas no disponible.');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(bmp.draw || bmp, 0, 0, w, h);
+      return await new Promise((res, rej) => canvas.toBlob(x => x ? res(x) : rej(Error('Error al comprimir.')), 'image/jpeg', JPEG_QUALITY));
+    } finally {
+      if (bmp.close) bmp.close();
+    }
+  }
+
+  async function guardarFoto(f, meta, old) {
+    const compressed = f ? await comprimirCompatible(f) : null;
+    const photoBytes = compressed ? await compressed.arrayBuffer() : await descifrar(old.photoData, old.photoIv, claveCrypto);
+    const encPhoto = compressed ? await cifrar(photoBytes, claveCrypto) : { iv: old.photoIv, data: old.photoData };
+    const encMeta = await cifrar(new TextEncoder().encode(JSON.stringify(meta)), claveCrypto);
+    const rec = {
+      photoIv: encPhoto.iv,
+      photoData: encPhoto.data,
+      metaIv: encMeta.iv,
+      metaData: encMeta.data,
+      bytes: compressed ? compressed.size : old.bytes,
+      fechaCreacion: old ? old.fechaCreacion : new Date().toISOString(),
+      fechaModificacion: new Date().toISOString()
+    };
+    if (old && Number.isSafeInteger(old.id) && old.id > 0) rec.id = old.id;
+    await put(rec);
+  }
+
+  async function leerRegistro(r) {
+    const m = await descifrar(r.metaData, r.metaIv, claveCrypto);
+    const meta = JSON.parse(decodeText(m));
+    const p = await descifrar(r.photoData, r.photoIv, claveCrypto);
+    return {
+      ...meta,
+      id: r.id,
+      blob: new Blob([p], { type: 'image/jpeg' }),
+      bytes: r.bytes || p.byteLength,
+      fechaCreacion: r.fechaCreacion,
+      fechaModificacion: r.fechaModificacion
+    };
+  }
+
+  async function cargar() {
+    const cifrados = await all();
+    const leidos = [];
+    for (const r of cifrados) {
+      try { leidos.push(await leerRegistro(r)); } catch(e) { console.error('Registro cifrado no legible', r.id, e); }
+    }
+    registros = leidos.sort((a, b) => String(b.fechaCreacion).localeCompare(String(a.fechaCreacion)));
+    pintar();
+    stats();
+  }
+
+  function stats() {
+    $('totalFotos').textContent = registros.length;
+    $('totalAviones').textContent = new Set(registros.map(r => normalizar(r.modelo)).filter(Boolean)).size;
+    $('espacioUsado').textContent = bytesLegibles(registros.reduce((s, r) => s + (r.bytes || r.blob.size), 0));
+  }
+
+  function pintar() {
+    const gal = $('galeria');
+    const q = normalizar($('buscar').value);
+    const f = $('filtro').value;
+    gal.replaceChildren();
+    const arr = registros.filter(r => normalizar([r.modelo, r.aerolinea, r.aeropuerto, r.notas, r.fabricante].join(' ')).includes(q) && (!f || r.fabricante === f));
+    
+    if (!arr.length) {
+      const d = document.createElement('div');
+      d.className = 'vacio';
+      d.innerHTML = registros.length ? '<div class="icono">🔎</div><strong>SIN RESULTADOS</strong><br>Prueba otra búsqueda.' : '<div class="icono">📸</div><strong>COLECCIÓN VACÍA</strong><br>Añade tu primera fotografía.';
+      gal.appendChild(d);
+      return;
+    }
+    
+    arr.forEach(r => {
+      const card = document.createElement('article');
+      card.className = 'tarjeta';
+      
+      const img = document.createElement('img');
+      img.className = 'tarjeta-imagen';
+      img.alt = r.modelo || 'Aeronave';
+      img.loading = 'lazy';
+      
+      const url = URL.createObjectURL(r.blob);
+      img.src = url;
+      img.addEventListener('load', () => URL.revokeObjectURL(url), { once: true });
+      img.addEventListener('error', () => URL.revokeObjectURL(url), { once: true });
+      img.onclick = () => abrirVisor(r);
+      
+      const body = document.createElement('div');
+      body.className = 'tarjeta-contenido';
+      
+      const h = document.createElement('h3');
+      h.textContent = r.modelo || 'AERONAVE';
+      
+      const p1 = document.createElement('p');
+      p1.textContent = '✈ ' + (r.aerolinea || 'NO INDICADA');
+      
+      const p3 = document.createElement('p');
+      p3.textContent = '📍 ' + (r.aeropuerto || 'NO INDICADO');
+      
+      const acts = document.createElement('div');
+      acts.className = 'tarjeta-acciones';
+      
+      const view = document.createElement('button');
+      view.className = 'boton';
+      view.textContent = 'VER';
+      view.onclick = () => abrirVisor(r);
+      
+      const remove = document.createElement('button');
+      remove.className = 'boton boton-rojo';
+      remove.textContent = 'BORRAR';
+      remove.onclick = () => borrar(r);
+      
+      acts.append(view, remove);
+      body.append(h, p1, p3, acts);
+      card.append(img, body);
+      gal.appendChild(card);
+    });
+  }
+
+  function abrirFormulario(r) {
+    fotoEditando = r || null;
+    $('formFoto').reset();
+    $('imagen').required = !r;
+    $('fecha').value = r ? r.fecha : fechaLocal();
+    $('tituloFormulario').textContent = r ? 'Editar fotografía' : 'Añadir fotografía';
+    $('aeropuerto').value = 'BARCELONA-EL PRAT (LEBL / BCN)';
+    
+    if (r) {
+      $('modelo').value = r.modelo || '';
+      $('aerolinea').value = r.aerolinea || '';
+      $('aeropuerto').value = r.aeropuerto || 'BARCELONA-EL PRAT (LEBL / BCN)';
+      $('fabricante').value = r.fabricante || 'AIRBUS';
+      $('notas').value = r.notas || '';
+      
+      const u = URL.createObjectURL(r.blob);
+      $('preview').src = u;
+      $('preview').style.display = 'block';
+      $('preview').onload = () => URL.revokeObjectURL(u);
+    } else {
+      $('preview').style.display = 'none';
+      $('preview').removeAttribute('src');
+    }
+    $('modalFoto').classList.add('abierto');
+  }
+
+  function cerrarFormulario() {
+    $('modalFoto').classList.remove('abierto');
+    $('formFoto').reset();
+    $('preview').removeAttribute('src');
+    $('preview').style.display = 'none';
+    fotoEditando = null;
+  }
+
+  $('imagen').addEventListener('change', function() {
+    const f = this.files && this.files[0];
+    if (!f) return;
+    if (!imagenValida(f) || f.size > MAX_FILE_SIZE) {
+      avisar('Elige JPEG, PNG o WebP de hasta 30 MB.');
+      this.value = '';
+      return;
+    }
+    if (previewURL) URL.revokeObjectURL(previewURL);
+    previewURL = URL.createObjectURL(f);
+    $('preview').src = previewURL;
+    $('preview').style.display = 'block';
+  });
+
+  const campoFecha = $('fecha');
+  if (campoFecha) {
+    campoFecha.addEventListener('click', function() {
+      try {
+        if (typeof this.showPicker === 'function') {
+          this.showPicker();
+        }
+      } catch(e) {}
+    });
+  }
+
+  ['modelo', 'notas'].forEach(id => {
+    $(id).addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+  });
+
+  $('formFoto').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('btnGuardar');
+    btn.disabled = true;
+    btn.textContent = 'GUARDANDO…';
+    
+    try {
+      const f = $('imagen').files[0] || null;
+      if (!f && !fotoEditando) throw Error('Selecciona una fotografía.');
+      
+      const meta = {
+        modelo: $('modelo').value.trim().toUpperCase(),
+        aerolinea: $('aerolinea').value,
+        aeropuerto: $('aeropuerto').value,
+        fecha: $('fecha').value || fechaLocal(),
+        fabricante: $('fabricante').value,
+        notas: $('notas').value.trim().toUpperCase()
+      };
+      
+      if (!meta.modelo) throw Error('Escribe el modelo de aeronave.');
+      
+      await guardarFoto(f, meta, fotoEditando);
+      cerrarFormulario();
+      await cargar();
+      avisar('Fotografía guardada con éxito. ✈');
+    } catch(err) {
+      console.error(err);
+      avisar(err.message || 'Error al guardar.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'CIFRAR Y GUARDAR';
+    }
+  });
+
+  function abrirVisor(r) {
+    fotoSeleccionada = r;
+    if (visorURL) URL.revokeObjectURL(visorURL);
+    visorURL = URL.createObjectURL(r.blob);
+    $('imagenGrande').src = visorURL;
+    $('visorModelo').textContent = r.modelo || 'AERONAVE';
+    
+    $('visorDatos').innerHTML =
+      '<p><strong>Aerolínea:</strong> ' + escapar(r.aerolinea || 'NO INDICADA') + '</p>' +
+      '<p><strong>Aeropuerto:</strong> ' + escapar(r.aeropuerto || 'NO INDICADO') + '</p>' +
+      '<p><strong>Fecha:</strong> ' + escapar(r.fecha || 'NO INDICADA') + '</p>' +
+      '<p><strong>Fabricante:</strong> ' + escapar(r.fabricante || 'OTROS') + '</p>' +
+      '<p><strong>Notas:</strong><br>' + escapar(r.notas || 'SIN NOTAS').replace(/\n/g, '<br>') + '</p>' +
+      '<p><strong>Tamaño cifrado:</strong> ' + bytesLegibles(r.blob.size) + '</p>';
+      
+    $('modalVisor').classList.add('abierto');
+  }
+
+  async function borrar(r) {
+    if (!confirm('¿Eliminar esta fotografía?')) return;
+    try {
+      await del(r.id);
+      $('modalVisor').classList.remove('abierto');
+      await cargar();
+      avisar('Fotografía eliminada.');
+    } catch(e) {
+      avisar('No se pudo eliminar.');
+    }
+  }
+
+  $('btnNueva').onclick = () => abrirFormulario();
+  $('btnCancelar').onclick = cerrarFormulario;
+  $('btnCerrarVisor').onclick = () => $('modalVisor').classList.remove('abierto');
+  $('btnEditar').onclick = () => {
+    if (!fotoSeleccionada) return;
+    const r = fotoSeleccionada;
+    $('modalVisor').classList.remove('abierto');
+    abrirFormulario(r);
+  };
+  $('btnEliminar').onclick = () => fotoSeleccionada && borrar(fotoSeleccionada);
+  $('buscar').oninput = pintar;
+  $('filtro').onchange = pintar;
+
+  $('btnBloquear').onclick = () => {
+    claveCrypto = null;
+    registros = [];
+    $('zonaApp').style.display = 'none';
+    $('modalClave').classList.add('abierto');
+    $('tituloClave').textContent = '🔒 Mi espacio spain bloqueado';
+    $('textoClave').textContent = 'Introduce tu contraseña para desbloquear.';
+    $('filaClave2').style.display = 'none';
+    $('clave2').required = false;
+    $('btnEntrar').textContent = 'DESBLOQUEAR';
+    $('clave1').value = '';
+    $('clave1').focus();
+  };
+
+  $('modalFoto').addEventListener('click', e => { if (e.target === $('modalFoto')) cerrarFormulario(); });
+  $('modalVisor').addEventListener('click', e => { if (e.target === $('modalVisor')) $('modalVisor').classList.remove('abierto'); });
+
+  function descargar(blob, nombre) {
+    const u = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = u;
+    a.download = nombre;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(u), 60000);
+  }
+
+  $('btnExportar').onclick = async () => {
+    try {
+      const items = await all();
+      if (!items.length) { avisar('Colección vacía.'); return; }
+      const backup = { app: 'Spotters Spain Mi Espacio Spain', version: 1, fecha: new Date().toISOString(), config: config, records: items };
+      const blob = new Blob([JSON.stringify(backup)], { type: 'application/json' });
+      descargar(blob, 'spotters-mi-espacio-spain-' + fechaLocal() + '.json');
+      avisar('Copia cifrada exportada.');
+    } catch(e) {
+      avisar('Error al exportar.');
+    }
+  };
+
+  $('btnImportar').onclick = () => $('archivoCopia').click();
+  $('archivoCopia').addEventListener('change', async function() {
+    const file = this.files && this.files[0];
+    if (!file) return;
+    try {
+      const b = JSON.parse(await file.text());
+      if (!b.config || !Array.isArray(b.records)) throw Error('Copia no válida.');
+      const password = prompt('Introduce la contraseña de la copia:');
+      if (password === null) return;
+      
+      const claveCopia = await derivarClave(password, unb64(b.config.salt));
+      const prueba = await descifrar(b.config.testData, b.config.testIv, claveCopia);
+      const textoPrueba = decodeText(prueba);
+      if (textoPrueba !== 'Spotters Spain Mi Espacio Spain v1' && textoPrueba !== 'Spotters Spain Mi espacio v1') {
+        throw Error('Contraseña incorrecta.');
+      }
+      
+      for (const original of b.records) {
+        const metaBytes = await descifrar(original.metaData, original.metaIv, claveCopia);
+        const fotoBytes = await descifrar(original.photoData, original.photoIv, claveCopia);
+        const encMeta = await cifrar(metaBytes, claveCrypto);
+        const encFoto = await cifrar(fotoBytes, claveCrypto);
+        const existing = await trans(STORE, 'readonly', (s, set) => { const q = s.get(original.id); q.onsuccess = () => set(q.result || null); });
+        const r = { ...original, id: existing ? undefined : original.id, metaIv: encMeta.iv, metaData: encMeta.data, photoIv: encFoto.iv, photoData: encFoto.data };
+        if (existing) delete r.id;
+        await put(r);
+      }
+      await cargar();
+      avisar('Copia restaurada.');
+    } catch(e) {
+      avisar(e.message || 'Error al restaurar.');
+    } finally {
+      this.value = '';
+    }
+  });
+
+  $('formClave').addEventListener('submit', async e => {
+    e.preventDefault();
+    const pass = $('clave1').value;
+    const pass2 = $('clave2').value;
+    const btn = $('btnEntrar');
+    btn.disabled = true;
+    try {
+      if (pass.length < 8) throw Error('Mínimo 8 caracteres.');
+      const current = await getConfig();
+      if (!current) {
+        if (pass !== pass2) throw Error('Las contraseñas no coinciden.');
+        await crearConfig(pass);
+      } else {
+        await desbloquear(pass, current);
+      }
+      $('modalClave').classList.remove('abierto');
+      $('zonaApp').style.display = 'block';
+      await cargar();
+      avisar('Mi espacio spain desbloqueado. ✈');
+    } catch(err) {
+      avisar(err.message || 'No se pudo acceder.');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  async function iniciar() {
+    try {
+      await abrirDB();
+      config = await getConfig();
+      if (config) {
+        $('tituloClave').textContent = '🔐 Desbloquear Mi espacio spain';
+        $('textoClave').textContent = 'Introduce la contraseña que creaste anteriormente.';
+        $('filaClave2').style.display = 'none';
+        $('clave2').required = false;
+        $('btnEntrar').textContent = 'DESBLOQUEAR';
+      } else {
+        $('tituloClave').textContent = '🔐 Crear protección';
+        $('textoClave').textContent = 'Crea una contraseña para cifrar tus fotos.';
+        $('filaClave2').style.display = 'grid';
+        $('clave2').required = true;
+        $('btnEntrar').textContent = 'CREAR PROTECCIÓN';
+      }
+    } catch(e) {
+      $('panelBloqueo').style.display = 'block';
+      $('panelBloqueo').textContent = 'Error de almacenamiento local: ' + (e.message || 'desconocido');
+    }
+  }
+
+  iniciar();
+})();
+</script>
+</body>
+</html>

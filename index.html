@@ -919,6 +919,78 @@
       line-height: 1;
     }
 
+    /* =========================================================
+        ESTILOS NOTIFICACIÓN TIPO WHATSAPP FUTURISTA
+    ========================================================= */
+    .whatsapp-futuristic-toast {
+      position: fixed;
+      bottom: 56px;
+      right: 16px;
+      max-width: 250px;
+      background: linear-gradient(135deg, rgba(8, 16, 38, 0.96), rgba(3, 8, 22, 0.98));
+      border: 1.5px solid #ffcc00;
+      border-radius: 14px 14px 2px 14px;
+      padding: 10px 12px;
+      box-shadow: 0 0 18px rgba(255, 204, 0, 0.35), inset 0 0 10px rgba(0, 210, 255, 0.15);
+      z-index: 101;
+      opacity: 0;
+      transform: translateY(20px) scale(0.85);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(10px);
+    }
+
+    .whatsapp-futuristic-toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .whatsapp-futuristic-toast::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 6px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 2px solid transparent;
+      border-top: 8px solid #ffcc00;
+    }
+
+    .toast-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 204, 0, 0.2);
+      padding-bottom: 4px;
+    }
+
+    .toast-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #ffcc00;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-shadow: 0 0 6px rgba(255, 204, 0, 0.6);
+    }
+
+    .toast-time {
+      font-size: 0.55rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+    }
+
+    .toast-body {
+      font-size: 0.68rem;
+      color: #e2e8f0;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+
     @keyframes radarScan { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -1135,6 +1207,17 @@
   <a href="acerca.html" class="floating-info-btn" title="Acerca de Spotters Spain">
     <span class="info-letter">ⓘ</span>
   </a>
+
+  <!-- BUBBLE / MENSAJE TIPO WHATSAPP FUTURISTA -->
+  <div id="wa-info-toast" class="whatsapp-futuristic-toast">
+    <div class="toast-header">
+      <span class="toast-title"><i class="fa-brands fa-whatsapp"></i> Spotters Bot</span>
+      <span class="toast-time">ahora</span>
+    </div>
+    <div class="toast-body">
+      Recuerda que en el botón amarillo debajo a la derecha es el botón acerca de la app podrás encontrar información del funcionamiento de la app...
+    </div>
+  </div>
 
   <!-- MODAL 1: PREGUNTA DE INACTIVIDAD -->
   <div id="modal-prompt" class="modal-backdrop">
@@ -1609,79 +1692,82 @@
       document.getElementById('modal-game').classList.remove('active');
       quizDeclinedOrFinished = true;
     });
-  </script>
 
-  <!-- =====================================================
-      AVISO DE ACTUALIZACIÓN
-  ===================================================== -->
-  <div id="update-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; padding:20px;">
-    <div style="width:100%; max-width:420px; background:#07101f; border:1px solid rgba(255,60,60,0.5); border-radius:20px; padding:28px 22px; text-align:center; box-shadow:0 0 30px rgba(255,0,0,0.25);">
-      <div style="font-size:42px; margin-bottom:12px; color:#ff3030;">
-        <i class="fa-solid fa-cloud-arrow-down"></i>
-      </div>
-      <h2 style="margin:0 0 12px; font-size:22px; font-weight:800;">ACTUALIZACIÓN DISPONIBLE</h2>
-      <p id="update-message" style="margin:0 0 10px; opacity:0.85; line-height:1.5;">Hay una nueva versión de Spotters Spain disponible.</p>
-      <div id="update-version" style="margin-bottom:22px; font-weight:700; color:#ff4040;"></div>
-      <div style="display:flex; gap:10px; justify-content:center;">
-        <button id="update-later" type="button" style="flex:1; padding:13px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.2); background:#111827; color:white; font-weight:700; cursor:pointer;">MÁS TARDE</button>
-        <button id="update-button" type="button" style="flex:1; padding:13px 10px; border-radius:12px; border:none; background:#e60000; color:white; font-weight:800; cursor:pointer;">ACTUALIZAR</button>
-      </div>
-    </div>
-  </div>
+    /* =========================================================
+        5. MENSAJE TIPO WHATSAPP AUTOMÁTICO (1 VEZ AL DÍA / ALEATORIO / 9 SEG)
+    ========================================================= */
+    function playFuturisticNotificationSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
 
-  <script>
-  /* =========================================================
-     SISTEMA DE ACTUALIZACIÓN
-  ========================================================= */
-  const APP_VERSION = '1.0.5';
-  const overlay = document.getElementById('update-overlay');
-  const message = document.getElementById('update-message');
-  const versionText = document.getElementById('update-version');
-  const updateButton = document.getElementById('update-button');
-  const laterButton = document.getElementById('update-later');
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
 
-  async function checkForUpdate() {
-    try {
-      const response = await fetch('./version.json?t=' + Date.now(), { cache: 'no-store' });
-      if (!response.ok) return;
-      const data = await response.json();
-      if (!data.version) return;
+        osc1.type = 'sine';
+        osc2.type = 'triangle';
 
-      if (data.version !== APP_VERSION) {
-        message.textContent = data.mensaje || 'Hay una nueva versión de Spotters Spain disponible con mejoras y novedades.';
-        versionText.textContent = 'Nueva versión: ' + data.version;
-        overlay.style.display = 'flex';
+        // Frecuencia inicial y salto melódico estilo aviso digital
+        osc1.frequency.setValueAtTime(880, ctx.currentTime); // A5
+        osc1.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.08); // A6
+
+        osc2.frequency.setValueAtTime(1320, ctx.currentTime + 0.04);
+        osc2.frequency.exponentialRampToValueAtTime(2640, ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc1.start(ctx.currentTime);
+        osc2.start(ctx.currentTime + 0.04);
+        osc1.stop(ctx.currentTime + 0.25);
+        osc2.stop(ctx.currentTime + 0.25);
+      } catch (err) {
+        console.log('Audio no interactuado aún');
       }
-    } catch (error) {
-      console.log('No se pudo comprobar la actualización.');
     }
-  }
 
-  updateButton.addEventListener('click', async function () {
-    updateButton.disabled = true;
-    updateButton.textContent = 'ACTUALIZANDO...';
-    try {
-      if ('serviceWorker' in navigator) {
-        const registration = await navigator.serviceWorker.getRegistration();
-        if (registration) {
-          await registration.update();
-        }
+    function checkAndShowWhatsAppNotification() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const lastShownDate = localStorage.getItem('spotters_wa_toast_date');
+
+      // Si ya salió hoy, no volver a mostrar
+      if (lastShownDate === todayStr) {
+        return;
       }
-      window.location.reload();
-    } catch (error) {
-      console.error('Error actualizando:', error);
-      updateButton.disabled = false;
-      updateButton.textContent = 'REINTENTAR';
+
+      // Aleatoriedad (50% de probabilidades de salir)
+      const shouldShow = Math.random() < 0.5;
+      if (!shouldShow) return;
+
+      // Esperar 3 segundos tras cargar la página para mostrarlo
+      setTimeout(() => {
+        const toast = document.getElementById('wa-info-toast');
+        if (!toast) return;
+
+        // Registrar la fecha de hoy para que no vuelva a salir en 24h
+        localStorage.setItem('spotters_wa_toast_date', todayStr);
+
+        // Reproducir sonido futurista de notificación
+        playFuturisticNotificationSound();
+
+        // Mostrar bocadillo
+        toast.classList.add('show');
+
+        // Ocultar tras 9 segundos (9000 milisegundos)
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 9000);
+
+      }, 3000);
     }
-  });
 
-  laterButton.addEventListener('click', function () {
-    overlay.style.display = 'none';
-  });
-
-  window.addEventListener('load', function () {
-    setTimeout(checkForUpdate, 2000);
-  });
+    window.addEventListener('load', checkAndShowWhatsAppNotification);
   </script>
 </body>
 </html>
