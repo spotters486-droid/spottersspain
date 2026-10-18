@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="es">
+<head>
+<!-- CÓDIGO DEL BOTÓN FLOTANTE ATRÁS -->
+<style>
+  /* Botón Flotante Neón */
+  .btn-float-inicio {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: #0c102b;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+  }
+
+  /* Efecto al pasar el cursor / tocar */
+  .btn-float-inicio:hover, .btn-float-inicio:active {
+    background: #00ffcc;
+    color: #050814;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+    transform: scale(1.08) translateY(-2px);
+  }
+</style>
+
+<!-- Botón Flotante para volver a la página anterior -->
+<a href="#" class="btn-float-inicio" onclick="history.back(); return false;">
+  <i class="fa-solid fa-arrow-left"></i> Atrás
+</a>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b192c">
+<title>Enciclopedia de Aviones — Spotters España</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #0b131e;
+  --bg-card: #152232;
+  --bg-card-hover: #1c2d42;
+  --bg-input: #1a2a3e;
+  --accent-blue: #0088ff;
+  --accent-cyan: #00d2ff;
+  --accent-gradient: linear-gradient(135deg, #0088ff 0%, #00d2ff 100%);
+  --text-primary: #f0f6fc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(0, 210, 255, 0.25);
+  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.35);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.top {
+  background: radial-gradient(circle at 80% -20%, rgba(0, 210, 255, 0.15), transparent 50%),
+              linear-gradient(180deg, #0f1c2e 0%, #0b131e 100%);
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 20px 20px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.top::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  opacity: 0.4;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(0, 136, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  color: var(--accent-cyan);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.top h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.top p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Main Container */
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+/* Filters */
+.filters {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  transition: stroke 0.2s;
+}
+
+.filters input[type="search"] {
+  width: 100%;
+  height: 48px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0 14px 0 42px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.filters input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
+}
+
+.filters input:focus + svg {
+  stroke: var(--accent-cyan);
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.chip:hover, .chip.active {
+  background: rgba(0, 210, 255, 0.15);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+/* Summary */
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 4px 12px;
+}
+
+/* Cards Grid */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-gradient);
+  opacity: 0.8;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.fav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s, transform 0.2s;
+  padding: 2px;
+}
+
+.fav-btn.active {
+  color: #ffb703;
+  transform: scale(1.1);
+}
+
+.desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+}
+
+.fact span {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.fact strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.links a, .links button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  background: rgba(0, 210, 255, 0.08);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 210, 255, 0.15);
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.links a:active, .links button:active {
+  background: rgba(0, 210, 255, 0.2);
+}
+
+.btn-detail {
+  background: var(--accent-gradient) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+/* Pager */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 20px 0 10px;
+}
+
+.pager button {
+  flex: 1;
+  height: 44px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pager button:not(:disabled):active {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-cyan);
+}
+
+.pager button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+#page {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
+/* Modal / Drawer */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(5, 10, 18, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  padding: 24px;
+  transform: translateY(20px);
+  transition: transform 0.25s ease;
+  position: relative;
+}
+
+.modal-overlay.open .modal-container {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.license {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+@media (min-width: 640px) {
+  .wrap { padding: 24px 20px 40px; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .pager { justify-content: center; }
+  .pager button { flex: 0 0 140px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand-badge">✈ Spotters España</div>
+  <h1>Enciclopedia de aviones</h1>
+  <p>Fichas técnicas, fabricantes y especificaciones de la base de datos.</p>
+</header>
+
+<main class="wrap">
+  <section class="filters">
+    <div class="search-box">
+      <input id="q" type="search" placeholder="Buscar avión, fabricante, país o motor…" autocomplete="off">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </div>
+    <div class="filter-controls">
+      <button class="chip active" data-filter="all">Todos</button>
+      <button class="chip" data-filter="airbus">Airbus</button>
+      <button class="chip" data-filter="boeing">Boeing</button>
+      <button class="chip" data-filter="favs">★ Favoritos</button>
+    </div>
+  </section>
+
+  <div id="summary" class="summary"></div>
+  <section id="cards" class="cards"></section>
+
+  <nav class="pager">
+    <button id="prev">← Anterior</button>
+    <span id="page"></span>
+    <button id="next">Siguiente →</button>
+  </nav>
+
+  <p class="license">
+    Datos: Wikidata (CC0). Los enlaces externos requieren conexión a Internet.<br>
+    Proyecto Wikidata
+  </p>
+</main>
+
+<!-- Modal para Ficha Técnica Completa -->
+<div id="modal" class="modal-overlay">
+  <div class="modal-container">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="brand-badge">Ficha Técnica Detallada</div>
+    <h2 id="m-title" class="modal-title"></h2>
+    <p id="m-desc" class="modal-desc"></p>
+    <div id="m-grid" class="modal-grid"></div>
+    <div class="links" id="m-links"></div>
+  </div>
+</div>
+
+<script src="aviones_data.js"></script>
+<script>
+// Fallback en caso de que no exista el archivo local aviones_data.js
+const defaultData = [
+  { qid:"Q25413", name:"Airbus A350-1000", description:"Avión comercial de fuselaje ancho para rutas de ultra largo alcance.", manufacturer:"Airbus", country:"Consorcio Europeo", first_flight:"2016", service_entry:"2018", max_speed:"945 km/h", range_value:"16,100 km", wingspan:"64.75 m", length_value:"73.79 m", engine:"Rolls-Royce Trent XWB-97", wikidata_url:"https://www.wikidata.org/wiki/Q25413", wikipedia_url:"https://es.wikipedia.org/wiki/Airbus_A350" },
+  { qid:"Q11186", name:"Boeing 787-9 Dreamliner", description:"Avión bimotor de pasillo doble de alta eficiencia con materiales compuestos.", manufacturer:"Boeing", country:"Estados Unidos", first_flight:"2013", service_entry:"2014", max_speed:"956 km/h", range_value:"14,140 km", wingspan:"60.12 m", length_value:"62.81 m", engine:"GEnx-1B / Trent 1000", wikidata_url:"https://www.wikidata.org/wiki/Q11186", wikipedia_url:"https://es.wikipedia.org/wiki/Boeing_787" }
+];
+
+const data = (window.AVIONES_DATA && window.AVIONES_DATA.length) ? window.AVIONES_DATA : defaultData;
+const $ = s => document.querySelector(s);
+let filtered = data.slice();
+let page = 0, size = 20, timer;
+let activeChip = 'all';
+let favorites = JSON.parse(localStorage.getItem('spotters_favs') || '[]');
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toggleFav(id, e) {
+  if (e) e.stopPropagation();
+  const index = favorites.indexOf(String(id));
+  if (index > -1) favorites.splice(index, 1);
+  else favorites.push(String(id));
+  localStorage.setItem('spotters_favs', JSON.stringify(favorites));
+  render();
+}
+
+function getAircraftId(a, index) {
+  return String(a.qid || a.id || a.name || index);
+}
+
+function fact(label, value, unit = '') {
+  return value ? `<div class="fact"><span>${label}</span><strong>${esc(value)}${unit}</strong></div>` : '';
+}
+
+function openModal(id) {
+  // Búsqueda flexible por QID, ID, Nombre o Índice para garantizar que siempre cargue la ficha
+  const a = data.find((item, idx) => getAircraftId(item, idx) === String(id) || item.name === id);
+  if (!a) return;
+
+  // Adaptación de nombres de propiedades (soporta snake_case y camelCase)
+  const mfr = a.manufacturer || a.fabricante || '';
+  const cty = a.country || a.pais || '';
+  const ff = a.first_flight || a.firstFlight || a.primerVuelo || '';
+  const se = a.service_entry || a.serviceEntry || a.enServicio || '';
+  const ms = a.max_speed || a.maxSpeed || a.velocidadMax || '';
+  const rv = a.range_value || a.range || a.alcance || '';
+  const ws = a.wingspan || a.envergadura || '';
+  const lv = a.length_value || a.length || a.longitud || '';
+  const eng = a.engine || a.motor || '';
+
+  $('#m-title').textContent = a.name || 'Sin nombre';
+  $('#m-desc').textContent = a.description || 'Sin descripción detallada disponible.';
+  
+  $('#m-grid').innerHTML = `
+    ${fact('Fabricante', mfr)}
+    ${fact('País de origen', cty)}
+    ${fact('Primer vuelo', ff)}
+    ${fact('En servicio', se)}
+    ${fact('Velocidad máx.', ms)}
+    ${fact('Alcance', rv)}
+    ${fact('Envergadura', ws)}
+    ${fact('Longitud', lv)}
+    ${fact('Motorización', eng)}
+  `;
+
+  const wikiUrl = a.wikidata_url || a.wikidata || (a.qid ? `https://www.wikidata.org/wiki/${a.qid}` : '');
+  const wpUrl = a.wikipedia_url || a.wikipedia || '';
+
+  $('#m-links').innerHTML = `
+    ${wikiUrl ? `<a href="${esc(wikiUrl)}" target="_blank" rel="noopener">Ver en Wikidata ↗</a>` : ''}
+    ${wpUrl ? `<a href="${esc(wpUrl)}" target="_blank" rel="noopener">Ver en Wikipedia ↗</a>` : ''}
+  `;
+
+  $('#modal').classList.add('open');
+}
+
+function closeModal() {
+  $('#modal').classList.remove('open');
+}
+
+function render() {
+  const total = filtered.length, pages = Math.max(1, Math.ceil(total / size));
+  page = Math.min(page, pages - 1);
+  if (page < 0) page = 0;
+  
+  const items = filtered.slice(page * size, (page + 1) * size);
+  
+  $('#cards').innerHTML = items.length ? items.map((a, idx) => {
+    const aid = getAircraftId(a, page * size + idx);
+    const isFav = favorites.includes(aid);
+    
+    return `
+      <article class="card">
+        <div class="card-header">
+          <h2>${esc(a.name)}</h2>
+          <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${esc(aid)}', event)">★</button>
+        </div>
+        <div class="desc">${esc(a.description || 'Sin descripción disponible.')}</div>
+        <div class="facts">
+          ${fact('Fabricante', a.manufacturer || a.fabricante)}
+          ${fact('Primer vuelo', a.first_flight || a.firstFlight)}
+          ${fact('Velocidad máx.', a.max_speed || a.maxSpeed)}
+          ${fact('Alcance', a.range_value || a.range)}
+        </div>
+        <div class="links">
+          <button class="btn-detail" onclick="openModal('${esc(aid)}')">📋 Ficha técnica</button>
+          ${(a.wikidata_url || a.qid) ? `<a href="${esc(a.wikidata_url || 'https://www.wikidata.org/wiki/' + a.qid)}" target="_blank" rel="noopener">Wikidata ↗</a>` : ''}
+        </div>
+      </article>
+    `;
+  }).join('') : '<div class="empty">No se encontraron modelos con estos criterios de búsqueda.</div>';
+
+  $('#summary').textContent = `${total.toLocaleString('es-ES')} modelos · Pág. ${page + 1} de ${pages}`;
+  $('#page').textContent = `${page + 1} / ${pages}`;
+  $('#prev').disabled = page === 0;
+  $('#next').disabled = (page + 1) * size >= total;
+}
+
+function filter() {
+  const q = $('#q').value.trim().toLocaleLowerCase('es');
+  
+  filtered = data.filter((a, idx) => {
+    const aid = getAircraftId(a, idx);
+    
+    // Filtro Chip
+    if (activeChip === 'airbus' && !String(a.manufacturer || '').toLowerCase().includes('airbus')) return false;
+    if (activeChip === 'boeing' && !String(a.manufacturer || '').toLowerCase().includes('boeing')) return false;
+    if (activeChip === 'favs' && !favorites.includes(aid)) return false;
+
+    // Filtro Búsqueda
+    if (!q) return true;
+    return [a.qid, a.name, a.description, a.manufacturer, a.country, a.engine]
+      .some(v => String(v || '').toLocaleLowerCase('es').includes(q));
+  });
+  
+  page = 0;
+  render();
+}
+
+// Listeners de Chips
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', (e) => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    activeChip = e.target.dataset.filter;
+    filter();
+  });
+});
+
+$('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filter, 120); });
+$('#prev').onclick = () => { if(page > 0){ page--; render(); window.scrollTo({top: 0, behavior: 'smooth'}); }};
+$('#next').onclick = () => { if((page + 1) * size < filtered.length){ page++; render(); window.scrollTo({top: 0, behavior: 'smooth'}); }};
+
+$('#modal-close').onclick = closeModal;
+$('#modal').onclick = (e) => { if(e.target === $('#modal')) closeModal(); };
+
+// Render Inicial
+render();
+</script>
+</body>
+</html>
