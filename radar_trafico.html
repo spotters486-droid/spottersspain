@@ -36,38 +36,6 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* BOTÓN FLOTANTE INICIO (UN SOLO CLIC A INDEX.HTML) */
-    .btn-float-inicio {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 99999;
-      background: #0c102b;
-      color: #00ffcc;
-      border: 2px solid #00ffcc;
-      border-radius: 50px;
-      padding: 8px 16px;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4), inset 0 0 8px rgba(0, 255, 204, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.3s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .btn-float-inicio:hover, .btn-float-inicio:active {
-      background: #00ffcc;
-      color: #050814;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
-      transform: scale(1.08) translateY(-2px);
-    }
-
     header {
       background: linear-gradient(180deg, #070a1a 0%, #0c102b 100%);
       padding: 4px 10px;
@@ -415,7 +383,7 @@
       border: 1.5px solid var(--neon-cyan);
       box-shadow: 0 0 20px rgba(0, 210, 255, 0.35), inset 0 0 10px rgba(0, 210, 255, 0.1);
       border-radius: 10px;
-      max-width: 360px; /* Más compacto */
+      max-width: 360px;
       width: 100%;
       max-height: 80vh;
       display: flex;
@@ -593,11 +561,6 @@
   </style>
 </head>
 <body>
-
-  <!-- BOTÓN FLOTANTE INICIO -->
-  <a href="index.html" class="btn-float-inicio">
-    <i class="fa-solid fa-house"></i> Inicio
-  </a>
 
   <header id="main-header">
     <h1 id="main-title">
@@ -866,11 +829,6 @@
           filterBar.scrollTo({ left: 0, behavior: 'smooth' });
         }, 700);
       }, 500);
-
-      // APERTURA DEL MODAL A LOS 5 SEGUNDOS (5000ms)
-      setTimeout(() => {
-        openModal();
-      }, 5000);
     });
 
     function openModal() {

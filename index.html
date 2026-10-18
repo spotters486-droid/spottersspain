@@ -240,11 +240,11 @@
       margin-bottom: 12px;
       backdrop-filter: blur(10px);
       transition: all 0.5s ease;
-      animation: bannerFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      animation: bannerFade 0.4s ease-out forwards;
     }
 
     @keyframes bannerFade {
-      from { opacity: 0; transform: translateY(-15px); }
+      from { opacity: 0; transform: translateY(-5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -485,7 +485,6 @@
       margin-bottom: 14px;
     }
 
-    /* ESTILOS DE TARJETAS Y ANIMACIÓN AL CARGAR */
     .card {
       position: relative;
       width: 100%;
@@ -506,27 +505,26 @@
       backdrop-filter: blur(6px);
       
       opacity: 0;
-      transform: translateY(20px) scale(0.9);
-      animation: cardPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      transform: translateY(4px);
+      animation: cardPopIn 0.15s ease-out forwards;
     }
 
     @keyframes cardPopIn {
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
     }
 
-    /* Delays para efecto cascada en tarjetas */
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.18s; }
-    .card:nth-child(3) { animation-delay: 0.26s; }
-    .card:nth-child(4) { animation-delay: 0.34s; }
-    .card:nth-child(5) { animation-delay: 0.42s; }
-    .card:nth-child(6) { animation-delay: 0.50s; }
-    .card:nth-child(7) { animation-delay: 0.58s; }
-    .card:nth-child(8) { animation-delay: 0.66s; }
-    .card:nth-child(9) { animation-delay: 0.74s; }
+    .card:nth-child(1) { animation-delay: 0.01s; }
+    .card:nth-child(2) { animation-delay: 0.03s; }
+    .card:nth-child(3) { animation-delay: 0.05s; }
+    .card:nth-child(4) { animation-delay: 0.07s; }
+    .card:nth-child(5) { animation-delay: 0.09s; }
+    .card:nth-child(6) { animation-delay: 0.11s; }
+    .card:nth-child(7) { animation-delay: 0.13s; }
+    .card:nth-child(8) { animation-delay: 0.15s; }
+    .card:nth-child(9) { animation-delay: 0.17s; }
 
     .card:active, .card:hover {
       transform: translateY(-3px) scale(1.02);
@@ -576,9 +574,6 @@
       padding: 0 2px;
     }
 
-    /* =========================================================
-        PALETA DE COLORES ESPECÍFICA SEGÚN IMAGEN
-    ========================================================= */
     .card-radar { --card-color: #ff3b30; --card-glow: rgba(255, 59, 48, 0.3); }
     .card-mapa { --card-color: #00e6a8; --card-glow: rgba(0, 230, 168, 0.3); }
     .card-meteo { --card-color: #ffb300; --card-glow: rgba(255, 179, 0, 0.3); }
@@ -589,9 +584,6 @@
     .card-enlaces { --card-color: #ff7043; --card-glow: rgba(255, 112, 67, 0.3); }
     .card-avistamientos { --card-color: #aeea00; --card-glow: rgba(174, 234, 0, 0.3); }
 
-    /* =========================================================
-        ESTILOS METEOSPOTTER LIVE CON SOL / LUNA ultra REALISTAS
-    ========================================================= */
     .meteo-section {
       position: relative;
       background: linear-gradient(145deg, rgba(12, 18, 45, 0.9), rgba(6, 10, 26, 0.95));
@@ -603,8 +595,8 @@
       backdrop-filter: blur(8px);
       overflow: hidden;
       opacity: 0;
-      transform: translateY(20px);
-      animation: cardPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.82s forwards;
+      transform: translateY(4px);
+      animation: cardPopIn 0.15s ease-out 0.18s forwards;
     }
 
     .meteo-sky-bg {
@@ -639,7 +631,6 @@
       opacity: 0.75;
     }
 
-    /* ASTRO CONTENEDOR (SOL Y LUNA REALISTAS) */
     .astro-body {
       position: absolute;
       width: 36px;
@@ -652,7 +643,6 @@
       z-index: 1;
     }
 
-    /* SOL REALISTA MULTICAPA */
     .astro-body.sun {
       background: radial-gradient(circle, #ffffff 15%, #fff5a0 35%, #ffaa00 70%, #ff6600 100%);
       box-shadow: 
@@ -682,7 +672,6 @@
       }
     }
 
-    /* LUNA REALISTA CON CRÁTERES Y DETALLE 3D */
     .astro-body.moon {
       background: radial-gradient(circle at 30% 30%, #ffffff 0%, #cbd5e1 45%, #94a3b8 80%, #64748b 100%);
       box-shadow: 
@@ -692,7 +681,6 @@
       position: absolute;
     }
 
-    /* CRÁTERES LUNARES MEDIANTE SOMBRAS CSS INTERNAS */
     .astro-body.moon::before {
       content: '';
       position: absolute;
@@ -735,15 +723,60 @@
       margin-bottom: 12px;
     }
 
+    .meteo-title-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .meteo-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: var(--neon-cyan);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       text-shadow: 0 0 8px var(--neon-cyan);
+    }
+
+    /* BADGE COMPACTO EN VIVO AL LADO DEL TÍTULO METEO */
+    .live-status-pill {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.52rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      background: rgba(0, 255, 204, 0.1);
+      border: 1px solid rgba(0, 255, 204, 0.4);
+      border-radius: 12px;
+      padding: 1.5px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0, 255, 204, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .live-status-pill:hover, .live-status-pill:active {
+      background: rgba(0, 255, 204, 0.25);
+      border-color: var(--neon-green);
+      transform: scale(1.05);
+    }
+
+    .live-pulse-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--neon-green);
+      box-shadow: 0 0 6px var(--neon-green);
+      animation: pulseGlow 1.5s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.3; transform: scale(0.8); }
     }
 
     .airport-select {
@@ -774,7 +807,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* COLORES VIVOS Y NEÓN Específicos para Iconos Pequeños Meteo */
     .meteo-icon-temp { color: #ff7043 !important; filter: drop-shadow(0 0 6px rgba(255, 112, 67, 0.7)); }
     .meteo-icon-wind { color: #00d2ff !important; filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.7)); }
     .meteo-icon-vis  { color: #1e90ff !important; filter: drop-shadow(0 0 6px rgba(30, 144, 255, 0.7)); }
@@ -830,6 +862,75 @@
       color: var(--gold-yellow);
       font-size: 0.7rem;
       margin-top: 3px;
+    }
+
+    /* ESTILOS PARA EL ROTADOR DE TITULARES */
+    .news-headlines-wrapper {
+      margin-top: 10px;
+      background: rgba(3, 8, 22, 0.75);
+      border: 1px solid rgba(0, 210, 255, 0.35);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      box-shadow: inset 0 0 8px rgba(0, 210, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .news-headlines-wrapper:hover {
+      background: rgba(0, 210, 255, 0.12);
+      border-color: #00d2ff;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+    }
+
+    .news-headline-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 900;
+      color: #00d2ff;
+      background: rgba(0, 210, 255, 0.15);
+      border: 1px solid #00d2ff;
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+      text-shadow: 0 0 5px #00d2ff;
+    }
+
+    .headline-text-container {
+      flex: 1;
+      height: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .headline-single-item {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.5s ease-in-out;
+    }
+
+    .headline-single-item.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .headline-single-item.exit {
+      opacity: 0;
+      transform: translateY(-8px);
     }
 
     .modal-backdrop {
@@ -924,6 +1025,9 @@
       padding-top: 16px;
       position: relative;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .footer-neon::before {
@@ -937,6 +1041,38 @@
       box-shadow: 0 0 12px var(--neon-cyan), 0 0 8px var(--neon-green);
     }
 
+    /* BOTÓN ULTRA COMPACTO CON ICONO DE AVIÓN AMARILLO */
+    .embedded-info-btn {
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #030611;
+      border: 1.5px solid #ffcc00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.7), inset 0 0 4px rgba(255, 204, 0, 0.4);
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .embedded-info-btn:hover, .embedded-info-btn:active {
+      transform: scale(1.2);
+      box-shadow: 0 0 12px rgba(255, 204, 0, 1);
+      border-color: #ffffff;
+    }
+
+    .embedded-info-btn .info-plane-icon {
+      font-size: 0.65rem;
+      color: #ffcc00;
+      filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.9));
+      transform: rotate(-35deg);
+    }
+
     .footer-text {
       font-family: 'Orbitron', sans-serif;
       font-size: 0.72rem;
@@ -948,47 +1084,14 @@
       text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
     }
 
-    .floating-info-btn {
-      position: fixed;
-      bottom: 16px;
-      right: 16px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(12, 18, 45, 0.95), rgba(3, 6, 17, 0.98));
-      border: 1.5px solid #ffcc00;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      box-shadow: 0 0 8px rgba(255, 204, 0, 0.4), inset 0 0 5px rgba(255, 204, 0, 0.2);
-      z-index: 100;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .floating-info-btn:hover, .floating-info-btn:active {
-      transform: scale(1.15);
-      box-shadow: 0 0 14px rgba(255, 204, 0, 0.8);
-      background: rgba(20, 25, 55, 0.98);
-    }
-
-    .floating-info-btn .info-letter {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 0.85rem;
-      color: #ffcc00;
-      text-shadow: 0 0 6px rgba(255, 204, 0, 0.8);
-      line-height: 1;
-    }
-
     .whatsapp-futuristic-toast {
       position: fixed;
       bottom: 56px;
-      right: 16px;
-      max-width: 250px;
+      left: 16px;
+      max-width: 270px;
       background: linear-gradient(135deg, rgba(8, 16, 38, 0.96), rgba(3, 8, 22, 0.98));
       border: 1.5px solid #ffcc00;
-      border-radius: 14px 14px 2px 14px;
+      border-radius: 14px 14px 14px 2px;
       padding: 10px 12px;
       box-shadow: 0 0 18px rgba(255, 204, 0, 0.35), inset 0 0 10px rgba(0, 210, 255, 0.15);
       z-index: 101;
@@ -1009,11 +1112,11 @@
       content: '';
       position: absolute;
       bottom: -8px;
-      right: 6px;
+      left: 6px;
       width: 0;
       height: 0;
-      border-left: 8px solid transparent;
-      border-right: 2px solid transparent;
+      border-right: 8px solid transparent;
+      border-left: 2px solid transparent;
       border-top: 8px solid #ffcc00;
     }
 
@@ -1046,17 +1149,11 @@
     .toast-body {
       font-size: 0.68rem;
       color: #e2e8f0;
-      line-height: 1.3;
+      line-height: 1.35;
       font-weight: 500;
     }
 
     @keyframes radarScan { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-    @keyframes pulseBadge { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(255, 0, 85, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
-
-    .anim-radar { animation: spin 6s linear infinite; }
-    .anim-float { animation: float 3s ease-in-out infinite; }
   </style>
 </head>
 <body>
@@ -1137,7 +1234,7 @@
       <!-- 1. Radar T Real (Rojo Neón) -->
       <a href="radar_trafico.html" class="card card-radar" title="Radar T Real">
         <div class="icon-wrapper">
-          <div class="icon-box anim-radar"><i class="fa-solid fa-crosshairs"></i></div>
+          <div class="icon-box"><i class="fa-solid fa-crosshairs"></i></div>
         </div>
         <div class="card-title">Radar T Real</div>
       </a>
@@ -1145,7 +1242,7 @@
       <!-- 2. Mapa Spotting (Verde Esmeralda Neón) -->
       <a href="p_spotting.html" class="card card-mapa" title="Mapa spotting">
         <div class="icon-wrapper">
-          <div class="icon-box anim-float"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
         </div>
         <div class="card-title">Mapa spotting</div>
       </a>
@@ -1208,7 +1305,7 @@
 
     </main>
 
-    <!-- METEOSPOTTER LIVE CON SOL/LUNA DINÁMICOS REALISTAS -->
+    <!-- METEOSPOTTERS CON SOL/LUNA DINÁMICOS REALISTAS -->
     <section class="meteo-section" id="meteo-section">
       <!-- CAPA DE FONDO DEL CIELO CON ESTRELLAS Y ASTRO -->
       <div class="meteo-sky-bg" id="meteo-sky-bg">
@@ -1219,8 +1316,14 @@
       <!-- CONTENIDO PRINCIPAL DE METEO -->
       <div class="meteo-content-relative">
         <div class="meteo-header">
-          <div class="meteo-title">
-            <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotter Live
+          <div class="meteo-title-group">
+            <div class="meteo-title">
+              <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotters
+            </div>
+            <!-- ELEMENTO EN VIVO INTEGRADO -->
+            <div class="live-status-pill" id="live-refresh-btn" title="Click para ver la meteorología completa">
+              <span class="live-pulse-dot"></span> EN VIVO
+            </div>
           </div>
           <select id="airport-select" class="airport-select">
             <option value="LEBL">Barcelona (LEBL)</option>
@@ -1262,19 +1365,29 @@
             <div class="spotter-tip-item"><i class="fa-solid fa-spinner fa-spin"></i> Obteniendo condiciones de pista...</div>
           </div>
         </div>
+
+        <!-- PRINCIPALES TITULARES DE AVIACIÓN -->
+        <div class="news-headlines-wrapper" id="btn-open-news-modal" title="Haz clic para ver el cartel de la noticia completa">
+          <div class="news-headline-badge">
+            <i class="fa-solid fa-newspaper mr-1"></i> TITULARES
+          </div>
+          <div class="headline-text-container" id="headline-text-container">
+            <div class="headline-single-item active">Airbus y Boeing aumentan sus entregas de aviones comerciales.</div>
+          </div>
+        </div>
+
       </div>
     </section>
 
+    <!-- FOOTER CON BOTÓN AMARILLO DE PEQUEÑO AVIÓN INTEGRADO -->
     <footer class="footer-neon">
+      <a href="acerca.html" class="embedded-info-btn" title="Acerca de Spotters Spain">
+        <i class="fa-solid fa-plane info-plane-icon"></i>
+      </a>
       <p class="footer-text">derechos reservados 2026</p>
     </footer>
 
   </div>
-
-  <!-- BOTÓN FLOTANTE ACERCA DE -->
-  <a href="acerca.html" class="floating-info-btn" title="Acerca de Spotters Spain">
-    <span class="info-letter">ⓘ</span>
-  </a>
 
   <!-- BUBBLE / MENSAJE TIPO WHATSAPP FUTURISTA -->
   <div id="wa-info-toast" class="whatsapp-futuristic-toast">
@@ -1283,14 +1396,75 @@
       <span class="toast-time">ahora</span>
     </div>
     <div class="toast-body">
-      Recuerda que en el botón amarillo debajo a la derecha es el botón acerca de la app podrás encontrar información del funcionamiento de la app...
+      Consejo de la app: Recuerda que en el botón de información situado abajo a la izquierda icono avión, puedes consultar la guía y el funcionamiento detallado de Spotters Spain.
+    </div>
+  </div>
+
+  <!-- MODAL METEOSPOTTERS (RESUMEN GENERAL DE TODOS LOS AEROPUERTOS) -->
+  <div id="modal-meteo-all" class="modal-backdrop">
+    <div class="modal-card border-cyan-400 shadow-cyan-400/40 max-w-lg text-left">
+      <div class="flex justify-between items-center mb-3 pb-2 border-b border-cyan-500/30">
+        <div class="font-bold text-sm text-cyan-400 flex items-center gap-2">
+          <i class="fa-solid fa-cloud-bolt text-yellow-400"></i> MeteoSpotters - Red España
+        </div>
+        <button id="btn-close-meteo-modal" class="text-slate-400 hover:text-white text-lg px-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="text-[0.7rem] text-slate-300 mb-3">
+        Estado meteorológico en tiempo real para la red principal de aeropuertos:
+      </p>
+
+      <div id="all-airports-meteo-container" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+        <div class="text-xs text-slate-400 text-center py-4"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Cargando datos de red...</div>
+      </div>
+
+      <div class="mt-4 pt-2 border-t border-slate-800 flex justify-end">
+        <button id="btn-close-meteo-modal-footer" class="px-4 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 font-bold text-xs hover:bg-cyan-500/40">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL NOTICIA COMPLETA (CARTEL DE NOTICIA AL TOCAR EL TITULAR) -->
+  <div id="modal-news-detail" class="modal-backdrop">
+    <div class="modal-card border-blue-400 shadow-blue-400/40 max-w-md text-left">
+      <div class="flex justify-between items-center mb-3 pb-2 border-b border-blue-500/30">
+        <div class="font-bold text-xs text-blue-400 flex items-center gap-2 uppercase tracking-wider">
+          <i class="fa-solid fa-newspaper text-cyan-400"></i> <span id="news-modal-source">Noticia de Aviación</span>
+        </div>
+        <button id="btn-close-news-modal" class="text-slate-400 hover:text-white text-lg px-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <h3 id="news-modal-title" class="text-base font-extrabold text-white leading-snug">
+          Cargando titular...
+        </h3>
+        
+        <div id="news-modal-body" class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+          Cargando contenido de la noticia...
+        </div>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-slate-800/80 flex justify-between items-center">
+        <a id="news-modal-link" href="noticias.html" class="text-[0.7rem] font-bold text-cyan-400 hover:underline flex items-center gap-1">
+          <span>Ir a sección Noticias</span> <i class="fa-solid fa-arrow-right text-[0.6rem]"></i>
+        </a>
+        <button id="btn-close-news-modal-footer" class="px-4 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 border border-blue-500/50 font-bold text-xs hover:bg-blue-500/40">
+          Cerrar Cartel
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- MODAL 1: PREGUNTA DE INACTIVIDAD -->
   <div id="modal-prompt" class="modal-backdrop">
     <div class="modal-card">
-      <div class="text-4xl text-cyan-400 mb-3"><i class="fa-solid fa-gamepad anim-float"></i></div>
+      <div class="text-4xl text-cyan-400 mb-3"><i class="fa-solid fa-gamepad"></i></div>
       <h3 class="text-lg font-extrabold text-white mb-2">¿Te apetece un reto Spotter?</h3>
       <p class="text-xs text-slate-300 mb-6">Hemos notado inactividad. ¿Quieres poner a prueba tus conocimientos con el juego **Aero Neon**?</p>
       
@@ -1474,17 +1648,16 @@
       const now = new Date();
       const hours = now.getHours() + now.getMinutes() / 60;
 
-      // Horario Día: 06:00 a 18:00
       const isDay = hours >= 6 && hours < 18;
       
       let progress = 0;
       if (isDay) {
-        progress = (hours - 6) / 12; // 0.0 a las 06:00 (izq) -> 1.0 a las 18:00 (der)
+        progress = (hours - 6) / 12;
         astro.className = 'astro-body sun';
         skyBg.className = 'meteo-sky-bg day-sky';
       } else {
         const nightHours = hours >= 18 ? hours - 18 : hours + 6;
-        progress = nightHours / 12; // 0.0 a las 18:00 (izq) -> 1.0 a las 06:00 (der)
+        progress = nightHours / 12;
         astro.className = 'astro-body moon';
         skyBg.className = 'meteo-sky-bg night-sky';
       }
@@ -1492,11 +1665,9 @@
       const boxWidth = meteoBox.clientWidth || 340;
       const boxHeight = meteoBox.clientHeight || 200;
 
-      // Recorrido de izquierda a derecha con márgenes laterales
       const paddingX = 28;
       const posX = paddingX + progress * (boxWidth - (paddingX * 2));
 
-      // Trayectoria en arco parabólico realista
       const arcHeight = boxHeight * 0.52; 
       const baseY = boxHeight - 22; 
       const posY = baseY - Math.sin(progress * Math.PI) * arcHeight;
@@ -1558,6 +1729,55 @@
       }
     }
 
+    /* CARGAR TODOS LOS AEROPUERTOS PARA EL CARTEL */
+    async function loadAllAirportsMeteo() {
+      const container = document.getElementById('all-airports-meteo-container');
+      container.innerHTML = '<div class="text-xs text-slate-400 text-center py-4"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Actualizando red de aeropuertos...</div>';
+
+      const keys = Object.keys(AIRPORTS);
+      let html = '';
+
+      for (const code of keys) {
+        const apt = AIRPORTS[code];
+        try {
+          const url = `https://api.open-meteo.com/v1/forecast?latitude=${apt.lat}&longitude=${apt.lon}&current=temperature_2m,cloud_cover,wind_speed_10m,visibility&wind_speed_unit=kn`;
+          const res = await fetch(url, { cache: 'no-store' });
+          const data = await res.json();
+          const current = data.current;
+
+          const temp = Math.round(current.temperature_2m);
+          const wind = Math.round(current.wind_speed_10m);
+          const vis = current.visibility ? (current.visibility / 1000).toFixed(1) : 10;
+          const cloud = current.cloud_cover;
+
+          html += `
+            <div class="bg-slate-900/80 border border-slate-700/80 rounded-xl p-2.5 flex justify-between items-center backdrop-blur-sm">
+              <div>
+                <div class="text-xs font-bold text-cyan-400">${apt.name} <span class="text-[0.65rem] text-slate-400">(${code})</span></div>
+                <div class="text-[0.68rem] text-slate-300 mt-0.5 flex gap-3">
+                  <span><i class="fa-solid fa-temperature-half text-orange-400 mr-1"></i>${temp}°C</span>
+                  <span><i class="fa-solid fa-wind text-cyan-400 mr-1"></i>${wind} kt</span>
+                </div>
+              </div>
+              <div class="text-right text-[0.68rem] text-slate-300">
+                <div><i class="fa-solid fa-eye text-blue-400 mr-1"></i>${vis} km</div>
+                <div><i class="fa-solid fa-cloud text-sky-300 mr-1"></i>${cloud}% nubes</div>
+              </div>
+            </div>
+          `;
+        } catch (e) {
+          html += `
+            <div class="bg-slate-900/80 border border-rose-900/50 rounded-xl p-2 flex justify-between items-center text-xs text-rose-400">
+              <span>${apt.name} (${code})</span>
+              <span>Error de conexión</span>
+            </div>
+          `;
+        }
+      }
+
+      container.innerHTML = html;
+    }
+
     function generateSingleSpotterTip(temp, wind, gusts, vis, cloud, precip, wCode) {
       const tips = [];
 
@@ -1600,12 +1820,166 @@
       loadMeteoData(e.target.value);
     });
 
+    /* EVENTOS PARA ABRIR Y CERRAR EL CARTEL DE METEOROLOGÍA RED COMPLETA */
+    document.getElementById('live-refresh-btn').addEventListener('click', () => {
+      document.getElementById('modal-meteo-all').classList.add('active');
+      loadAllAirportsMeteo();
+    });
+
+    document.getElementById('btn-close-meteo-modal').addEventListener('click', () => {
+      document.getElementById('modal-meteo-all').classList.remove('active');
+    });
+
+    document.getElementById('btn-close-meteo-modal-footer').addEventListener('click', () => {
+      document.getElementById('modal-meteo-all').classList.remove('active');
+    });
+
     loadMeteoData('LEBL');
 
     setInterval(() => {
       const currentAirport = document.getElementById('airport-select').value;
       loadMeteoData(currentAirport);
     }, 10 * 60 * 1000);
+
+    /* =========================================================
+        MOTOR DE TITULARES EN CASTELLANO Y MODAL INTERACTIVO
+    ========================================================= */
+    const RSS_NEWS_API = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Daviacion%2Baerolineas%2Baeropuerto%26hl%3Des%26gl%3DES%26ceid%3DES%3Aes";
+    
+    let aviationNewsData = [
+      {
+        title: "Airbus y Boeing aumentan sus entregas de aviones comerciales.",
+        source: "Aviación Comercial",
+        description: "Las dos principales fabricantes aeronáuticas mundiales incrementan su cadencia mensual de producción para responder a la gran demanda de flotas eficientes por parte de las aerolíneas europeas e internacionales."
+      },
+      {
+        title: "AENA supera récords de tráfico de pasajeros en aeropuertos de España.",
+        source: "Red Aeroportuaria",
+        description: "Los aeropuertos de la red AENA registran cifras históricas de operaciones y movimiento de pasajeros, destacando la fuerte recuperación en Barcelona-El Prat, Madrid-Barajas y la red de las islas Baleares."
+      },
+      {
+        title: "Lanzan nuevas rutas transatlánticas entre Europa y Latinoamérica.",
+        source: "Rutas & Conectividad",
+        description: "Varias compañías aéreas anuncian nuevas frecuencias de largo radio para la temporada, conectando aeropuertos clave en España con destinos estratégicos en América del Sur y del Norte."
+      },
+      {
+        title: "El combustible sostenible de aviación (SAF) acelera su expansión mundial.",
+        source: "Sostenibilidad Aeronáutica",
+        description: "Nuevas directivas e incentivos comunitarios impulsan el uso generalizado del SAF en los vuelos comerciales, reduciendo significativamente las emisiones netas de carbono en las fases de crucero."
+      },
+      {
+        title: "Nuevas tecnologías de radar mejoran el control de tráfico aéreo.",
+        source: "Navegación Aérea",
+        description: "Sistemas avanzados de navegación e inteligencia en torres de control permiten optimizar las trayectorias de aproximación, reduciendo las esperas en el aire y ahorrando combustible."
+      }
+    ];
+
+    let headlineIndex = 0;
+    let rotationInterval = null;
+
+    function initHeadlinesInstant() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const cachedDate = localStorage.getItem('spotter_news_date');
+      const cachedData = localStorage.getItem('spotter_news_headlines_obj');
+
+      if (cachedData) {
+        try {
+          const parsed = JSON.parse(cachedData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            aviationNewsData = parsed;
+          }
+        } catch (e) {}
+      }
+
+      const container = document.getElementById('headline-text-container');
+      if (container) {
+        container.innerHTML = `<div class="headline-single-item active">${aviationNewsData[0].title}</div>`;
+      }
+
+      if (cachedDate !== todayStr) {
+        fetchAviationHeadlinesBackground(todayStr);
+      }
+
+      startHeadlineRotation();
+    }
+
+    async function fetchAviationHeadlinesBackground(todayStr) {
+      try {
+        const res = await fetch(RSS_NEWS_API);
+        const data = await res.json();
+        if (data && data.items && data.items.length > 0) {
+          const fetchedNews = data.items.slice(0, 8).map(item => {
+            const parts = item.title.split(' - ');
+            const cleanTitle = parts[0];
+            const src = parts.length > 1 ? parts[1] : "Última Hora Spotters";
+            let desc = item.description || item.content || "Sin descripción adicional disponible.";
+            // Limpieza básica de HTML en la descripción devuelta por el feed
+            desc = desc.replace(/<[^>]*>?/gm, '');
+            return {
+              title: cleanTitle,
+              source: src,
+              description: desc
+            };
+          });
+
+          if (fetchedNews.length > 0) {
+            aviationNewsData = fetchedNews;
+            localStorage.setItem('spotter_news_date', todayStr);
+            localStorage.setItem('spotter_news_headlines_obj', JSON.stringify(aviationNewsData));
+          }
+        }
+      } catch (err) {}
+    }
+
+    function startHeadlineRotation() {
+      if (rotationInterval) clearInterval(rotationInterval);
+      const container = document.getElementById('headline-text-container');
+      if (!container) return;
+
+      rotationInterval = setInterval(() => {
+        const currentItem = container.querySelector('.headline-single-item.active');
+        headlineIndex = (headlineIndex + 1) % aviationNewsData.length;
+
+        const nextItem = document.createElement('div');
+        nextItem.className = 'headline-single-item';
+        nextItem.textContent = aviationNewsData[headlineIndex].title;
+        container.appendChild(nextItem);
+
+        if (currentItem) {
+          currentItem.classList.remove('active');
+          currentItem.classList.add('exit');
+          setTimeout(() => currentItem.remove(), 500);
+        }
+
+        setTimeout(() => {
+          nextItem.classList.add('active');
+        }, 50);
+
+      }, 5000);
+    }
+
+    /* ABRIR Y CERRAR CARTEL DE LA NOTICIA AL HACER CLIC EN EL TITULAR */
+    function openNewsModal() {
+      const currentNews = aviationNewsData[headlineIndex] || aviationNewsData[0];
+      
+      document.getElementById('news-modal-source').textContent = currentNews.source || "Titular de Aviación";
+      document.getElementById('news-modal-title').textContent = currentNews.title;
+      document.getElementById('news-modal-body').textContent = currentNews.description || "Toca en la sección noticias para ver más cobertura detallada.";
+      
+      document.getElementById('modal-news-detail').classList.add('active');
+    }
+
+    document.getElementById('btn-open-news-modal').addEventListener('click', openNewsModal);
+
+    document.getElementById('btn-close-news-modal').addEventListener('click', () => {
+      document.getElementById('modal-news-detail').classList.remove('active');
+    });
+
+    document.getElementById('btn-close-news-modal-footer').addEventListener('click', () => {
+      document.getElementById('modal-news-detail').classList.remove('active');
+    });
+
+    initHeadlinesInstant();
 
     /* =========================================================
         3. DETECTOR DE INACTIVIDAD (30 SEGUNDOS)
@@ -1759,7 +2133,7 @@
     });
 
     /* =========================================================
-        5. MENSAJE TIPO WHATSAPP AUTOMÁTICO
+        5. MENSAJE TIPO WHATSAPP AUTOMÁTICO (UNA VEZ AL DÍA)
     ========================================================= */
     function playFuturisticNotificationSound() {
       try {
@@ -1803,9 +2177,6 @@
       if (lastShownDate === todayStr) {
         return;
       }
-
-      const shouldShow = Math.random() < 0.5;
-      if (!shouldShow) return;
 
       setTimeout(() => {
         const toast = document.getElementById('wa-info-toast');
